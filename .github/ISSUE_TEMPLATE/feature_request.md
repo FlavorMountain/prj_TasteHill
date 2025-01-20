@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: 기능 추가 이슈
 title: ''
 labels: ''
 assignees: ''
@@ -8,11 +8,8 @@ assignees: ''
 ---
 
 ---
-name: Feature request
+title: "[FEATURE] "
 about: 새로운 기능이나 개선 사항을 제안해주세요.
-title: "[FEATURE]"
-labels: ''
-assignees: ''
 
 ---
 

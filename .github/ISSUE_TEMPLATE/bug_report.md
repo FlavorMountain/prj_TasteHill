@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: 이슈 버그 템플릿
+about: 버그 이슈
 title: ''
 labels: ''
 assignees: ''
