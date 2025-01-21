@@ -1,6 +1,7 @@
 
-## title: "[FEATURE] "
-ex) title : [FEATURE] 지도 핀 기능 추가
+## TITLE
+[FEATURE] 
+ex) [FEATURE] 지도 핀 기능 추가
 
 ## 🔨 기능 설명
 어떤 문제를 해결하거나 어떤 기능을 추가하고 싶은지 설명해주세요.
