@@ -1,17 +1,6 @@
----
-name: Feature request
-about: 기능 추가 이슈
-title: ''
-labels: ''
-assignees: ''
 
----
-
----
-title: "[FEATURE] "
-about: 새로운 기능이나 개선 사항을 제안해주세요.
-
----
+## title: "[FEATURE] "
+ex) title : [FEATURE] 지도 핀 기능 추가
 
 ## 🔨 기능 설명
 어떤 문제를 해결하거나 어떤 기능을 추가하고 싶은지 설명해주세요.
