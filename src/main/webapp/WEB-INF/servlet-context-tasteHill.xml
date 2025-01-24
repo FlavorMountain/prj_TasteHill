@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+ 	<!-- <context:component-scan base-package="com.lec.users" /> -->
+	<context:component-scan base-package="com.tastehill.myweb.*" />
+	<!-- <context:component-scan base-package="com.lec.tx" /> -->
+	<mvc:annotation-driven />
+	
+	<!-- FileSystemXmlApplicationContext .. ctxCallTest 사용 시 웹어플전용설정(mvc삭제) -->
+	<mvc:resources mapping="/resources/**" 	location="/resources/" />
+		<mvc:resources mapping="/css/**" 	location="/css/" />
+		<mvc:resources mapping="/js/**" 	location="/js/" />
+		<mvc:resources mapping="/images/**" 	location="/images/" />
+	
+
+	
+	<!-- 프로퍼티 1개 -->
+<!-- 	<context:property-placeholder location="classpath:oracle.properties" />
+ -->	
+	<!-- 프로퍼티 여러개 -->
+	<bean id="propertyConfigurer"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="locations">
+	        <list>
+	            <value>classpath:oracle.properties</value>
+	            <value>classpath:lec-oauth.properties</value>
+	        </list>
+	    </property>
+	</bean>
+	
+	<!-- 스프링 컨테이너가 초기화될때 잔여 dbcp를 초기화하고 dbcp를 닫음 -->
+	<!-- DBCP & 오라클연결  -->
+	<bean id="MY_tomcat_ds" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
+ 	    <property name="driverClassName" 	value="${lec.driver}" />
+	    <property name="url" 				value="${lec.url}" />
+	    <property name="username" 			value="${lec.username}" />
+	    <property name="password" 			value="${lec.userpw}"/>
+	</bean>
+
+	<!-- 마이바티스 쿼리 로그 찍기 -->
+	<!-- MYBATIS CONSOL SQL PRINT : log4jdbc-remix.jar --> 
+	<bean id="MY_tomcat_ds_CONSOL_PRINT" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="MY_tomcat_ds" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix"   value=""/>
+            </bean>
+        </property>
+    </bean>
+    
+    <!-- MYBATIS  
+    	    SqlSessionFactory   : datasource,  mapper(sql) 
+    	    SqlSessionTemplate  : select(), insert()
+    -->
+    
+    <!-- sql세션팩토리에 매퍼파일 경로를 잡아주기 + 마이바티스 설정 가져오기 -->
+	<bean id="ID_sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="MY_tomcat_ds_CONSOL_PRINT" /> 
+		<property name="mapperLocations" value="classpath*:mapper/*-mapper.xml" />
+		<property name="configLocation"  value="classpath:mybatis-config.xml"/>
+	</bean> 
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> 
+		<constructor-arg index="0" ref="ID_sqlSessionFactory" />
+	</bean> 
+	
+	<!-- 매퍼를 인터페이스화한 형태 
+			: 인터페이스들이 들어가 있는 패키지명을 지목해서 설정
+	-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.tastehill.myweb.mapper" /> 
+	</bean> 
+
+	
+		
+	<!-- CGLIB프록시 방식 : 인터페이스를 구현하지않은 DAO 클래스에도 AOP 적용
+		 별도lib 추가 설치 : cglib.jar
+	 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<!-- JDBC 관련 트랜잭션 매니저 설정 
+	@EnableTransactionManagement    == txManager
+	@Transactional(메서드/클래스마다) vs. AOPxml(일괄설정)
+	-->
+	
+	<bean id="ID_manager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
+		<property name="dataSource" ref="MY_tomcat_ds_CONSOL_PRINT" />
+	</bean>
+	
+	<!-- @Trasactional -->
+	<tx:annotation-driven transaction-manager="ID_manager"/>
+	
+	<!-- TX + AOPxml   WHERE   advisor=(WHAT,WHEN)-->
+	<tx:advice id="ID_tx_advice" transaction-manager="ID_manager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut  id="ID_cut" expression="execution(public * com.tastehill.myweb.*.*Impl.*(..))"/>  
+		<aop:advisor advice-ref="ID_tx_advice"  pointcut-ref="ID_cut"/>
+	</aop:config>
+	
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+</beans>
