@@ -1,3 +1,12 @@
+---
+name: Feature request
+about: Suggest an idea for this project
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 ## **TITLE**
 
 [FEATURE]
@@ -15,7 +24,3 @@ ex) [FEATURE] 지도 핀 기능 추가
 ## **🖼️ 추가 정보**
 
 기능과 관련된 추가 자료나 스크린샷 등을 첨부해주세요.
-
-개발이 예정된 기능에 경우 이슈에 올려주세요
-
-개발이 예정된 기능을 이슈에 올려 작업 중인지 서로 확인 하고 또 어려움이 있는 경우 도움을 줄 수 있습니다.
