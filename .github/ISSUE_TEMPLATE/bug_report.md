@@ -1,38 +1,26 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+## Title
 
----
+[BUG] 버그 이름을 설정해 주세요
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+ex) [BUG] 동선 리스트 데이터 누락
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+## **🦠 버그 설명**
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+문제가 무엇인지 간략히 설명해주세요.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## **💻 예상 동작**
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+버그가 없을 때 기대하는 동작을 설명해주세요.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+## **🖼️ 스크린샷**
 
-**Additional context**
-Add any other context about the problem here.
+문제와 관련된 스크린샷이 있다면 추가해주세요.
+
+## **📑 추가 정보**
+
+문제와 관련된 기타 정보를 여기에 추가해주세요.
+
+버그 발생시 버그에 관하여 이슈에 올려주세요!
+해당 버그를 함께 확인하고 문제해결에 도움을 줄 수 있어요
+
+또한 트러블 슈팅 작성에도 도움이 되니 귀찮아도 올려주세요
