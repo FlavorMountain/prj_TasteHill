@@ -1,20 +1,21 @@
----
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
+## **TITLE**
 
----
+[FEATURE]
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+ex) [FEATURE] 지도 핀 기능 추가
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+## **🔨 기능 설명**
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+어떤 문제를 해결하거나 어떤 기능을 추가하고 싶은지 설명해주세요.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## **📋 작업 내용**
+
+이 문제를 해결하기 위한 아이디어나 작업 방안을 설명해주세요.
+
+## **🖼️ 추가 정보**
+
+기능과 관련된 추가 자료나 스크린샷 등을 첨부해주세요.
+
+개발이 예정된 기능에 경우 이슈에 올려주세요
+
+개발이 예정된 기능을 이슈에 올려 작업 중인지 서로 확인 하고 또 어려움이 있는 경우 도움을 줄 수 있습니다.
