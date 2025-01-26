@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 
 <!-- 매퍼(1) : 인터페이스(1)  매핑 -->
-<mapper namespace="com.lec.myweb.mapper.testMapper">
+<mapper namespace="com.lec.myweb.mapper.memberMapper">
 
 <!--      입력	(파라미터)				출력(리턴)은 select만 가능
  parameterType="int" 		resultType="BoardVO"

@@ -1,4 +1,4 @@
-package com.lec.myweb.mapper;
+package com.tastehill.myweb.mapper;
 
 import java.util.ArrayList;
 import java.util.Map;

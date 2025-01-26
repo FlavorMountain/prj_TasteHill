@@ -12,6 +12,9 @@
 	<header>
 		<jsp:include page="/jsp/common/header.jsp" />
 	</header>
-	
+    <footer>
+        <!-- 공통 푸터 -->
+        <p>Footer content here</p>
+    </footer>
 </body>
 </html>
