@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
+<mapper namespace="com.tastehill.myweb.mapper.MemberMapper">
+
+	<!-- 회원목록 -->
+	<resultMap id="memberMap" type="com.tastehill.myweb.member.MemberVO">
+		<id     property="seqMember" 	column="seq_member" />
+		<result property="email" 	column="email"/>
+		<result property="nickname" column="nickname"/>
+		<result property="pw" 	column="pw"/>
+		<result property="profile" 	column="profile"/>
+		<result property="createdAt" column="created_at"/>
+		<result property="updatedAt" 	column="updated_at"/>
+		<result property="pinnedRoute" 	column="pinned_route"/>
+		<result property="status" 	column="status"/>
+	</resultMap>
+	
+	<select id="selectMemberAll" resultMap="memberMap"> 
+		select *
+		from member
+		order by member_seq
+	</select> 
+	
+	<!-- 회원상세 -->
+	<select id="selectMember" parameterType="int" resultMap="memberMap">
+		select *
+		from member
+		where member_seq = #{member_seq}
+	</select>
+	
+	<select id="loginMember" resultMap="memberMap">
+		select *
+		from member
+		where email = #{email} and pw = #{pw}
+	</select>
+	
+	<!-- 인증(id&pw) -->
+	<!-- 
+	<select id="usersLogin" resultMap="usersRolesMap">
+	select u.user_seq, u.user_name, u.user_id, u.user_pw, u.regdate
+		    , r.user_seq as roles_user_seq, r.role_seq , r.role_name
+	from users u, roles r
+	where u.user_id=#{userId} and u.user_pw=#{userPw}
+	      and u.user_seq = r.user_seq
+	</select>
+	 -->
+	
+	<!-- 가입(입력)  -->
+	<insert id="insertMember">
+		insert into member(seq_member, nickname, email, pw, created_at, updated_at, pinned_route, status)
+		values(seq_member.nextval, #{MVO.nickname}, #{MVO.email}, #{MVO.pw}, sysdate, sysdate, 0, 1) 
+	</insert>
+	
+</mapper>

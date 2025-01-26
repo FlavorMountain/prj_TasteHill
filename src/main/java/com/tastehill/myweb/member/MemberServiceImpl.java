@@ -1,14 +1,73 @@
 package com.tastehill.myweb.member;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.tastehill.myweb.mapper.MemberMapper;
 
 @Service
 public class MemberServiceImpl implements MemberService{
 
+	@Autowired
+	MemberMapper mapper;
+	
 	@Override
-	public int test() {
+	public int svcInsertMember(MemberVO mvo) {
+		System.out.println(mvo.toString());
+		return mapper.insertMember(mvo);	
+	}
+
+	@Override
+	public MemberVO svcSelectMember(int seqMember) {
+		// TODO Auto-generated method stub
+		
+		return mapper.selectMember(seqMember);
+	}
+
+
+	@Override
+	public MemberVO svcloginMember(String email, String pw) {
+		// TODO Auto-generated method stub
+		return mapper.loginMember(email, pw);
+	}
+	
+	@Override
+	public List<MemberVO> svcSelectMemberAll() {
+		// TODO Auto-generated method stub
+		return mapper.selectMemberAll();
+	}
+
+	@Override
+	public int svcUpdateMemberProfile(int seqMember, String profile) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int svcUpdateMemberNickname(int seqMember, String nickname) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int svcUpdateMemberPinnedRoute(int seqMember, int seqRoute) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int svcUpdateMemberPw(int seqMember, String pw) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int svcDeleteMember(int seqMember) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }
