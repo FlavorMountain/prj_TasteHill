@@ -10,15 +10,8 @@
 </head>
 <body>
 	<header>
-		<jsp:include page="/jsp/default/header.jsp" />
+		<jsp:include page="/jsp/common/header.jsp" />
 	</header>
-	<main>
-        <!-- 각 요청에 따른 동적 컨텐츠 -->
-        <jsp:include page="${content}"/>
-    </main>
-    <footer>
-        <!-- 공통 푸터 -->
-        <p>Footer content here</p>
-    </footer>
+	
 </body>
 </html>
