@@ -16,8 +16,7 @@ public class MemberController {
 	MemberService svc;
 		
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String ctlMemberRegister(Model model
-			,  @ModelAttribute MemberVO mvo
+	public String ctlMemberRegister(@ModelAttribute MemberVO mvo
 			) {
 		
 		svc.svcInsertMember(mvo);
@@ -37,5 +36,19 @@ public class MemberController {
 		return "redirect:jsp/member/member_login.jsp";
 	}
 	
+
+	@RequestMapping(value = "/loginPage", method = RequestMethod.GET)
+	public String ctlLoginPage(Model model) {
+
+		model.addAttribute("content", "jsp/member/member_login.jsp");
+		return "index";
+	}
+	
+	@RequestMapping(value = "/registerPage", method = RequestMethod.GET)
+	public String ctlRegisterPage(Model model) {
+
+		model.addAttribute("content", "jsp/member/member_register.jsp");
+		return "index";
+	}
 }
 //

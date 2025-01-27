@@ -5,17 +5,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/member_login.css">
 </head>
 <body>
-로그인<hr>
+	
 
-<form method="POST" action="/member/login">
-<table border="1" width="300">
-<tr><td>이메일<input type="text" name="email"></td></tr>
-<tr><td>비밀번호<input type="password" name="pw"></td></tr>
-<tr><td><input type="submit" value="로그인"></td></tr>
-</table>
-</form> 
-    
+<div class="login-container">
+        <div class="logo">
+		<img src="/resources/images/tastehill.png" alt="Logo">
+	</div>
+        <form method="POST" action="/login">
+            <div class="input-group">
+                <label for="email">LOGIN EMAIL</label>
+                <input type="text" id="email" name="email">
+            </div>
+            <div class="input-group">
+                <label for="pw">PASSWORD</label>
+                <input type="password" id="pw" name="pw">
+            </div>
+            <button type="submit" class="login-button">LOGIN</button>
+        </form>
+        <div class="signup">
+            <p>회원이 아닙니다. <a href="/signup">회원가입</a></p>
+        </div>
+    </div>
 </body>
 </html>
