@@ -16,5 +16,18 @@ html, body {
 
 /* 3. 페이지 전체에 폰트 적용 */
 body {
+	width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     font-family: 'IM_Hyemin-Bold', sans-serif; /* 등록된 폰트를 기본으로 설정 */
+}
+header {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	background-color: #FFFFFF;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2px
 }
