@@ -7,7 +7,7 @@
 <%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>
 
 <!DOCTYPE html>
-<%-- <jsp:include page="/../../index.jsp"></jsp:include> --%>
+<jsp:include page="/../../index.jsp"></jsp:include>
 
 <html>
 <head>
@@ -30,7 +30,6 @@
     </div>
 
     <script>
-    	let apiKey = 'AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY';
         let map;
         let service;
         let infowindow;
@@ -38,17 +37,6 @@
         let markers = [];
         let currentPolyline = null;
 
-/*         // 지도 초기화
-        function initMap() {
-            const center = { lat: 37.339, lng: 127.109 }; // 오리역 좌표
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: center,
-                zoom: 15,
-            });
-            infowindow = new google.maps.InfoWindow();
-            service = new google.maps.places.PlacesService(map); // PlacesService 초기화
-        }  */
-        
          function initMap() {
             const center = { lat: 37.339, lng: 127.109 }; // 오리역 좌표
             map = new google.maps.Map(document.getElementById("map"), {
@@ -91,7 +79,7 @@
             const request = {
                 location: map.getCenter(),
                 radius: "3000",
-                type: ["restaurant"], // 음식점 검색
+                type: ["restaurant"] // 음식점 검색
             };
 
             service.nearbySearch(request, placesCallback);
@@ -130,56 +118,16 @@
                     `<div style="padding:5px;font-size:12px;">
                         <strong>${place.name}</strong><br>
                         별점: ${place.rating || "없음"}<br>
-                        <button onclick="addPlaceToListFromClick('${escapedPlace}')">선택</button>
+                        <button onclick="addPlaceToListFromClick('${place}')">선택</button>
                     </div>`
                 );
 
                 infowindow.open(map, marker);
             });
         }
-        
-    function getPlaceDetails(placeId) {
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY`;
 
-    // XMLHttpRequest 생성
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url, false); // false로 설정하면 동기적으로 동작
-    xhr.send();
-
-    if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-
-        if (response.status !== "OK") {
-            console.error("Error from API:", response.status);
-            return;
-        }
-
-        // 필요한 정보 추출
-        const result = response.result;
-        const placeDetails = {
-            name: result.name,
-            rating: result.rating,
-            photos: result.photos
-                ? result.photos.map(photo => `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=${apiKey}`)
-                : [],
-            location: result.geometry.location,
-            opening_hours: result.opening_hours ? result.opening_hours.weekday_text : null,
-            types: result.types,
-        };
-
-        console.log(placeDetails); // 상세정보 출력
-        return placeDetails; // 결과 반환
-    } else {
-        console.error(`HTTP Error: ${xhr.status}`);
-    }
-}
-
-
-        
-        
         // 선택된 장소 리스트에 추가
-        function addPlaceToListFromClick(escapedPlace) {
-            const place = JSON.parse(escapedPlace.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+        function addPlaceToListFromClick(place) {
             addPlaceToList(place);
         }
 

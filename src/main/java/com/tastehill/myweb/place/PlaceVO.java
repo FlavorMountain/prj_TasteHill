@@ -24,10 +24,8 @@ public class PlaceVO {
         private Geometry geometry;
         private List<String> types;
         
-        @JsonProperty("opening_hours")
-        private OpeningHours openingHours;
-        
-        @JsonProperty("photos")
+//        @JsonProperty("opening_hours")
+        private OpeningHours opening_hours;
         private List<Photo> photos;
     }
 
@@ -53,8 +51,8 @@ public class PlaceVO {
     @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class OpeningHours {
-        @JsonProperty("weekday_text")
-        private List<String> weekdayText;
+//        @JsonProperty("weekday_text")
+        private List<String> weekday_text;
     }
 
     @Getter
@@ -62,15 +60,16 @@ public class PlaceVO {
     @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Photo {
-        @JsonProperty("photo_reference")
-        private String photoReference;
+//        @JsonProperty("photo_reference")
+        private String photo_reference;
+        private String photo_url;
         
-        // Google Places Photo API URL을 생성하는 메서드
-        public String getPhotoUrl(String apiKey, int maxWidth) {
+        // Google Places Photo API요청 URL을 생성하는 메서드
+        public String makePhotoUrl(String apiKey, int maxWidth) {
             return String.format(
                 "https://maps.googleapis.com/maps/api/place/photo?maxwidth=%d&photo_reference=%s&key=%s",
                 maxWidth,
-                photoReference,
+                photo_reference,
                 apiKey
             );
         }
