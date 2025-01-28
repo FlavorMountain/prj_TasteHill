@@ -53,4 +53,27 @@
 		values(seq_member.nextval, #{MVO.nickname}, #{MVO.email}, #{MVO.pw}, sysdate, sysdate, 0, 1) 
 	</insert>
 	
+    <!-- 회원 프로필 업데이트 -->
+    <update id="updateMemberProfile">
+        UPDATE Member
+        SET nickname = #{nickname}, 
+            profile = #{profileImage}
+        WHERE seqMember = #{seqMember}
+    </update>
+
+    <!-- 비밀번호 변경 -->
+    <update id="updateMemberPassword">
+        UPDATE Member
+        SET password = #{password}
+        WHERE seqMember = #{seqMember}
+    </update>
+
+    <!-- 회원 삭제 -->
+    <delete id="deleteMember">
+        UPDATE Member
+        SET status = 0
+        WHERE seqMember = #{seqMember}
+    </delete>
+	
+	
 </mapper>

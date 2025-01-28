@@ -21,11 +21,8 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO svcSelectMember(int seqMember) {
-		// TODO Auto-generated method stub
-		
 		return mapper.selectMember(seqMember);
 	}
-
 
 	@Override
 	public MemberVO svcloginMember(String email, String pw) {
@@ -42,32 +39,33 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int svcUpdateMemberProfile(int seqMember, String profile) {
 		// TODO Auto-generated method stub
-		return 0;
+		return mapper.updateMemberProfile(seqMember, null, profile);
 	}
 
 	@Override
 	public int svcUpdateMemberNickname(int seqMember, String nickname) {
 		// TODO Auto-generated method stub
-		return 0;
+		return mapper.updateMemberProfile(seqMember, nickname, null);
 	}
 
+	@Override
+	public int svcUpdateMemberPw(int seqMember, String pw) {
+		// TODO Auto-generated method stub
+		return mapper.updateMemberPassword(seqMember, pw);
+	}
+	
+	@Override
+	public int svcDeleteMember(int status) {
+		// TODO Auto-generated method stub
+		return mapper.deleteMember(status);
+	}
+	
 	@Override
 	public int svcUpdateMemberPinnedRoute(int seqMember, int seqRoute) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
-	public int svcUpdateMemberPw(int seqMember, String pw) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int svcDeleteMember(int seqMember) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 }
