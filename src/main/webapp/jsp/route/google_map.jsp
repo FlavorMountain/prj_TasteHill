@@ -1,20 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../../index.jsp" %>
-<%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" 	uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" 	uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
-<%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 
 <!DOCTYPE html>
-<jsp:include page="/../../index.jsp"></jsp:include>
-
 <html>
 <head>
     <meta charset="UTF-8">
     <title>음식점 검색 및 경로 표시</title>
-<!--     <link rel="stylesheet" href="/resources/css/map.css">-->    <!-- Google Maps API (콜백으로 initMap 설정) -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY&libraries=places&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY&libraries=places"></script>
 </head>
 <body>
     <div class="controls">
@@ -37,7 +34,8 @@
         let markers = [];
         let currentPolyline = null;
 
-         function initMap() {
+        initMap();
+        function initMap() {
             const center = { lat: 37.339, lng: 127.109 }; // 오리역 좌표
             map = new google.maps.Map(document.getElementById("map"), {
                 center: center,
@@ -46,20 +44,12 @@
                     {
                         "featureType": "poi",
                         "elementType": "labels",
-                        "stylers": [
-                            {
-                                "visibility": "off" // POI 정보 숨기기
-                            }
-                        ]
+                        "stylers": [{ "visibility": "off" }]
                     },
                     {
                         "featureType": "landscape",
                         "elementType": "labels.icon",
-                        "stylers": [
-                            {
-                                "visibility": "off" // 아이콘 숨기기
-                            }
-                        ]
+                        "stylers": [{ "visibility": "off" }]
                     }
                 ]
             });
@@ -67,103 +57,139 @@
             service = new google.maps.places.PlacesService(map);
         }
 
-        
-        // 주변 음식점 검색
         function searchPlaces() {
             if (currentPolyline) {
                 currentPolyline.setMap(null);
             }
             markers.forEach(marker => marker.setMap(null));
             markers = [];
-
+            
             const request = {
                 location: map.getCenter(),
-                radius: "3000",
+                radius: 3000, // 검색 반경을 5km로 설정
                 type: ["restaurant"] // 음식점 검색
+/*                 ,keyword: "food" // 추가 키워드로 검색 확장 */
             };
 
             service.nearbySearch(request, placesCallback);
         }
 
-        // Places API 호출결과 콜백
         function placesCallback(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-                results.forEach(place => {
-                	// console.log(place);
-                    displayPlace(place);
-                });
+                results.forEach(place => displayPlace(place));
             } else {
                 alert("검색 결과를 가져오는데 실패했습니다.");
             }
         }
 
-        // 장소 표시 및 마커 추가
         function displayPlace(place) {
             const marker = new google.maps.Marker({
                 map: map,
                 position: place.geometry.location,
             });
-
+            
+            marker.set('placeData', place);
             markers.push(marker);
-			/* console.log(marker); */
-            google.maps.event.addListener(marker, "click", () => {
-                // const escapedPlace = JSON.stringify(place)
-                //     .replace(/'/g, "&#39;")
-                //     .replace(/"/g, "&quot;");
-                console.log(place);
-                console.log(place.place_id);
-                console.log(getPlaceDetails(place.place_id));
-                
-                infowindow.setContent(
-                    `<div style="padding:5px;font-size:12px;">
-                        <strong>${place.name}</strong><br>
-                        별점: ${place.rating || "없음"}<br>
-                        <button onclick="addPlaceToListFromClick('${place}')">선택</button>
-                    </div>`
-                );
+            
+            marker.addListener("click", ({ domEvent, latLng }) => {
+            	const { target } = domEvent;
+            	const placeData = marker.get('placeData');
+            	const name = placeData.name;
+            	const rating = placeData.rating;
+            	const placeId = placeData.place_id;
 
+            	console.log(name); // 일반 출력
+            	console.log(rating);
+            	console.log(placeId);
+            	
+            	console.log('<div style="padding:5px;font-size:12px;">' +
+                	    '<strong>' + name + '</strong><br>' +
+                	    '별점: ' + (rating || "없음") + '<br>' +
+                	    '<button onclick="addPlaceToList(' + placeId+ ')">선택</button>' +
+                	    '</div>');
+
+            	infowindow.setContent(
+            		    '<div style="padding:5px;font-size:12px;">' +
+            		    '<strong>' + name + '</strong><br>' +
+            		    '별점: ' + (rating || "없음") + '<br>' +
+            		    '<button onclick="addPlaceToList(\'' + placeId + '\')">선택</button>' +
+            		    '</div>'
+            		);
+
+               
                 infowindow.open(map, marker);
+                
+                // infowindow가 열린 후, DOM이 준비되면 버튼에 이벤트 리스너를 추가
+                google.maps.event.addListenerOnce(infowindow, 'domready', () => {
+                    const selectButton = document.getElementById('selectButton');
+                });
             });
         }
 
-        // 선택된 장소 리스트에 추가
-        function addPlaceToListFromClick(place) {
-            addPlaceToList(place);
-        }
+        
+        function addPlaceToList(Id) {
+        	console.log(Id + 'asdasdasdasdasdasdasasdsda');
+            if (!Id) {
+                console.error('placeId가 없습니다');
+                return;
+            }
 
-        function addPlaceToList(place) {
-            if (selectedPlaces.some(p => p.place_id === place.place_id)) {
+            if (selectedPlaces.some(p => p.place_id === Id)) {
                 alert("이미 선택된 장소입니다.");
                 return;
             }
 
-            selectedPlaces.push(place);
-            updateSelectedListUI();
+            // 요청 객체
+            var request = {
+                placeId: Id,  // Id를 전달
+                fields: ['name', 'place_id', 'geometry', 'rating']
+            };
+
+            // PlacesService 객체 생성
+            var service = new google.maps.places.PlacesService(map);
+
+            // getDetails 메서드 호출
+            service.getDetails(request, function(place, status) {
+                console.log('Places API Response:', place);  // API 응답 확인
+                console.log('Status:', status);  // 응답 상태 확인
+
+                // 상태가 OK인 경우에만 장소 정보를 처리
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    selectedPlaces.push(place);
+                    updateSelectedListUI(place);
+                } else {
+                    alert("선택한 장소 정보를 불러오는데 실패했습니다.");
+                    console.error('Places API Error:', status);
+                }
+            });
         }
 
-        // 선택된 장소 리스트에서 제거
+
+
+        function updateSelectedListUI(place) {
+            const list = document.getElementById("selected-list");
+            list.innerHTML = "";
+
+            selectedPlaces.forEach((place, index) => {
+                console.log(place.name + 'asd');
+                const item = document.createElement("li");
+                
+                item.innerHTML = index + 1 + ": " + (place.name || "이름 없음") + 
+                                 " <button onclick=\"removePlace(" + index + ")\">제거</button>";
+                list.appendChild(item);
+            });
+        }
+
+
         function removePlace(index) {
             selectedPlaces.splice(index, 1);
             updateSelectedListUI();
             if (currentPolyline) {
                 currentPolyline.setMap(null);
+                currentPolyline = null;
             }
         }
 
-        // 선택된 장소 UI 업데이트
-        function updateSelectedListUI() {
-            const list = document.getElementById("selected-list");
-            list.innerHTML = "";
-
-            selectedPlaces.forEach((place, index) => {
-                const item = document.createElement("li");
-                item.innerHTML = `${index + 1}: ${place.name} 
-                    <button onclick="removePlace(${index})">제거</button>`;
-                list.appendChild(item);
-            });
-        }
-
-        // 경로 생성
         function drawRoute() {
             if (selectedPlaces.length < 2) {
                 alert("2개 이상의 장소를 선택해야 경로가 그려집니다.");
@@ -174,36 +200,30 @@
                 currentPolyline.setMap(null);
             }
 
-            const directionsService = new google.maps.DirectionsService();
-            const directionsRenderer = new google.maps.DirectionsRenderer({
-                map: map,
-                suppressMarkers: true,
+            // 시작점과 끝점의 좌표를 가져옵니다
+            const origin = selectedPlaces[0].geometry.location;
+            const destination = selectedPlaces[selectedPlaces.length - 1].geometry.location;
+
+            // 중간 경유지들의 좌표를 가져옵니다 (첫 번째와 마지막 제외)
+            const waypoints = selectedPlaces.slice(1, selectedPlaces.length - 1).map(place => place.geometry.location);
+
+            // 시작점, 중간 경유지들, 끝점의 좌표를 하나의 배열로 합칩니다
+            const path = [origin, ...waypoints, destination];
+
+            // Polyline 객체 생성
+            currentPolyline = new google.maps.Polyline({
+                path: path,
+                geodesic: true,  // 지구상의 직선 경로를 따른다고 설정
+                strokeColor: '#FF0000',  // 경로 색상
+                strokeOpacity: 1.0,  // 경로 불투명도
+                strokeWeight: 2  // 경로의 굵기
             });
 
-            const waypoints = selectedPlaces.slice(1, -1).map(place => ({
-                location: { placeId: place.place_id },
-                stopover: true,
-            }));
-
-            const request = {
-                origin: { placeId: selectedPlaces[0].place_id },
-                destination: {
-                    placeId: selectedPlaces[selectedPlaces.length - 1].place_id,
-                },
-                waypoints: waypoints,
-                travelMode: google.maps.TravelMode.DRIVING,
-            };
-
-            directionsService.route(request, (result, status) => {
-                if (status === google.maps.DirectionsStatus.OK) {
-                    directionsRenderer.setDirections(result);
-                    currentPolyline = directionsRenderer.getPolyline();
-                } else {
-                    console.error("Failed to generate route:", status);
-                    alert("경로를 생성하는데 실패했습니다.");
-                }
-            });
+            // 맵에 경로 표시
+            currentPolyline.setMap(map);
         }
+
+
     </script>
 </body>
 </html>
