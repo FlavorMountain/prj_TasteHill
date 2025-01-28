@@ -13,8 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <title>음식점 검색 및 경로 표시</title>
-    <link rel="stylesheet" href="/resources/css/map.css">
-    <!-- Google Maps API (콜백으로 initMap 설정) -->
+<!--     <link rel="stylesheet" href="/resources/css/map.css">-->    <!-- Google Maps API (콜백으로 initMap 설정) -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY&libraries=places&callback=initMap" async defer></script>
 </head>
 <body>
@@ -31,6 +30,7 @@
     </div>
 
     <script>
+    	let apiKey = 'AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY';
         let map;
         let service;
         let infowindow;
@@ -123,7 +123,9 @@
                 //     .replace(/'/g, "&#39;")
                 //     .replace(/"/g, "&quot;");
                 console.log(place);
-
+                console.log(place.place_id);
+                console.log(getPlaceDetails(place.place_id));
+                
                 infowindow.setContent(
                     `<div style="padding:5px;font-size:12px;">
                         <strong>${place.name}</strong><br>
@@ -135,7 +137,46 @@
                 infowindow.open(map, marker);
             });
         }
+        
+    function getPlaceDetails(placeId) {
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY`;
 
+    // XMLHttpRequest 생성
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, false); // false로 설정하면 동기적으로 동작
+    xhr.send();
+
+    if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+
+        if (response.status !== "OK") {
+            console.error("Error from API:", response.status);
+            return;
+        }
+
+        // 필요한 정보 추출
+        const result = response.result;
+        const placeDetails = {
+            name: result.name,
+            rating: result.rating,
+            photos: result.photos
+                ? result.photos.map(photo => `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=${apiKey}`)
+                : [],
+            location: result.geometry.location,
+            opening_hours: result.opening_hours ? result.opening_hours.weekday_text : null,
+            types: result.types,
+        };
+
+        console.log(placeDetails); // 상세정보 출력
+        return placeDetails; // 결과 반환
+    } else {
+        console.error(`HTTP Error: ${xhr.status}`);
+    }
+}
+
+
+        
+        
         // 선택된 장소 리스트에 추가
         function addPlaceToListFromClick(escapedPlace) {
             const place = JSON.parse(escapedPlace.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
