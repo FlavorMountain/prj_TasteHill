@@ -2,6 +2,9 @@ package com.tastehill.myweb.route;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import com.tastehill.myweb.place.PlaceVO;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,7 +16,7 @@ public class RouteController {
 	private String API_KEY;
 
 	@GetMapping("/route/{placeId}")
-	public ResponseEntity<PlaceDetailsVO> getPlaceDetails(@PathVariable String placeId) {
+	public ResponseEntity<PlaceVO> getPlaceDetails(@PathVariable String placeId) {
 	    try {
 	        String url = String.format(
 	            "https://maps.googleapis.com/maps/api/place/details/json?place_id=%s&key=%s&fields=name,rating,photos,geometry,opening_hours,types",
@@ -23,24 +26,18 @@ public class RouteController {
 	        
 	        RestTemplate restTemplate = new RestTemplate();
 	        
-	        
-	        String rawResponse = restTemplate.getForObject(url, String.class);
-	        System.out.println("원문 응답!");
-	        System.out.println(rawResponse);
+//	        String rawResponse = restTemplate.getForObject(url, String.class);
+//	        System.out.println("원문 응답!");
+//	        System.out.println(rawResponse);
 
 	        
-	        GooglePlaceResponse response = restTemplate.getForObject(url, GooglePlaceResponse.class);
-//	        System.out.println(response.toString());
+	        PlaceVO response = restTemplate.getForObject(url, PlaceVO.class);
+	        System.out.println("vo에 담긴 값!");
+	        System.out.println(response.getResult().toString());
 	        
 	        if (response != null && "OK".equals(response.getStatus())) {
-	            PlaceDetailsVO placeDetails = new PlaceDetailsVO();
-	            placeDetails.setName(response.getResult().getName());
-	            placeDetails.setRating(response.getResult().getRating());
-	            placeDetails.setPhotos(response.getResult().getPhotoUrls(API_KEY));
-	            placeDetails.setOpeningHours(response.getResult().getOpeningHours() != null 
-	                ? response.getResult().getOpeningHours().getWeekdayText() : null);
-	            placeDetails.setTypes(response.getResult().getTypes());
-	            return ResponseEntity.ok(placeDetails);
+	            PlaceVO pvo = new PlaceVO();
+	            return ResponseEntity.ok(pvo);
 	        }
 	        return ResponseEntity.status(500).body(null);
 	    } catch (Exception e) {

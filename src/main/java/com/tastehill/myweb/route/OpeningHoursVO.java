@@ -13,10 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhotoVO {
-    @JsonProperty("photo_reference")
-    private String photoReference;
-    private Integer width;
-    private Integer height;
-    private List<String> htmlAttributions;
+public class OpeningHoursVO {
+    @JsonProperty("weekday_text")
+    private List<String> weekdayText;
 }
