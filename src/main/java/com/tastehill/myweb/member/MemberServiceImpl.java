@@ -37,16 +37,15 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int svcUpdateMemberProfile(int seqMember, String profile) {
-		// TODO Auto-generated method stub
-		return mapper.updateMemberProfile(seqMember, null, profile);
-	}
+    public int svcUpdateMemberProfile(int seqMember, String profile) {
+        return mapper.updateMemberProfileImage(seqMember, profile);
+    }
 
-	@Override
-	public int svcUpdateMemberNickname(int seqMember, String nickname) {
-		// TODO Auto-generated method stub
-		return mapper.updateMemberProfile(seqMember, nickname, null);
-	}
+    @Override
+    public int svcUpdateMemberNickname(int seqMember, String nickname) {
+        return mapper.updateMemberNickname(seqMember, nickname);
+    }
+
 
 	@Override
 	public int svcUpdateMemberPw(int seqMember, String pw) {

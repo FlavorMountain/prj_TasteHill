@@ -1,15 +1,21 @@
 package com.tastehill.myweb.mypage;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tastehill.myweb.member.MemberService;
 import com.tastehill.myweb.member.MemberVO;
@@ -38,11 +44,37 @@ public class MyPageController {
     }
     
     // 프로필 정보 업데이트
-    @RequestMapping("/profile/update")
-    public String updateProfile(@SessionAttribute("seqMember") int seqMember,
-                                @RequestParam String profile) {
-        memberService.svcUpdateMemberProfile(seqMember, profile);
-        return "/jsp/mypage/mypage";
+    @PostMapping("/profile/upload")
+    public String uploadProfileImage(@SessionAttribute("seqMember") int seqMember,
+                                     @RequestParam("profileImage") MultipartFile file,
+                                     HttpSession session) {
+        if (file.isEmpty()) {
+            return "redirect:/mypage/profile?error=emptyFile";
+        }
+
+        try {
+            // HttpSession에서 ServletContext 가져오기
+            String uploadDir = session.getServletContext().getRealPath("/uploads/profile/");
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            // 고유한 파일명 생성 후 저장
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            File destFile = new File(uploadDir, fileName);
+            file.transferTo(destFile);
+
+            // DB에 프로필 이미지 경로 저장
+            String profileImagePath = "/uploads/profile/" + fileName;
+            memberService.svcUpdateMemberProfile(seqMember, profileImagePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "redirect:/mypage/profile?error=uploadFailed";
+        }
+
+        return "redirect:/mypage/profile";
     }
     
     // 닉네임 변경

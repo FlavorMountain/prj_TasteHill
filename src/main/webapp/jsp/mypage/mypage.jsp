@@ -13,34 +13,35 @@
 
 /* 프로필 섹션 */
 .profile-section {
-	display: flex;
-	align-items: center;
-	padding: 20px;
-	margin-left: 20px;
-	border-radius: 10px;
-	width: 90%;
-	max-width: 800px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    margin-left: 10px; /* 왼쪽으로 살짝 이동 */
+    margin-top: 50px; /* 위쪽 여백 줄이기 */
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
 }
 
 .profile-section img {
 	border-radius: 50%;
 	width: 100px;
+    margin-top: 50px; /* 위쪽 여백 줄이기 */
 	height: 100px;
 	margin-right: 20px;
 }
 
-.profile-details {
-	text-align: left;
-}
-
 .profile-details h2 {
-	margin: 0 0 20px 0;
-	font-size: 20px;
+    margin: 0 0 20px -200px;
+    font-size: 20px;
+    justify-content: flex-start;
 }
 
 .profile-details p {
-	margin: 5px 0;
-	color: #666;
+    margin: 5px 0 5px -200px;
+    color: #666;
+    justify-content: flex-start;
 }
 
 /* 카드 및 섹션 레이아웃 */
@@ -94,6 +95,23 @@
 	color: #333;
 }
 </style>
+<script>
+        // 이미지 미리보기 기능
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('profilePreview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // 파일 선택창 열기
+        function openFileInput() {
+            document.getElementById('profileImageInput').click();
+        }
+    </script>
+
 </head>
 <body>
 	<!-- 헤더 -->
@@ -102,16 +120,21 @@
 			class="header-mypage">MyPage</a>
 	</div>
 
-	<!-- 프로필 섹션 -->
-	<div class="profile-section">
-		<form id="uploadForm"
-			action="<%=request.getContextPath()%>/mypage/profile/upload"
-			method="post" enctype="multipart/form-data">
-			<label for="profileUpload"> <img id="profileImage"
-				src="${member.profileImage}" alt="프로필 이미지"
-				style="cursor: pointer; width: 100px; height: 100px; border-radius: 50%;">
-			</label>
-		</form>
+	<!-- 프로필 이미지 영역 -->
+<div class="profile-section">
+    <c:choose>
+        <c:when test="${not empty member.profile}">
+            <img id="profilePreview" src="${member.profile}" alt="기본프로필 이미지" onclick="openFileInput()">
+        </c:when>
+    </c:choose>
+</div>
+
+<!-- 프로필 이미지 업로드 폼 (숨겨진 파일 입력창) -->
+<form action="/mypage/profile/upload" method="post" enctype="multipart/form-data" style="display:none;">
+    <input type="file" id="profileImageInput" name="profileImage" accept="image/*" onchange="previewImage(event)">
+    <button type="submit" id="uploadButton">업로드</button>
+</form>
+
 		<div class="profile-details">
 			<h2>nickname ${member.nickname}</h2>
 			<p>
