@@ -55,14 +55,14 @@
 	
      <!-- 회원 프로필 이미지 업데이트 -->
     <update id="updateMemberProfileImage">
-        UPDATE member
+        UPDATE Member
         SET profile = #{profile}
         WHERE seq_member = #{seqMember}
     </update>
 
     <!-- 닉네임 변경 -->
     <update id="updateMemberNickname">
-        UPDATE member
+        UPDATE Member
         SET nickname = #{nickname}
         WHERE seq_member = #{seqMember}
     </update>
@@ -70,15 +70,15 @@
     <!-- 비밀번호 변경 -->
     <update id="updateMemberPassword">
         UPDATE Member
-        SET password = #{password}
-        WHERE seqMember = #{seqMember}
+        SET PW = #{password}
+        WHERE seq_member = #{seqMember}
     </update>
 
     <!-- 회원 삭제 -->
     <delete id="deleteMember">
         UPDATE Member
         SET status = 0
-        WHERE seqMember = #{seqMember}
+        WHERE seq_member = #{seqMember}
     </delete>
 	
 	
