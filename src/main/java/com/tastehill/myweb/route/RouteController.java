@@ -10,12 +10,16 @@ import com.tastehill.myweb.place.PlaceVO.Photo;
 
 import java.util.Base64;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@RequestMapping("/route")
 public class RouteController {
 	
 	@Autowired
@@ -23,8 +27,15 @@ public class RouteController {
 
 	@Value("${google.map.apiKey}")
 	private String API_KEY;
+	
+	@GetMapping("/")
+	public String getMap(HttpServletRequest request) {
+		HttpSession session =  request.getSession();
+		session.setAttribute("API_KEY", API_KEY);
+		return "jsp/route/google_map";
+	}
 
-	@GetMapping("/route/{placeId}")
+	@GetMapping("/{placeId}")
 	public ResponseEntity<PlaceVO> getPlaceDetails(@PathVariable String placeId) {
 	    try {
 	        String url = String.format(
@@ -33,16 +44,14 @@ public class RouteController {
 	            API_KEY
 	        );
 	        
-	        RestTemplate restTemplate = new RestTemplate();
+	        System.out.println(url);
 	        
-	        String rawResponse = restTemplate.getForObject(url, String.class);
-	        System.out.println("원문 응답!");
-	        System.out.println(rawResponse);
+	        RestTemplate restTemplate = new RestTemplate();
+	       
 
 	       	        
 	        PlaceVO response = restTemplate.getForObject(url, PlaceVO.class);
 //	        System.out.println("vo에 담긴 값!");
-//	        System.out.println(response.getResult().toString());
 	        
 	        // 사진 api 요청 url로 가져온다음 api에 다시 요청해서 리다이렉트 url을 추출하면
 	        //사진 url이 됨
@@ -54,6 +63,7 @@ public class RouteController {
 		        		currPhoto.setPhoto_url(commonService.fetchFinalImageUrl(photoApiUrl));
 		        	}
 	        	}
+	        	System.out.println(response.toString());
 	            return ResponseEntity.ok(response);
 	        }
 	        return ResponseEntity.status(500).body(null);
