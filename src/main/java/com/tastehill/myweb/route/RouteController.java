@@ -34,15 +34,11 @@ public class RouteController {
 	        );
 	        
 	        RestTemplate restTemplate = new RestTemplate();
-	        
-	        String rawResponse = restTemplate.getForObject(url, String.class);
-	        System.out.println("원문 응답!");
-	        System.out.println(rawResponse);
+	       
 
 	       	        
 	        PlaceVO response = restTemplate.getForObject(url, PlaceVO.class);
 //	        System.out.println("vo에 담긴 값!");
-//	        System.out.println(response.getResult().toString());
 	        
 	        // 사진 api 요청 url로 가져온다음 api에 다시 요청해서 리다이렉트 url을 추출하면
 	        //사진 url이 됨
@@ -54,6 +50,7 @@ public class RouteController {
 		        		currPhoto.setPhoto_url(commonService.fetchFinalImageUrl(photoApiUrl));
 		        	}
 	        	}
+	        	System.out.println(response.toString());
 	            return ResponseEntity.ok(response);
 	        }
 	        return ResponseEntity.status(500).body(null);

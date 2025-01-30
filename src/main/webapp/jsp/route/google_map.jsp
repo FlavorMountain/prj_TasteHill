@@ -14,6 +14,14 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY&libraries=places"></script>
 </head>
 <body>
+
+<div id="place-details">
+        <h2>Place Details:</h2>
+        <p id="place-name"></p>
+        <p id="place-rating"></p>
+        <p id="place-location"></p>
+    </div>
+
     <div class="controls">
         <button onclick="searchPlaces()">주변 음식점 검색</button>
         <button onclick="drawRoute()">경로 그리기</button>
@@ -25,6 +33,9 @@
         <h3>선택된 음식점 목록</h3>
         <ul id="selected-list"></ul>
     </div>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
     <script>
         let map;
@@ -97,32 +108,44 @@
             	const name = placeData.name;
             	const rating = placeData.rating;
             	const placeId = placeData.place_id;
-
-            	console.log(name); // 일반 출력
-            	console.log(rating);
-            	console.log(placeId);
             	
-            	console.log('<div style="padding:5px;font-size:12px;">' +
-                	    '<strong>' + name + '</strong><br>' +
-                	    '별점: ' + (rating || "없음") + '<br>' +
-                	    '<button onclick="addPlaceToList(' + placeId+ ')">선택</button>' +
-                	    '</div>');
-
-            	infowindow.setContent(
-            		    '<div style="padding:5px;font-size:12px;">' +
-            		    '<strong>' + name + '</strong><br>' +
-            		    '별점: ' + (rating || "없음") + '<br>' +
-            		    '<button onclick="addPlaceToList(\'' + placeId + '\')">선택</button>' +
-            		    '</div>'
-            		);
-
-               
-                infowindow.open(map, marker);
-                
-                // infowindow가 열린 후, DOM이 준비되면 버튼에 이벤트 리스너를 추가
-                google.maps.event.addListenerOnce(infowindow, 'domready', () => {
-                    const selectButton = document.getElementById('selectButton');
-                });
+            	
+            	$.ajax({
+                     url: '/route/' + placeId,
+                     method: 'GET',
+                     dataType: 'json',
+                     success: function(response) {
+                     	infowindow.setContent(
+                    		    '<div style="padding:5px;font-size:12px;">' +
+                    		    '<strong>' + name + '</strong><br>' +
+                    		    '별점: ' + (rating || "없음") + '<br>' +
+                    		    '<button onclick="addPlaceToList(\'' + placeId + '\')">선택</button>' +
+                    		    '</div>'
+                    		);
+                        infowindow.open(map, marker);
+                        
+                        // infowindow가 열린 후, DOM이 준비되면 버튼에 이벤트 리스너를 추가
+                        google.maps.event.addListenerOnce(infowindow, 'domready', () => {
+                            const selectButton = document.getElementById('selectButton');
+                        });
+                    	 
+                    	 
+                    	 
+                         console.log(response); // 디버깅용
+                         // Response 데이터를 HTML에 표시
+                         $('#place-name').text('Name: ' + response.result.name);
+                         $('#place-rating').text('Rating: ' + response.result.rating);
+                         $('#place-location').text('Location: ' + 
+                             response.result.geometry.location.lat + ', ' + 
+                             response.result.geometry.location.lng);
+                     },
+                     
+                     error: function(xhr, status, error) {
+                         console.error('Error fetching place details:', status, error);
+                         alert('Failed to fetch place details.');
+                     }
+                 });
+            	
             });
         }
 
