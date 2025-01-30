@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>음식점 검색 및 경로 표시</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA06Z3OZN-CwxfhTn9GysGqAMHsSMahDAY&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=${sessionScope.API_KEY}&libraries=places"></script>
 </head>
 <body>
 
@@ -78,9 +78,11 @@
             const request = {
                 location: map.getCenter(),
                 radius: 3000, // 검색 반경을 5km로 설정
-                type: ["restaurant"] // 음식점 검색
+                type: 'food' // 음식점 검색
 /*                 ,keyword: "food" // 추가 키워드로 검색 확장 */
             };
+            
+            /* console.log(request); */
 
             service.nearbySearch(request, placesCallback);
         }

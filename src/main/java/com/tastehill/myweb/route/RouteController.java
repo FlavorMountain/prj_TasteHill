@@ -10,12 +10,16 @@ import com.tastehill.myweb.place.PlaceVO.Photo;
 
 import java.util.Base64;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@RequestMapping("/route")
 public class RouteController {
 	
 	@Autowired
@@ -23,8 +27,15 @@ public class RouteController {
 
 	@Value("${google.map.apiKey}")
 	private String API_KEY;
+	
+	@GetMapping("/")
+	public String getMap(HttpServletRequest request) {
+		HttpSession session =  request.getSession();
+		session.setAttribute("API_KEY", API_KEY);
+		return "jsp/route/google_map";
+	}
 
-	@GetMapping("/route/{placeId}")
+	@GetMapping("/{placeId}")
 	public ResponseEntity<PlaceVO> getPlaceDetails(@PathVariable String placeId) {
 	    try {
 	        String url = String.format(
@@ -32,6 +43,8 @@ public class RouteController {
 	            placeId,
 	            API_KEY
 	        );
+	        
+	        System.out.println(url);
 	        
 	        RestTemplate restTemplate = new RestTemplate();
 	       
