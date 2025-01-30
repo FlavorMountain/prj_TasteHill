@@ -36,16 +36,6 @@
 		where email = #{email} and pw = #{pw}
 	</select>
 	
-	<!-- 인증(id&pw) -->
-	<!-- 
-	<select id="usersLogin" resultMap="usersRolesMap">
-	select u.user_seq, u.user_name, u.user_id, u.user_pw, u.regdate
-		    , r.user_seq as roles_user_seq, r.role_seq , r.role_name
-	from users u, roles r
-	where u.user_id=#{userId} and u.user_pw=#{userPw}
-	      and u.user_seq = r.user_seq
-	</select>
-	 -->
 	
 	<!-- 가입(입력)  -->
 	<insert id="insertMember">

@@ -1,12 +1,22 @@
 package com.tastehill.myweb.member;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.lec.oauth.social.SocialType;
+import com.lec.oauth.svc.OauthService;
+import com.lec.oauth.vo.UsersOauthVO;
+
 
 
 @Controller
@@ -14,7 +24,10 @@ public class MemberController {
 	
 	@Autowired
 	MemberService svc;
-		
+
+	@Autowired
+	OauthService oauthService;
+	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String ctlMemberRegister(@ModelAttribute MemberVO mvo
 			) {
@@ -50,5 +63,7 @@ public class MemberController {
 		model.addAttribute("content", "jsp/member/member_register.jsp");
 		return "index";
 	}
+	
+	
 }
 //
