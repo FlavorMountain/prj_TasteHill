@@ -81,8 +81,9 @@ public class OauthServiceImpl implements OauthService {
 	public int svcInsertToken(MemberVO mvo) {
 		memberMapper.insertMember(mvo);
         
+		MemberVO memVO = oauthMapper.findMemberByEmail(mvo.getEmail());
         //user_tbl에 입력한 user_seq 시퀀스번호를 user_oauth의 user_seq값으로 사용
-        mvo.getUsersOauthVO().setUserSeq(mvo.getSeqMember());
+        mvo.getUsersOauthVO().setSeqMember(memVO.getSeqMember());
         oauthMapper.insertMemberOauth(mvo.getUsersOauthVO());
         return mvo.getSeqMember();
 	}

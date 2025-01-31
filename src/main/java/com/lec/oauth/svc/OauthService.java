@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.lec.oauth.social.Oauth;
 import com.lec.oauth.social.SocialType;
-import com.lec.oauth.vo.UsersOauthVO;
-import com.lec.oauth.vo.UsersTblVO;
 import com.tastehill.myweb.member.MemberVO;
 
 import java.util.Map;

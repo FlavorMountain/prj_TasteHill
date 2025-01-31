@@ -27,8 +27,8 @@
                 <input type="password" id="pw" name="pw">
             </div>
             <div class="input-group">
-                <label for="pw">NICKNAME</label>
-                <input type="password" id="pw" name="pw">
+                <label for="nickname">NICKNAME</label>
+                <input type="text" id="nickname" name="nickname">
             </div>
             <button type="submit" class="login-button">REGISTER</button>
         </form>

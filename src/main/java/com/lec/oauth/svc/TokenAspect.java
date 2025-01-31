@@ -10,7 +10,6 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import com.lec.oauth.social.GoogleOauth;
 import com.lec.oauth.vo.UsersOauthVO;
-import com.lec.oauth.vo.UsersTblVO;
 
 import javax.servlet.http.HttpSession;
 

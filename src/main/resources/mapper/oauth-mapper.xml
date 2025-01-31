@@ -17,6 +17,7 @@
         <association property="usersOauthVO" javaType="com.lec.oauth.vo.UsersOauthVO" resultMap="oauthResultMap"/>
 	</resultMap>
     <!-- ResultMap for users_tbl and users_oauth -->
+    <!-- 
     <resultMap id="userResultMap" type="com.lec.oauth.vo.UsersTblVO">
         <id property="userSeq" 			column="user_seq" />
         <result property="userEmail" 	column="user_email" />
@@ -26,26 +27,39 @@
         <result property="regdate" 		column="regdate" />
         <result property="provider" 	column="provider" />
     </resultMap>
-    
+     -->
 	<resultMap id="oauthResultMap" type="com.lec.oauth.vo.UsersOauthVO">
-	        <id property="userSeq" 				column="user_seq" />
+	        <id property="seqMember" 				column="seq_member" />
 	        <result property="picture" 			column="picture" />
-	        <result property="access_token" 	column="accessToken" />
-	        <result property="refresh_token" 	column="refreshToken" />
-	        <result property="updated_at" 			column="updated_at" />
+	        <result property="accessToken" 	column="access_token" />
+	        <result property="refreshToken" 	column="refresh_token" />
+	        <result property="updatedAt" 			column="updated_at" />
 	</resultMap>
 	
 	<!-- OAuth :: 기존회원/신규회원 구분을 위한 DB조회 -->
 	<select id="findMemberByEmail" parameterType="String"  resultMap="memberMap">
-		SELECT * FROM member WHERE user_email = #{userEmail}
+		SELECT * FROM member WHERE email = #{email}
 	</select>
+    
+    <!-- 
+    <insert id="insertUsersTbl" parameterType="com.lec.oauth.vo.UsersTblVO" useGeneratedKeys="false">
+        <selectKey keyProperty="userSeq" resultType="int" order="BEFORE">
+            SELECT users_tbl_seq.NEXTVAL FROM dual
+        </selectKey>
+        INSERT INTO users_tbl (
+            user_seq, user_email, user_pw, user_name, provider
+        ) VALUES (
+            #{userSeq}, #{userEmail}, #{userPw}, #{userName}, #{provider}
+        )
+    </insert> 
+    -->
     
     <!-- OAuth :: 신규회원 토큰저장  -->
     <insert id="insertMemberOauth" parameterType="com.lec.oauth.vo.UsersOauthVO">
         INSERT INTO oauth (
             seq_member, picture, access_token, refresh_token, updated_at
         ) VALUES (
-            #{userSeq}, #{picture}, #{accessToken}, #{refreshToken}, sysdate
+            #{seqMember}, #{picture}, #{accessToken}, #{refreshToken}, sysdate
         )
     </insert>
      
