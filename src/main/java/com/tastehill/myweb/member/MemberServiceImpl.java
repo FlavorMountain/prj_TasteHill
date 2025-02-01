@@ -2,6 +2,8 @@ package com.tastehill.myweb.member;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,23 +39,25 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int svcUpdateMemberProfile(int seqMember, String profile) {
-		// TODO Auto-generated method stub
-		return mapper.updateMemberProfile(seqMember, null, profile);
-	}
+    public int svcUpdateMemberProfile(int seqMember, String profile) {
+        return mapper.updateMemberProfileImage(seqMember, profile);
+    }
 
-	@Override
-	public int svcUpdateMemberNickname(int seqMember, String nickname) {
-		// TODO Auto-generated method stub
-		return mapper.updateMemberProfile(seqMember, nickname, null);
-	}
+	@Transactional
+    @Override
+    public int svcUpdateMemberNickname(int seqMember, String nickname) {
+        return mapper.updateMemberNickname(seqMember, nickname);
+    }
 
+
+	@Transactional
 	@Override
 	public int svcUpdateMemberPw(int seqMember, String pw) {
 		// TODO Auto-generated method stub
 		return mapper.updateMemberPassword(seqMember, pw);
 	}
-	
+
+	@Transactional
 	@Override
 	public int svcDeleteMember(int status) {
 		// TODO Auto-generated method stub
