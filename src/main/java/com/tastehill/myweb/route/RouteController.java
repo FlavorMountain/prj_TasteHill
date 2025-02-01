@@ -28,7 +28,7 @@ public class RouteController {
 	@Value("${google.map.apiKey}")
 	private String API_KEY;
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String getMap(HttpServletRequest request) {
 		HttpSession session =  request.getSession();
 		session.setAttribute("API_KEY", API_KEY);
@@ -39,17 +39,16 @@ public class RouteController {
 	public ResponseEntity<PlaceVO> getPlaceDetails(@PathVariable String placeId) {
 	    try {
 	        String url = String.format(
-	            "https://maps.googleapis.com/maps/api/place/details/json?place_id=%s&key=%s&fields=name,rating,photos,geometry,opening_hours,types",
+	                "https://maps.googleapis.com/maps/api/place/details/json?place_id=%s&key=%s&fields=name,rating,photos,opening_hours,formatted_address&language=ko",
 	            placeId,
 	            API_KEY
 	        );
 	        
-	        System.out.println(url);
+//	        System.out.println(url);
 	        
 	        RestTemplate restTemplate = new RestTemplate();
 	       
 
-	       	        
 	        PlaceVO response = restTemplate.getForObject(url, PlaceVO.class);
 //	        System.out.println("vo에 담긴 값!");
 	        
