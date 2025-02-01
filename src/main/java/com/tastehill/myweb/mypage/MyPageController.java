@@ -1,16 +1,13 @@
 package com.tastehill.myweb.mypage;
 
-
 import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +20,6 @@ import com.tastehill.myweb.route.RouteService;
 import com.tastehill.myweb.route.RouteVO;
 
 @Controller
-@RequestMapping("/mypage")
 public class MyPageController {
 
     @Autowired
@@ -36,7 +32,7 @@ public class MyPageController {
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String getProfile(Model model, @SessionAttribute(value = "seqMember", required = false) Integer seqMember) {
         if (seqMember == null) {
-            return "/jsp/mypage/mypage"; //"/jsp/member/member_login.jsp"
+            return "/jsp/mypage/mypage"; 	//"/jsp/member/member_login; // 로그인 페이지로 이동
         }
         MemberVO member = memberService.svcSelectMember(seqMember);
         model.addAttribute("member", member);
@@ -44,45 +40,20 @@ public class MyPageController {
     }
     
     // 프로필 정보 업데이트
-    @PostMapping("/profile/upload")
-    public String uploadProfileImage(@SessionAttribute("seqMember") int seqMember,
-                                     @RequestParam("profileImage") MultipartFile file,
-                                     HttpSession session) {
-        if (file.isEmpty()) {
-            return "redirect:/mypage/profile?error=emptyFile";
-        }
-
-        try {
-            // HttpSession에서 ServletContext 가져오기
-            String uploadDir = session.getServletContext().getRealPath("/uploads/profile/");
-            File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            // 고유한 파일명 생성 후 저장
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            File destFile = new File(uploadDir, fileName);
-            file.transferTo(destFile);
-
-            // DB에 프로필 이미지 경로 저장
-            String profileImagePath = "/uploads/profile/" + fileName;
-            memberService.svcUpdateMemberProfile(seqMember, profileImagePath);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "redirect:/mypage/profile?error=uploadFailed";
-        }
-
+    @RequestMapping("/profile/update")
+    public String updateProfile(@SessionAttribute("seqMember") int seqMember,
+                                @RequestParam String nickname,
+                                @RequestParam String profile) {
+        memberService.svcUpdateMemberProfile(seqMember, profile);
         return "redirect:/mypage/profile";
     }
     
-    // 닉네임 변경
+ // 닉네임 변경
     @RequestMapping(value = "/profile/update/nickname", method = RequestMethod.POST)
     public String updateNickname(@SessionAttribute("seqMember") int seqMember,
                                  @RequestParam("nickname") String nickname) {
         memberService.svcUpdateMemberNickname(seqMember, nickname);
-        return "/jsp/mypage/mypage";
+        return "redirect:/mypage/profile";
     }
 
     // 비밀번호 변경
@@ -90,7 +61,7 @@ public class MyPageController {
     public String updatePassword(@SessionAttribute("seqMember") int seqMember,
                                  @RequestParam("password") String password) {
         memberService.svcUpdateMemberPw(seqMember, password);
-        return "/jsp/mypage/mypage";
+        return "redirect:/mypage/profile";
     }
 
     // 회원 탈퇴
@@ -101,38 +72,31 @@ public class MyPageController {
         return "redirect:/";
     }
     
-	@RequestMapping(value = "/profilePage", method = RequestMethod.GET)
-	public String ctlprofilePage(Model model) {
-
-		model.addAttribute("content", "/jsp/mypage/mypage.jsp");
-		return "index";
-	}
-   
 
 
 
-//    // 내가 작성한 동선 리스트 
-//    @RequestMapping(value = "/my-routes", method = RequestMethod.POST)
-//    public String getMyRoutes(Model model, @SessionAttribute("seqMember") int seqMember) {
-//        List<RouteVO> myRoutes = routeService.getRoutesByMember(seqMember);
-//        model.addAttribute("route", myRoutes);
-//        return "/mypage/my-routes";
-//    }
-//
-//    // 특정 동선 삭제 
-//    @RequestMapping(value = "/my-routes/delete", method = RequestMethod.POST)
-//    public String deleteRoute(@RequestParam int seqRoute) {
-//        routeService.deleteRoute(seqRoute);
-//        return "redirect:/mypage/my-routes";
-//    }
-//
-//    // 좋아요한 동선 리스트
-//    @RequestMapping(value = "/favorites", method = RequestMethod.POST)
-//    public String getFavorites(Model model, @SessionAttribute("seqMember") int seqMember) {
-//        List<RouteVO> favoriteRoutes = routeService.getFavoriteRoutes(seqMember);
-//        model.addAttribute("favoriteRoutes", favoriteRoutes);
-//        return "mypage/favorites";
-//    }
+    // 내가 작성한 동선 리스트 
+    @RequestMapping(value = "/myroutes", method = RequestMethod.POST)
+    public String getMyRoutes(Model model, @SessionAttribute("seqMember") int seqMember) {
+        List<RouteVO> myRoutes = routeService.svcSelectRouteAllMy(seqMember);
+        model.addAttribute("myRoutes", myRoutes);
+        return "mypage/myroutes";
+    }
+
+    // 특정 동선 삭제 
+    @RequestMapping(value = "/myroutes/delete", method = RequestMethod.POST)
+    public String deleteRoute(@RequestParam int seqRoute) {
+        routeService.svcDelectRoute(seqRoute);
+        return "redirect:/mypage/myroutes";
+    }
+
+    // 좋아요한 동선 리스트
+    @RequestMapping(value = "/favorites", method = RequestMethod.POST)
+    public String getFavorites(Model model, @SessionAttribute("seqMember") int seqMember) {
+        List<RouteVO> favoriteRoutes = routeService.svcSelectRouteAllByFork(seqMember);
+        model.addAttribute("favoriteRoutes", favoriteRoutes);
+        return "mypage/favorites";
+    }
 }
 
 

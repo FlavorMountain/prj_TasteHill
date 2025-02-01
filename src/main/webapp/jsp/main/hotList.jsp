@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +8,9 @@
     <title>TasteHILL</title>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/header.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/index.css">
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=${sessionScope.API_KEY}&libraries=places"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/map.css">
 
     <style>
         /* 네비게이션 바 */
@@ -131,7 +134,14 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션 바 -->
+	<!-- 헤더 -->
+<!-- 	<div class="header"> -->
+<!-- 		<a href="/" class="header-logo">TasteHILL</a> <a href="/mypage" -->
+<!-- 			class="header-mypage">MyPage</a> -->
+<!-- 	</div> -->
+
+
+	<!-- 네비게이션 바 -->
 	<div class="navbar">
 	    <div class="logo">TasteHILL</div>
 	    <div class="search-bar">
@@ -143,51 +153,25 @@
 	        <input type="text" placeholder="search place...">
 	        <button>🔍</button>
 	        <button>새 동선 만들기</button>
-	    </div>
+	  	</div>
+	  	
+	  	<a href="${pageContext.request.contextPath}/jsp/mypage/mypage.jsp" class="button">My Page</a>
+	</div>
 	
-	    <!-- 로그인 상태에 따라 버튼 표시 -->
-	   <c:choose>
-    <c:when test="${isLoggedIn}">
-        <a href="${pageContext.request.contextPath}/jsp/mypage/mypage.jsp" class="button">My Page</a>
-    </c:when>
-    <c:otherwise>
-        <a href="${pageContext.request.contextPath}/jsp/member/member_login.jsp" class="button">로그인</a>
-    </c:otherwise>
-</c:choose>
+	<!-- HotList -->
+	<h2>Hot 동선 리스트</h2>
+	<div class="card-list">
+   
+    <c:forEach var="route" items="${hotRoutes}">
+        <div class="card">
+            <img src="${route.image}" alt="동선 이미지">
+            <p class="card-title">${route.title}</p>
+            <p class="card-date">등록일: ${route.date}</p>
+        </div>
+    </c:forEach>
 	</div>
 
-	<!-- Hot 동선 섹션 -->
-	<div>
-	    <h2 class="section-title">Hot 동선</h2>
-	    <div class="card-list">
-	        <c:forEach var="route" items="${seqRoute}">
-	            <div class="card">
-	                <img src="${route.image}" alt="동선 이미지">
-	                <p class="card-title">${route.title}</p>
-	                <p class="card-date">등록일: ${route.date}</p>
-	            </div>
-	        </c:forEach>
-	    </div>
-	    <a href="/home/hotList" class="see-more">더보기 ></a>
-	</div>
-	
-	<!-- My Pinned Route 섹션 -->
-	<div>
-	    <h2 class="section-title">My Pinned Route</h2>
-	    <div class="pinned-route">
-	        <img src="${pinnedRoute.image}" alt="Pinned Route">
-	        <div class="pinned-route-content">
-	            <p class="pinned-route-title">${pinnedRoute.title} 📍</p>
-	            <p class="pinned-route-desc">${pinnedRoute.description}</p>
-	        </div>
-	    </div>
-	</div>
-    
-메인 페이지
-검색바<br>
-<a href="/jsp/route/route_list.jsp" >루트 리스트 - 핫동선</a><br>
-<a href="/jsp/detail/route_detail.jsp" >루트 상세페이지</a><br>
-<a href="/jsp/route/route_create.jsp" >루트 생성 페이지</a><br>
-<a href="/jsp/mypage/mypage.jsp" >마이페이지</a>
+	<!-- 홈으로 돌아가는 버튼 -->
+	<a href="/home">홈으로</a>
 </body>
 </html>
