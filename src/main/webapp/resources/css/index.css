@@ -17,7 +17,7 @@ html, body {
 /* 3. 페이지 전체에 폰트 적용 */
 body {
 	width: 100%;
-    display: flex;
+    display: block;
     flex-direction: column;
     align-items: center;
     justify-content: center;

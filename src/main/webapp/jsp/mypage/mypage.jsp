@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,49 +11,103 @@
 	href="<%=request.getContextPath()%>/resources/css/index.css">
 <style>
 
+/* 네비게이션 바 */
+        .navbar {
+            display: flex;
+            align-items: center;
+            position: relative; /* 중앙 배치를 위한 상대 위치 */
+/*             justify-content: space-between; */
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #004d00;
+        }
+
+        .navbar .search-bar {
+	        position: absolute;
+	    	left: 50%;
+	    	transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar input[type="text"] {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .navbar button {
+            background-color: #004d00;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* 섹션 제목 */
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0 10px;
+            color: #004d00;
+        }
+
 /* 프로필 섹션 */
 .profile-section {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    margin-left: 10px; /* 왼쪽으로 살짝 이동 */
-    margin-top: 50px; /* 위쪽 여백 줄이기 */
-    border-radius: 10px;
-    width: 90%;
-    max-width: 800px;
+	display: flex;
+	align-items: center;
+	padding: 20px;
+	margin-left: 200px;
+    margin-top: 30px; /* 위쪽 여백 줄이기 */
+	border-radius: 10px;
+	width: 90%;
+	max-width: 800px;
 }
 
 .profile-section img {
 	border-radius: 50%;
 	width: 100px;
-    margin-top: 50px; /* 위쪽 여백 줄이기 */
 	height: 100px;
 	margin-right: 20px;
 }
 
+.profile-details {
+	margin-left: 400px;
+    margin-top: -40px;
+	text-align: left;
+}
+
 .profile-details h2 {
-    margin: 0 0 20px -200px;
-    font-size: 20px;
+	margin: 0 0 20px 0;
+	font-size: 20px;
     justify-content: flex-start;
 }
 
 .profile-details p {
-    margin: 5px 0 5px -200px;
-    color: #666;
+	margin: 5px 0;
+	color: #666;
     justify-content: flex-start;
 }
 
 /* 카드 및 섹션 레이아웃 */
 .section {
-	margin-left: 20px;
+	margin-left: 130px;
 	width: 90%;
 	max-width: 800px;
 }
 
 .section-title {
 	font-size: 20px;
-	margin-left: 20px;
+	margin-left: 30px;
 	text-align: left;
 	color: #333;
 }
@@ -68,25 +122,27 @@
 
 .card-container {
 	display: flex;
+	margin-left: 130px;
 	flex-wrap: wrap;
 	gap: 20px;
 	justify-content: flex-start;
 }
 
 .card {
-	width: 200px;
-	border: 1px solid #ddd;
-	border-radius: 10px;
-	overflow: hidden;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	background-color: white;
-	text-align: center;
+    flex: 0 0 calc(25% - 20px); /* 한 줄에 4개 배치 */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .card img {
-	width: 100%;
-	height: 150px;
-	object-fit: cover;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
 
 .card p {
@@ -115,36 +171,48 @@
 </head>
 <body>
 	<!-- 헤더 -->
-	<div class="header">
-		<a href="/" class="header-logo">TasteHILL</a> <a href="/mypage"
-			class="header-mypage">MyPage</a>
-	</div>
+<!-- 	<div class="header"> -->
+<!-- 		<a href="/" class="header-logo">TasteHILL</a> <a href="/mypage" -->
+<!-- 			class="header-mypage">MyPage</a> -->
+<!-- 	</div> -->
+	
+	<!-- 네비게이션 바 -->
+	<div class="navbar">
+	    <div class="logo">TasteHILL</div>
+	    <div class="search-bar">
+	        <select>
+	            <option>위치</option>
+	            <option>서울</option>
+	            <option>부산</option>
+	        </select>
+	        <input type="text" placeholder="search place...">
+	        <button>🔍</button>
+	        <button>새 동선 만들기</button>
+	    </div>
+	    </div>
+  <!-- 프로필 섹션 -->
+    <div class="profile-section">
+        <!-- 프로필 이미지 -->
+        <img id="profilePreview" 
+             src="<%= request.getContextPath() %>/resources/images/default-profile.png" 
+             alt="프로필 이미지" 
+             onclick="openFileInput()" />
 
-	<!-- 프로필 이미지 영역 -->
-<div class="profile-section">
-    <c:choose>
-        <c:when test="${not empty member.profile}">
-            <img id="profilePreview" src="${member.profile}" alt="기본프로필 이미지" onclick="openFileInput()">
-        </c:when>
-    </c:choose>
-</div>
-
-<!-- 프로필 이미지 업로드 폼 (숨겨진 파일 입력창) -->
-<form action="/mypage/profile/upload" method="post" enctype="multipart/form-data" style="display:none;">
-    <input type="file" id="profileImageInput" name="profileImage" accept="image/*" onchange="previewImage(event)">
-    <button type="submit" id="uploadButton">업로드</button>
-</form>
-
-		<div class="profile-details">
-			<h2>nickname ${member.nickname}</h2>
-			<p>
-				<!-- 내 정보 수정 버튼 (모달 열기 트리거) -->
+        <!-- 프로필 정보 -->
+            <h2>nickname${member.nickname}</h2>
+            <p>${member.email}</p>
+            <!-- 내 정보 수정 버튼 (모달 열기 트리거) -->
 				<a href="javascript:void(0);" id="editInfoButton"
 					style="margin-left: 10px; text-decoration: none; color: #004d00; font-weight: bold;">
 					내 정보 수정 > </a>
+    </div>
 
+    <!-- 숨겨진 파일 입력 -->
+    <form action="/mypage/profile/upload" method="post" enctype="multipart/form-data">
+        <input type="file" id="profileImageInput" name="profileImage" accept="image/*" onchange="previewImage(event)" style="display: none;">
+    </form>
 				<!-- 모달 -->
-			<div id="editInfoModal"
+				<div id="editInfoModal"
 				style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
 				<h2>내 정보 수정</h2>
 
@@ -185,14 +253,11 @@
         modal.style.display = 'none';
     }
 </script>
-			</p>
-
-		</div>
-	</div>
+	
 	<!-- 나의 동선 섹션 -->
 	<div class="section">
 		<h3 class="section-title">나의 동선</h3>
-		<a href="<%=request.getContextPath()%>/mypage/my-routes"
+		<a href="<%=request.getContextPath()%>/mypage/myroutes"
 			class="more-link">더보기 ></a>
 		<div class="card-container">
 			<c:forEach var="route" items="${myRoutes}">
@@ -223,6 +288,9 @@
 
 
 	<!-- 링크 목록 -->
+	<br>
+	<br>
+	<br>
 	<nav>
 		<a href="<%=request.getContextPath()%>/jsp/main/main.jsp">메인 페이지</a> <a
 			href="<%=request.getContextPath()%>/jsp/detail/route_detail.jsp">루트
