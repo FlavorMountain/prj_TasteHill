@@ -4,6 +4,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import com.lec.oauth.vo.UsersOauthVO;
+
 import lombok.AllArgsConstructor;
 
 @Data
@@ -19,4 +21,6 @@ public class MemberVO {
     private Date updatedAt;
     private int pinnedRoute;
     private Integer status;
+
+    private UsersOauthVO usersOauthVO; // 1:1 or 1:0 관계 매핑s
 }
