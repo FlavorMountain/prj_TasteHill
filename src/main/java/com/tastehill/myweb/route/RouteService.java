@@ -11,4 +11,6 @@ public interface RouteService {
     
     List<RouteVO> svcSelectHotRoute();
     RouteVO svcSelectPinnedRoute(int seqMember);
+    
+    List<RouteVO> searchRoutes(String query);
 }

@@ -29,7 +29,7 @@ public class MyPageController {
     private RouteService routeService;
 
     // 프로필 정보 조회
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile")
     public String getProfile(Model model, @SessionAttribute(value = "seqMember", required = false) Integer seqMember) {
         if (seqMember == null) {
             return "/jsp/mypage/mypage"; 	//"/jsp/member/member_login; // 로그인 페이지로 이동
@@ -49,7 +49,7 @@ public class MyPageController {
     }
     
  // 닉네임 변경
-    @RequestMapping(value = "/profile/update/nickname", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/update/nickname")
     public String updateNickname(@SessionAttribute("seqMember") int seqMember,
                                  @RequestParam("nickname") String nickname) {
         memberService.svcUpdateMemberNickname(seqMember, nickname);
@@ -57,7 +57,7 @@ public class MyPageController {
     }
 
     // 비밀번호 변경
-    @RequestMapping(value = "/profile/update/password", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/update/password")
     public String updatePassword(@SessionAttribute("seqMember") int seqMember,
                                  @RequestParam("password") String password) {
         memberService.svcUpdateMemberPw(seqMember, password);
@@ -65,7 +65,7 @@ public class MyPageController {
     }
 
     // 회원 탈퇴
-    @RequestMapping(value = "/profile/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/delete")
     public String deleteMember(@SessionAttribute("seqMember") int seqMember, HttpSession session) {
         memberService.svcDeleteMember(seqMember);
         session.invalidate(); // 세션 종료
@@ -76,26 +76,36 @@ public class MyPageController {
 
 
     // 내가 작성한 동선 리스트 
-    @RequestMapping(value = "/myroutes", method = RequestMethod.POST)
-    public String getMyRoutes(Model model, @SessionAttribute("seqMember") int seqMember) {
+    @RequestMapping(value = "/myroutes")
+    public String getMyRoutes(Model model, HttpSession session) {
+        Integer seqMember = (Integer) session.getAttribute("SESS_MEMBER_ID");
+        if (seqMember == null) {
+            return "/jsp/mypage/myroutes"; //"redirect:/loginPage"
+        }
+
         List<RouteVO> myRoutes = routeService.svcSelectRouteAllMy(seqMember);
         model.addAttribute("myRoutes", myRoutes);
-        return "mypage/myroutes";
+        return "/jsp/mypage/myroutes";
     }
 
     // 특정 동선 삭제 
-    @RequestMapping(value = "/myroutes/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/myroutes/delete")
     public String deleteRoute(@RequestParam int seqRoute) {
         routeService.svcDelectRoute(seqRoute);
         return "redirect:/mypage/myroutes";
     }
 
     // 좋아요한 동선 리스트
-    @RequestMapping(value = "/favorites", method = RequestMethod.POST)
-    public String getFavorites(Model model, @SessionAttribute("seqMember") int seqMember) {
-        List<RouteVO> favoriteRoutes = routeService.svcSelectRouteAllByFork(seqMember);
-        model.addAttribute("favoriteRoutes", favoriteRoutes);
-        return "mypage/favorites";
+    @RequestMapping(value = "/forkList")
+    public String getFavorites(Model model, HttpSession session) {
+        Integer seqMember = (Integer) session.getAttribute("SESS_MEMBER_ID");
+        if (seqMember == null) {
+            return "/jsp/fork/forkList";  //"redirect:/loginPage"
+        }
+
+        List<RouteVO> forkRoutes = routeService.svcSelectRouteAllByFork(seqMember);
+        model.addAttribute("forkRoutes", forkRoutes);
+        return "/jsp/fork/forkList";
     }
 }
 

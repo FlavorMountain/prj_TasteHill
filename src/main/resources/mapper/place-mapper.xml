@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
+<mapper namespace="com.tastehill.myweb.mapper.PlaceMapper">
+
+    <!-- 검색 기능 -->
+    <select id="searchPlaces" parameterType="string" resultType="com.tastehill.myweb.place.PlaceVO">
+        SELECT SEQ_PLACE AS seqRestaurnat,
+           NAME AS name,
+           formatted_address AS formatted_address,
+           RATING AS rating
+		FROM Place
+		WHERE NAME LIKE '%' || #{query} || '%'
+			  OR formatted_address LIKE '%' || #{query} || '%'
+		ORDER BY RATING DESC
+    </select>
+
+</mapper>

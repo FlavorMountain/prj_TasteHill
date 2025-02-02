@@ -1,5 +1,7 @@
 package com.tastehill.myweb.place;
 
+import java.util.List;
+
 public interface PlaceService {
-	public int test();
+    List<PlaceVO> searchPlaces(String query);
 }

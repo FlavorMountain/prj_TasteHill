@@ -178,16 +178,20 @@
 	
 	<!-- 네비게이션 바 -->
 	<div class="navbar">
-	    <div class="logo">TasteHILL</div>
+	    <div class="logo">
+	    	<a href="/main" style="text-decoration: none; color: inherit;">TasteHILL</a>
+	    </div>
 	    <div class="search-bar">
-	        <select>
-	            <option>위치</option>
-	            <option>서울</option>
-	            <option>부산</option>
-	        </select>
-	        <input type="text" placeholder="search place...">
-	        <button>🔍</button>
-	        <button>새 동선 만들기</button>
+	        <form action="/searchList" method="get">
+			    <select name="location">
+            	    <option value="">위치</option>
+			        <option value="서울">서울</option>
+			        <option value="부산">부산</option>
+			    </select>
+			    <input type="text" name="query" placeholder="search place...">
+			    <button type="submit">🔍</button>
+	        <button onclick="location.href='/main/route/rout_create'">새 동선 만들기</button>
+			</form>
 	    </div>
 	    </div>
   <!-- 프로필 섹션 -->
@@ -257,8 +261,9 @@
 	<!-- 나의 동선 섹션 -->
 	<div class="section">
 		<h3 class="section-title">나의 동선</h3>
-		<a href="<%=request.getContextPath()%>/mypage/myroutes"
-			class="more-link">더보기 ></a>
+		<form action="<%=request.getContextPath()%>/myroutes" method="post">
+    		<input type="submit" value="더보기" class="more-link">
+		</form>
 		<div class="card-container">
 			<c:forEach var="route" items="${myRoutes}">
 				<div class="card">
@@ -273,8 +278,9 @@
 	<!-- 즐겨찾기 섹션 -->
 	<div class="section">
 		<h3 class="section-title">즐겨찾기</h3>
-		<a href="<%=request.getContextPath()%>/mypage/favorites"
-			class="more-link">더보기 ></a>
+		<form action="<%=request.getContextPath()%>/forkList" method="post">
+    		<input type="submit" value="더보기" class="more-link">
+		</form>
 		<div class="card-container">
 			<c:forEach var="route" items="${favoriteRoutes}">
 				<div class="card">
