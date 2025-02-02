@@ -86,8 +86,8 @@
 
     
     <!-- placeId 기준으로 seq_place 가져와서 아래 속성값들 주르륵 조회하는 방식 -->
-    <select id="selectPlaceSeqByPlaceId" resultType="com.tastehill.myweb.place.PlaceVO">
-        SELECT place_id, name, rating, formatted_address
+    <select id="svcSelectPlaceByPlaceId" resultType="com.tastehill.myweb.place.PlaceVO">
+        SELECT seqPlace, place_id, name, rating, formatted_address
     	FROM place
     	WHERE place_id = #{placeId}
     </select>
