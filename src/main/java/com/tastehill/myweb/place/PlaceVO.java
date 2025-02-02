@@ -14,6 +14,9 @@ public class PlaceVO {
 	private int seqRestaurnat;
     private String status;
     private Result result;
+    private String name;
+    private String formatted_address;
+    private Double rating;
 
     @Getter
     @Setter

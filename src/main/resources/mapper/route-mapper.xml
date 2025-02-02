@@ -49,5 +49,13 @@
             AND m.SEQ_MEMBER = 1
         ORDER BY m.SEQ_MEMBER
     </select>
+    
+    <!-- 검색기능 -->
+    <select id="searchRoutes" parameterType="string" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * FROM Route
+        WHERE TITLE LIKE '%' || #{query} || '%'
+           OR CONTENTS LIKE '%' || #{query} || '%'
+        ORDER BY UPDATED_AT DESC
+    </select>
 
 </mapper>

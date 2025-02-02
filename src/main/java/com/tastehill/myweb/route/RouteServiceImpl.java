@@ -38,4 +38,10 @@ public class RouteServiceImpl implements RouteService {
 	public RouteVO svcSelectPinnedRoute(int seqMember) {
     	return routeMapper.getPinnedRouteBySeqMember(seqMember);
     }
+    
+    @Override
+    public List<RouteVO> searchRoutes(String query) {
+        return routeMapper.searchRoutes(query);
+    }
+    
 }
