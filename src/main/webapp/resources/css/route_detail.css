@@ -1,0 +1,189 @@
+/* Container styles */
+.container {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Map container */
+.map-container {
+    width: 100%;
+    height: 300px;
+    background-color: #f0f0f0;
+    margin-bottom: 20px;
+}
+
+/* Post header */
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;  /* Changed to flex-start */
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    gap: 15px;  /* Added consistent gap */
+}
+
+.post-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.user-nickname {
+    color: #666;
+    text-decoration: none;
+}
+
+.post-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;  /* This pushes the actions to the right */
+}
+
+/* Rest of the styles remain the same */
+.pin-button,
+.like-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Restaurant cards */
+.restaurant-cards {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.restaurant-card {
+    min-width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.restaurant-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.restaurant-info {
+    padding: 15px;
+}
+
+.restaurant-info h3 {
+    margin: 0 0 10px 0;
+}
+
+.hours,
+.address,
+.category {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Post content */
+.post-content {
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+/* Comment section */
+.comment-section {
+    margin-top: 30px;
+}
+
+.comment-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#content {
+    flex: 1;
+    min-height: 60px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+#comment-submit {
+    padding: 10px 20px;
+    background-color: #387160;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#comment-submit:hover {
+    background-color: #2c5749;
+}
+
+/* Comments list */
+.comments-list {
+    margin-bottom: 20px;
+}
+
+.comment {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.comment-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-nickname {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-content {
+    margin-left: 50px;
+    color: #666;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.page-number {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.page-number.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.page-number:hover {
+    background-color: #f0f0f0;
+}
+
+.page-number.active:hover {
+    background-color: #0056b3;
+}

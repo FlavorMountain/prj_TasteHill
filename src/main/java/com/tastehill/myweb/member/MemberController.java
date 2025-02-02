@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lec.oauth.social.SocialType;
 import com.lec.oauth.svc.OauthService;
@@ -39,6 +40,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
 	public String ctlMemberLogin(
 			Model model,
 			@RequestParam("email") String email, 
@@ -53,6 +55,9 @@ public class MemberController {
 			request.getSession().setAttribute("SESS_MEMBER_ID", mvo.getSeqMember());
 			request.getSession().setAttribute("SESS_NICKNAME", mvo.getNickname());
 			request.getSession().setAttribute("SESS_PROFILE", mvo.getProfile());
+			
+			System.out.println();
+			
 			model.addAttribute("MVO", mvo);
 			
 			return "redirect:/loginPage";
@@ -123,7 +128,6 @@ public class MemberController {
 		//ACCESS TOKEN을 사용해 REST 서비스(유저정보) 받기
 		Map<String, String> userInfo = oauthService.svcRequestUserInfo(socialType, accessToken);
 		System.out.println("OauthController.ctlCallback():" + userInfo.toString());
-		//userinfo :: {id=111108297176061140644, email=opencv.korea@gmail.com, verified_email=true, name=OPENCV KOREA, given_name=OPENCV, family_name=KOREA, picture=https://lh3.googleusercontent.com/a/ACg8ocI1r5lwhcKMlKu4FmZQYTsh5Se3b56jPD0WFmn3XrvMWLJ2_pY=s96-c}
 		
 		
 		String viewPage = "lec_oauth/login_page";
@@ -135,7 +139,6 @@ public class MemberController {
 			if (mvo == null) {
 				//OAuth :: 신규 회원일 경우 -- accessToken : 세션에 담고 추가 회원가입페이지로 이동
 				request.getSession().setAttribute("SESS_EMAIL"			, userInfo.get("email"));
-				request.getSession().setAttribute("SESS_PROVIDER"		, socialType);
 				request.getSession().setAttribute("SESS_PICTURE"		, userInfo.get("picture"));
 				request.getSession().setAttribute("SESS_ACCESS_TOKEN"	, accessToken); 
 				request.getSession().setAttribute("SESS_REFRESH_TOKEN"	, refreshToken); 
@@ -152,7 +155,6 @@ public class MemberController {
 		        
 		                
 		        request.getSession().setAttribute("SESS_EMAIL"			, userInfo.get("email"));
-				request.getSession().setAttribute("SESS_PROVIDER"		, socialType);
 				request.getSession().setAttribute("SESS_PICTURE"		, userInfo.get("picture"));
 				//request.getSession().setAttribute("SESS_ACCESS_TOKEN"	, accessToken); 
 				//request.getSession().setAttribute("SESS_REFRESH_TOKEN"	, refreshToken);

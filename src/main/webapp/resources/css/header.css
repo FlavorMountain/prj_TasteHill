@@ -5,7 +5,8 @@
 	display: flex;
 	justify-content: space-between;
 	padding: 0 2rem;
-    height: 2rem;
+    height: 2.5rem;
+    margin-top: 15px;
 }
 
 /* 로고 스타일 */
