@@ -56,7 +56,7 @@ public class RouteController {
 	@ResponseBody
 	@GetMapping("/test")
 	public String test() {
-//		System.out.println(placeService.svcSelectPlaceByPlaceId("ChIJHT_MrIRZezUR-BPnggy311E").toString());
+		System.out.println(placeService.svcSelectPlaceDetailByPlaceID("ChIJHT_MrIRZezUR-BPnggy311E").toString());
 		return "test";
 	}
 }

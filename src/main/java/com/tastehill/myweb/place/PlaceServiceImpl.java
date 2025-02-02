@@ -22,7 +22,8 @@ public class PlaceServiceImpl implements PlaceService{
 	@Autowired
 	CommonService commonService;
 	
-
+	@Autowired
+	PlaceService placeService;
 
 	//placeVO에 연관 VO 5개가 박혀서 6개 한방에 묶었습니다
     @Transactional
@@ -128,7 +129,7 @@ public class PlaceServiceImpl implements PlaceService{
 	        	}
 	        	System.out.println(response.toString());
 	        	System.out.println("Before Insert SEQ: " + response.getSeqPlace());
-	        	svcSavePlace(response);
+	        	placeService.svcSavePlace(response);
 	        	System.out.println("after Insert SEQ: " + response.getSeqPlace());
 	            return response;
 	        }
@@ -138,25 +139,14 @@ public class PlaceServiceImpl implements PlaceService{
 	        return null;
 	    }
 	}
-
-
-
-    
-
-
-	@Override
-	public PlaceVO svcSelectPlaceByPlaceId(String placeId) {
-		return placeMapper.selectPlaceByPlaceId(placeId);
-	}
     
     
 
 
 	@Override
 	public PlaceDetailVO svcSelectPlaceDetailByPlaceID(String placeId) {
-//		PlaceDetailVO pvo = placeMapper.selectPlaceDetailByPlaceID(placeId);
-//		return pvo;
-		return null;
+		PlaceDetailVO pvo = placeMapper.selectPlaceDetailByPlaceID(placeId);
+		return pvo;
 	}
 
 }

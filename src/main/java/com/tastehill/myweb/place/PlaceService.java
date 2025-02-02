@@ -5,6 +5,4 @@ public interface PlaceService {
 	
 	public PlaceDetailVO svcGetPlaceDetail(String placeId,String API_KEY);
 	PlaceDetailVO svcSelectPlaceDetailByPlaceID(String placeId);
-	
-	PlaceVO svcSelectPlaceByPlaceId(String placeId);
 }
