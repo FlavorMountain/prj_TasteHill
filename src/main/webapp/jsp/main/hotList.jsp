@@ -155,23 +155,11 @@
 	        <button>새 동선 만들기</button>
 	  	</div>
 	  	
-	  	<a href="${pageContext.request.contextPath}/jsp/mypage/mypage.jsp" class="button">My Page</a>
-	</div>
-	
-	<!-- HotList -->
-	<h2>Hot 동선 리스트</h2>
-	<div class="card-list">
-   
-    <c:forEach var="route" items="${hotRoutes}">
-        <div class="card">
-            <img src="${route.image}" alt="동선 이미지">
-            <p class="card-title">${route.title}</p>
-            <p class="card-date">등록일: ${route.date}</p>
-        </div>
-    </c:forEach>
+	  	<a href="${pageContext.request.contextPath}/profile" class="button">My Page</a>
 	</div>
 
+
 	<!-- 홈으로 돌아가는 버튼 -->
-	<a href="/home">홈으로</a>
+	<a href="/main">홈으로</a>
 </body>
 </html>

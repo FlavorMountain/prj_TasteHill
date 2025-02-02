@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 
 <!-- 매퍼(1) : 인터페이스(1)  매핑 -->
-<mapper namespace="com.lec.myweb.RouteMapper">
+<mapper namespace="com.tastehill.myweb.mapper.RouteMapper">
 
     <!-- 특정 회원이 작성한 동선 리스트 -->
     <select id="selectRoutesByMember" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
@@ -31,7 +31,6 @@
     <select id="selectHotRoutes" resultType="com.tastehill.myweb.route.RouteVO">
         SELECT * 
         FROM Route
-        WHERE seqMember = 1
         ORDER BY FORK_COUNT DESC
     </select>
     
@@ -47,7 +46,7 @@
             LEFT JOIN ROUTE r ON m.PINNED_ROUTE = r.SEQ_ROUTE
         WHERE 
             m.PINNED_ROUTE IS NOT NULL
-            AND m.SEQ_MEMBER = #{seqMember}
+            AND m.SEQ_MEMBER = 1
         ORDER BY m.SEQ_MEMBER
     </select>
 
