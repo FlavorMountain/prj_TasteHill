@@ -17,18 +17,5 @@ import java.util.List;
 public class PlaceDetailVO {
 	private int seqPlace;
     private String status;
-    private Result result;
-    
-    @Data
-    @ToString
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Result {
-    	private String place_id;
-        private String name;
-        private Double rating;
-        private String formatted_address;
-        private OpeningHoursVO opening_hours; 
-        private List<PhotoVO> photos;     
-        private GeometryVO geometry;
-    }
+    private ResultVO result;
 }

@@ -50,6 +50,7 @@
         initMap();
         
         function initMap() {
+        	/* 오리역 좌표 */
             const center = { lat: 37.339, lng: 127.109 };
             map = new google.maps.Map(document.getElementById("map"), {
                 center: center,

@@ -7,7 +7,7 @@
 
 
 <!-- place.result에 들어갈 vo5개 맵 -->
-<!--    <resultMap id="geometryMap" type="com.tastehill.myweb.place.GeometryVO" >
+   <!-- <resultMap id="geometryMap" type="com.tastehill.myweb.place.GeometryVO" >
         <result property="seqPlace" column="g_seq_place" />
         <result property="place_id" column="g_place_id"/> 
         <association property="location" resultMap="locationMap"/>
@@ -83,18 +83,36 @@
 </select> -->
 
 
+<!-- <resultMap id="placeMap" type="com.tastehill.myweb.place.PlaceVO" >
+        <result property="seqPlace" column="seq_place" />
+        <result property="place_id" column="oh_place_id"/>
+</resultMap> -->
+
+
+    <resultMap id="photoMap" type="com.tastehill.myweb.place.PhotoVO" >
+        <result property="seq_place" column="seq_place" />
+        <result property="place_id" column="place_id"/>
+        <result property="photo_reference" column="photo_reference"/>
+        <result property="photo_url" column="photo_url"/>
+    </resultMap>
+    
+    <resultMap id="weekdayTextMap" type="com.tastehill.myweb.place.WeekdayTextVO" >
+        <result property="seq_place" column="seq_place"/>
+        <result property="place_id" column="place_id"/> 
+        <result property="weekday_text" column="weekday_text"/>
+    </resultMap>
 
     
-    <!-- placeId 기준으로 seq_place 가져와서 아래 속성값들 주르륵 조회하는 방식 -->
-    <select id="svcSelectPlaceByPlaceId" resultType="com.tastehill.myweb.place.PlaceVO">
-        SELECT seqPlace, place_id, name, rating, formatted_address
+    <!-- placeId 기준으로 placeVO 정보 가져오기-->
+    <select id="selectPlaceByPlaceId" resultType="com.tastehill.myweb.place.PlaceVO">
+        SELECT seq_place, place_id, name, rating, formatted_address
     	FROM place
     	WHERE place_id = #{placeId}
     </select>
 
 
     <!-- PHOTO 데이터 조회 -->
-    <select id="selectPhotosByPlaceId" resultType="com.tastehill.myweb.place.PhotoVO">
+    <select id="selectAllPhotosByPlaceId" resultMap="photoMap">
         SELECT PHOTO_REFERENCE, PHOTO_URL, SEQ_PLACE, PLACE_ID
         FROM PHOTO
         WHERE SEQ_PLACE = #{seqPlace}
@@ -108,7 +126,7 @@
     </select>
 
     <!-- WEEKDAY_TEXT 데이터 조회 -->
-    <select id="selectWeekdayTextByPlaceId" resultType="com.tastehill.myweb.place.WeekdayTextVO">
+    <select id="selectAllWeekdayTextByPlaceId" resultMap="weekdayTextMap">
         SELECT SEQ_PLACE, WEEKDAY_TEXT, PLACE_ID
         FROM WEEKDAY_TEXT
         WHERE SEQ_PLACE = #{seqPlace}

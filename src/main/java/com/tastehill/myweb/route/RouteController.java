@@ -45,19 +45,24 @@ public class RouteController {
 
 	@GetMapping("/{placeId}")
 	public ResponseEntity<PlaceDetailVO> getPlaceDetails(@PathVariable String placeId) {
-		PlaceDetailVO response = placeService.svcGetPlaceDetail(placeId, API_KEY);
-		if(response != null) {
-			return ResponseEntity.ok(response);
+		//일단 db에 있는지 찾기
+		PlaceDetailVO response = placeService.svcSelectPlaceDetailByPlaceID(placeId);
+		//없으면 url로 장소상세 요청보내서 가져오고 db에 추가
+		if(response == null) {
+			response = placeService.svcGetPlaceDetail(placeId, API_KEY);
+			if(response != null) {
+				return ResponseEntity.ok(response);
+			}
+			else return ResponseEntity.status(500).body(null);
 		}
-		else return ResponseEntity.status(500).body(null);
-	   
+		else return ResponseEntity.ok(response);
 	}
 	
-	@ResponseBody
-	@GetMapping("/test")
-	public String test() {
-//		System.out.println(placeService.svcSelectPlaceByPlaceId("ChIJHT_MrIRZezUR-BPnggy311E").toString());
-		return "test";
-	}
+//	@ResponseBody
+//	@GetMapping("/test")
+//	public String test() {
+//		System.out.println(placeService.svcSelectPlaceDetailByPlaceID("ChIJHT_MrIRZezUR-BPnggy311E").toString());
+//		return "test";
+//	}
 }
 

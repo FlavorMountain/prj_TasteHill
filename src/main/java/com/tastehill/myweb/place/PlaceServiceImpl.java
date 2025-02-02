@@ -2,6 +2,7 @@ package com.tastehill.myweb.place;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -140,10 +141,6 @@ public class PlaceServiceImpl implements PlaceService{
 	}
 
 
-
-    
-
-
 	@Override
 	public PlaceVO svcSelectPlaceByPlaceId(String placeId) {
 		return placeMapper.selectPlaceByPlaceId(placeId);
@@ -151,12 +148,57 @@ public class PlaceServiceImpl implements PlaceService{
     
     
 
-
+	//트랜잭션으로 묶어서 가져오는 방법으로 변경
+	@Transactional
 	@Override
 	public PlaceDetailVO svcSelectPlaceDetailByPlaceID(String placeId) {
-//		PlaceDetailVO pvo = placeMapper.selectPlaceDetailByPlaceID(placeId);
-//		return pvo;
-		return null;
+		// 장소 정보 받아오기
+		PlaceVO pvo = placeMapper.selectPlaceByPlaceId(placeId);
+		
+		// pvo가 없으면 db에 없는것, 바로 리턴
+		if(pvo == null) return null;
+		
+		
+		// 빈 장소상세 vo 만들기
+		PlaceDetailVO pdvo = new PlaceDetailVO();
+		
+		// 장소상세VO에 값 넣어줄 결과VO 만들기
+		ResultVO rvo = new ResultVO();
+	
+		
+		// 장소상세 vo에 seq랑 status 넣어주기, 이미 db에 들어간거는 항상 응답 성공인걸로 가정
+		int pseq = pvo.getSeq_place();
+		pdvo.setSeqPlace(pseq);
+		pdvo.setStatus("OK");
+		
+		// 결과 vo에 장소 정보 넣어주기
+		rvo.setPlace_id(pvo.getPlace_id());
+		rvo.setName(pvo.getName());
+		rvo.setRating(pvo.getRating());
+		rvo.setFormatted_address(pvo.getFormatted_address());
+
+		
+		// 위도 경도 정보 받아오기
+		GeometryVO gvo = placeMapper.selectGeometryByPlaceId(pseq);
+		LocationVO lvo = placeMapper.selectLocationByPlaceId(pseq);
+		gvo.setLocation(lvo);
+		rvo.setGeometry(gvo);
+		
+		
+		// 영업 정보 받아오기
+		OpeningHoursVO ovo = placeMapper.selectOpeningHoursByPlaceId(pseq);
+		if(ovo != null) {
+			List<WeekdayTextVO> wlist = placeMapper.selectAllWeekdayTextByPlaceId(pseq);
+			ovo.setWeekday_text(wlist);
+			rvo.setOpening_hours(ovo);
+		}
+		
+		// 사진 정보 받아오기
+		List<PhotoVO> plist = placeMapper.selectAllPhotosByPlaceId(pseq);
+		rvo.setPhotos(plist);
+		pdvo.setResult(rvo);
+		
+		return pdvo;
 	}
 
 }

@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GeometryVO {
-	private int seqPlace;
+	private int seq_place;
   	private String place_id;
     private LocationVO location;
 }

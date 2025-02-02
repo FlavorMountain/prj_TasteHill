@@ -12,7 +12,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class PlaceVO {
-	private int seqPlace;
+	private int seq_place;
 	private String name;
     private String place_id;
     private Double rating;

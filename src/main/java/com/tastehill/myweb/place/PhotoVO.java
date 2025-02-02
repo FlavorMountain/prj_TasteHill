@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PhotoVO {
-	private int seqPlace;
+	private int seq_place;
 	private String place_id;
     private String photo_reference;
     private String photo_url;

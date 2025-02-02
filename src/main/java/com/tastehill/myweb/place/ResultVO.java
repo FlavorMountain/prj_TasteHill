@@ -1,4 +1,5 @@
 package com.tastehill.myweb.place;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -13,9 +14,12 @@ import lombok.ToString;
 @Data
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LocationVO {
-	private int seq_place;
-  	private String place_id;
-    private Double lat;
-    private Double lng;
+public class ResultVO {
+	private String place_id;
+    private String name;
+    private Double rating;
+    private String formatted_address;
+    private OpeningHoursVO opening_hours; 
+    private List<PhotoVO> photos;     
+    private GeometryVO geometry;
 }
