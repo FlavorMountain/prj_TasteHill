@@ -1,8 +1,8 @@
 package com.tastehill.myweb.place;
 
 public interface PlaceService {
-	public void svcSavePlace(PlaceVO placeVO);
+	public void svcSavePlace(PlaceDetailVO placeVO);
 	
-	public PlaceVO svcGetPlaceDetail(String placeId,String API_KEY);
-	PlaceVO svcSelectPlaceDetailByPlaceID(String placeId);
+	public PlaceDetailVO svcGetPlaceDetail(String placeId,String API_KEY);
+	PlaceDetailVO svcSelectPlaceDetailByPlaceID(String placeId);
 }

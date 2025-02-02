@@ -7,7 +7,7 @@ import com.tastehill.myweb.common.CommonService;
 import com.tastehill.myweb.place.OpeningHoursVO;
 import com.tastehill.myweb.place.PhotoVO;
 import com.tastehill.myweb.place.PlaceService;
-import com.tastehill.myweb.place.PlaceVO;
+import com.tastehill.myweb.place.PlaceDetailVO;
 
 import java.util.Iterator;
 
@@ -44,8 +44,8 @@ public class RouteController {
 	}
 
 	@GetMapping("/{placeId}")
-	public ResponseEntity<PlaceVO> getPlaceDetails(@PathVariable String placeId) {
-		PlaceVO response = placeService.svcGetPlaceDetail(placeId, API_KEY);
+	public ResponseEntity<PlaceDetailVO> getPlaceDetails(@PathVariable String placeId) {
+		PlaceDetailVO response = placeService.svcGetPlaceDetail(placeId, API_KEY);
 		if(response != null) {
 			return ResponseEntity.ok(response);
 		}

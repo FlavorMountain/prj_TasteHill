@@ -28,7 +28,7 @@ public class PlaceServiceImpl implements PlaceService{
 	//placeVO에 연관 VO 5개가 박혀서 6개 한방에 묶었습니다
     @Transactional
 	@Override
-	public void svcSavePlace(PlaceVO placeVO) {
+	public void svcSavePlace(PlaceDetailVO placeVO) {
     	
         // PLACE 데이터 삽입
         placeMapper.insertPlace(placeVO);
@@ -90,7 +90,7 @@ public class PlaceServiceImpl implements PlaceService{
     
     
     // 새로 장소 저장해서 리턴 or 있는거 select해서 넘겨주기
-    public PlaceVO svcGetPlaceDetail(String placeId,String API_KEY) {
+    public PlaceDetailVO svcGetPlaceDetail(String placeId,String API_KEY) {
 		try {
 	        String url = String.format(
 	                "https://maps.googleapis.com/maps/api/place/details/json?place_id=%s&key=%s&fields=place_id,geometry,name,rating,photos,opening_hours,formatted_address&language=ko",
@@ -102,7 +102,7 @@ public class PlaceServiceImpl implements PlaceService{
 	        System.out.println(url);
 	        
 	       
-	        PlaceVO response = restTemplate.getForObject(url, PlaceVO.class);
+	        PlaceDetailVO response = restTemplate.getForObject(url, PlaceDetailVO.class);
 //	        System.out.println("vo에 담긴 값!");
 	        
 	        //placeID VO마다 담기
@@ -144,8 +144,8 @@ public class PlaceServiceImpl implements PlaceService{
 
 
 	@Override
-	public PlaceVO svcSelectPlaceDetailByPlaceID(String placeId) {
-		PlaceVO pvo = placeMapper.selectPlaceDetailByPlaceID(placeId);
+	public PlaceDetailVO svcSelectPlaceDetailByPlaceID(String placeId) {
+		PlaceDetailVO pvo = placeMapper.selectPlaceDetailByPlaceID(placeId);
 		return pvo;
 	}
 

@@ -14,11 +14,9 @@ import java.util.List;
 @Data
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PlaceVO {
+public class PlaceDetailVO {
 	private int seqPlace;
-	
     private String status;
-    
     private Result result;
     
     @Data
