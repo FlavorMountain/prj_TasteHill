@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.tastehill.myweb.place.PlaceDetailVO;
+import com.tastehill.myweb.place.PlaceVO;
 
 
 @Mapper
@@ -18,7 +19,10 @@ public interface PlaceMapper {
     int insertLocation(Map<String, Object> lmap);
     
     //placeVO + 연계된VO들 전부 싹긁어오는쿼리
-    PlaceDetailVO selectPlaceDetailByPlaceID(@Param("placeId") String placeId);
+    PlaceDetailVO selectPlaceDetailByPlaceId(@Param("placeId") String placeId);
+    
+    PlaceVO selectPlaceByPlaceId(@Param("placeId") String placeId);
+    
     int selectPlaceSeqByPlaceId(@Param("seqPlace") int seqPlace);
     int selectPhotosByPlaceId(@Param("seqPlace") int seqPlace);
     int selectOpeningHoursByPlaceId(@Param("seqPlace") int seqPlace);
