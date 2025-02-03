@@ -59,7 +59,7 @@ public class MemberController {
 
 		MemberVO mvo = svc.svcloginMember(email, pw);
 
-		if (mvo != null) {
+		if (mvo != null && mvo.getStatus() != 0) {
 			request.getSession().setAttribute("SESS_EMAIL", mvo.getEmail());
 			request.getSession().setAttribute("SESS_MEMBER_ID", mvo.getSeqMember());
 			request.getSession().setAttribute("SESS_NICKNAME", mvo.getNickname());
