@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?> 
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
 <mapper namespace="com.tastehill.myweb.mapper.PlaceMapper">
 
-    <!-- 검색 기능 -->
+      <!-- 검색 기능 -->
     <select id="searchPlaces" parameterType="string" resultType="com.tastehill.myweb.place.PlaceVO">
         SELECT SEQ_PLACE AS seqRestaurnat,
            NAME AS name,
@@ -15,5 +16,112 @@
 			  OR formatted_address LIKE '%' || #{query} || '%'
 		ORDER BY RATING DESC
     </select>
+
+
+<resultMap id="placeMap" type="com.tastehill.myweb.place.PlaceVO" >
+        <result property="seqPlace" column="seq_place" />
+        <result property="place_id" column="oh_place_id"/>
+</resultMap> 
+
+
+    <resultMap id="photoMap" type="com.tastehill.myweb.place.PhotoVO" >
+        <result property="seq_place" column="seq_place" />
+        <result property="place_id" column="place_id"/>
+        <result property="photo_reference" column="photo_reference"/>
+        <result property="photo_url" column="photo_url"/>
+    </resultMap>
+    
+    <resultMap id="weekdayTextMap" type="com.tastehill.myweb.place.WeekdayTextVO" >
+        <result property="seq_place" column="seq_place"/>
+        <result property="place_id" column="place_id"/> 
+        <result property="weekday_text" column="weekday_text"/>
+    </resultMap>
+
+    
+    <!-- placeId 기준으로 placeVO 정보 가져오기-->
+    <select id="selectPlaceByPlaceId" resultType="com.tastehill.myweb.place.PlaceVO">
+        SELECT seq_place, place_id, name, rating, formatted_address
+    	FROM place
+    	WHERE place_id = #{placeId}
+    </select>
+
+
+    <!-- PHOTO 데이터 조회 -->
+    <select id="selectAllPhotosByPlaceId" resultMap="photoMap">
+        SELECT PHOTO_REFERENCE, PHOTO_URL, SEQ_PLACE, PLACE_ID
+        FROM PHOTO
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+    <!-- OPENING_HOURS 데이터 조회 -->
+    <select id="selectOpeningHoursByPlaceId" resultType="com.tastehill.myweb.place.OpeningHoursVO">
+        SELECT SEQ_PLACE, PLACE_ID
+        FROM OPENING_HOURS
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+    <!-- WEEKDAY_TEXT 데이터 조회 -->
+    <select id="selectAllWeekdayTextByPlaceId" resultMap="weekdayTextMap">
+        SELECT SEQ_PLACE, WEEKDAY_TEXT, PLACE_ID
+        FROM WEEKDAY_TEXT
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+    <!-- GEOMETRY 데이터 조회 -->
+    <select id="selectGeometryByPlaceId" resultType="com.tastehill.myweb.place.GeometryVO">
+        SELECT SEQ_PLACE, PLACE_ID
+        FROM GEOMETRY
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+    <!-- LOCATION 데이터 조회 -->
+    <select id="selectLocationByPlaceId"  resultType="com.tastehill.myweb.place.LocationVO">
+        SELECT SEQ_PLACE, PLACE_ID, LAT, LNG
+        FROM LOCATION
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+
+<!-- 인서트 -->
+
+
+    <!-- PLACE 데이터 삽입 -->
+    <insert id="insertPlace">
+		<selectKey keyProperty="seqPlace" resultType="int" order="AFTER">
+		    SELECT SEQ_PLACE.CURRVAL FROM DUAL
+		</selectKey>
+        INSERT INTO PLACE (SEQ_PLACE, NAME, RATING, PLACE_ID, FORMATTED_ADDRESS)
+        VALUES (SEQ_PLACE.NEXTVAL, #{result.name}, #{result.rating}, #{result.place_id}, #{result.formatted_address})
+    </insert>
+
+    <!-- PHOTO 데이터 삽입 -->
+	<insert id="insertPhoto" parameterType="map">
+	    INSERT INTO PHOTO (PHOTO_REFERENCE, PHOTO_URL, SEQ_PLACE, PLACE_ID)
+	    VALUES (#{photoReference}, #{photoUrl}, #{seqPlace}, #{placeId})
+	</insert>
+
+    <!-- OPENING_HOURS 데이터 삽입 -->
+    <insert id="insertOpeningHours" parameterType="map">
+        INSERT INTO OPENING_HOURS (SEQ_PLACE, PLACE_ID)
+        VALUES (#{seqPlace}, #{placeId})
+    </insert>
+
+    <!-- WEEKDAY_TEXT 데이터 삽입 -->
+    <insert id="insertWeekdayText" parameterType="map">
+        INSERT INTO WEEKDAY_TEXT (SEQ_PLACE, WEEKDAY_TEXT, PLACE_ID)
+        VALUES (#{seqPlace}, #{weekday_text}, #{placeId})
+    </insert>
+
+    <!-- GEOMETRY 데이터 삽입 -->
+    <insert id="insertGeometry" parameterType="map">
+        INSERT INTO GEOMETRY (SEQ_PLACE, PLACE_ID)
+        VALUES (#{seqPlace}, #{placeId})
+    </insert>
+
+    <!-- LOCATION 데이터 삽입 -->
+    <insert id="insertLocation" parameterType="map">
+        INSERT INTO LOCATION (SEQ_PLACE, PLACE_ID, LAT, LNG)
+        VALUES (#{seqPlace}, #{placeId}, #{lat}, #{lng})
+    </insert>
 
 </mapper>

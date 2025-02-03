@@ -1,21 +1,20 @@
 package com.tastehill.myweb.place;
-
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Data
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PlaceVO {
-	private int seq_place;
-	private String place_id;	
-    private String name;
-    private String formatted_address;
-    private Double rating;
+public class OpeningHoursVO {
+	private int seqPlace;
+	private String place_id;
+    private List<WeekdayTextVO> weekday_text;
 }

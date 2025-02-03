@@ -33,6 +33,7 @@
             <div id="map"></div>
             <div id="selected-list-container">
                 <h3>선택된 음식점 목록</h3>
+                <button onclick="sendSelectedList()">리스트 전송</button>
                 <ul id="selected-list"></ul>
             </div>
         </div>
@@ -50,10 +51,11 @@
         initMap();
         
         function initMap() {
+        	/* 오리역 좌표 */
             const center = { lat: 37.339, lng: 127.109 };
             map = new google.maps.Map(document.getElementById("map"), {
                 center: center,
-                zoom: 20,
+                zoom: 15,
                 styles: [
                     {
                         "featureType": "poi",
@@ -78,11 +80,11 @@
         }
 
         function searchPlaces() {
-            if (currentPolyline) {
+/*             if (currentPolyline) {
                 currentPolyline.setMap(null);
             }
             markers.forEach(marker => marker.setMap(null));
-            markers = [];
+            markers = []; */
             
             const request = {
                 location: map.getCenter(),
@@ -135,11 +137,11 @@
                             (response.result.rating ? response.result.rating + ' / 5.0' : '평점 없음') + '</p>');
                         $('#place-formatted_address').html('<p><strong>주소:</strong><br>' + 
                             response.result.formatted_address + '</p>');
-                        
+                        console.log(response.result.opening_hours);
                         if (response.result.opening_hours && response.result.opening_hours.weekday_text) {
                             let openingHoursHTML = '<p><strong>영업시간:</strong><br>';
                             response.result.opening_hours.weekday_text.forEach(day => {
-                                openingHoursHTML += day + '<br>';
+                                openingHoursHTML += day.weekday_text + '<br>';
                             });
                             openingHoursHTML += '</p>';
                             $('#place-opening_hours').html(openingHoursHTML);
@@ -212,11 +214,35 @@
 
             selectedPlaces.forEach((place, index) => {
                 const item = document.createElement("li");
+                item.setAttribute("data-place-id", place.place_id); // hidden 속성 추가
                 item.innerHTML = index + 1 + ": " + (place.name || "이름 없음") + 
                              " <button onclick=\"removePlace(" + index + ")\">제거</button>";
                 list.appendChild(item);
             });
         }
+        
+        function sendSelectedList() {
+            const listItems = document.querySelectorAll("#selected-list li");
+            const selectedData = [];
+
+            listItems.forEach(item => {
+                selectedData.push({
+                    place_id: item.getAttribute("data-place-id"),
+                    name: item.textContent.replace(/제거$/, '').trim()
+                });
+            });
+
+            fetch("/route/list", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(selectedData)  // JSON을 배열로 보냄
+            }).then(response => response.json())
+              .then(data => console.log("서버 응답:", data))
+              .catch(error => console.error("전송 중 오류 발생:", error));
+        }
+
 
         function removePlace(index) {
             selectedPlaces.splice(index, 1);
