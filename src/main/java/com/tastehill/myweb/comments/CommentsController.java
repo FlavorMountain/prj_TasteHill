@@ -28,18 +28,20 @@ public class CommentsController {
 	public ResponseEntity<Map<String, Object>> insertComment(@RequestBody CommentsVO cvo,
 			HttpSession session) {
 			// 세션에서 현재 로그인한 사용자 정보 가져오기
-			int seqMember = (int) session.getAttribute("SESS_MEMBER_ID");
-			String nickname = (String) session.getAttribute("SESS_NICKNAME");
+//			int seqMember = (int) session.getAttribute("SESS_MEMBER_ID");
+//			String nickname = (String) session.getAttribute("SESS_NICKNAME");
 //			
-			cvo.setSeqMember(seqMember);
-			cvo.setNickname(nickname);
+//			cvo.setSeqMember(seqMember);
+//			cvo.setNickname(nickname);
 
+			cvo.setSeqMember(5);
+			cvo.setNickname("crab");
+//			
 //			service.svcInsertComments(cvo);
 //			
 //			return "redirect: /detail?seqRoute=" + cvo.getSeqRoute();
 
 		    service.svcInsertComments(cvo);
-		    
 			Map<String, Object> response = new HashMap<>();
 		    response.put("status", "200");
 		    response.put("message", "success");

@@ -14,10 +14,10 @@ public interface Oauth {
     default SocialType type() {
         if (this instanceof GoogleOauth) {
             return SocialType.GOOGLE;
-        } else if (this instanceof NaverOauth) {
-            return SocialType.NAVER;
-        } else if (this instanceof KakaoOauth) {
-            return SocialType.KAKAO;
+//        } else if (this instanceof NaverOauth) {
+//            return SocialType.NAVER;
+//        } else if (this instanceof KakaoOauth) {
+//            return SocialType.KAKAO;
         } else {
             return null;
         }

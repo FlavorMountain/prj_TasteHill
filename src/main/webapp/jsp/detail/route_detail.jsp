@@ -168,14 +168,16 @@ $( document ).ready(function() {
 	    	    
 	    	    // 받아온 댓글 목록으로 새로 구성
 	    	    obj.clist.forEach(function(cvo) {
-	    	    	var newComment = '<div class="comment">';
-	    	    	newComment += '<div class="comment-user">';
-	    	    	newComment += '<img src="/resources/images/tastehill.png" alt="프로필" class="profile-image">';
-	    	    	newComment += '<span class="comment-nickname">' + cvo.nickname + '</span>';
-	    	    	newComment += '</div>';
-	    	    	newComment += '<div class="comment-content">' + cvo.contents + '</div>';
-	    	    	newComment += '</div>';
-
+		        const newComment = `
+		            <div class="comment">
+		                <div class="comment-user">
+		                    <img src="/resources/images/tastehill.png" alt="프로필" class="profile-image">
+		                    <span class="comment-nickname">${cvo.NICKNAME}</span>
+		                </div>
+		                <div class="comment-content">${cvo.CONTENTS}</div>
+		            </div>
+		        `;
+	    	        
 	    	        // 댓글 목록에 새로운 댓글 추가
 	    	        $(".comments-list").append(newComment);
 	    	    });
@@ -183,7 +185,7 @@ $( document ).ready(function() {
 	    	    // 입력 필드 초기화
 	    	    $("#content").val("");
 	    	},
-	    	error : function(err) { console.log("에러:" + err) }  
+	    	error 		: function(err) { console.log("에러:" + err) }  
 	    });
 	});
 	
