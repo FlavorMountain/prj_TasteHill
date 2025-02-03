@@ -13,8 +13,8 @@ import lombok.AllArgsConstructor;
 public class CommentsVO {
     private int seqComments;
     private String contents;
-    private Date createdAt;
-    private Date updatedAt;
+    private String createdAt;
+    private String updatedAt;
     private int seqRoute;
     private String nickname;
     private int seqMember;

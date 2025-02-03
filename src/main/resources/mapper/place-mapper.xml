@@ -5,6 +5,17 @@
 
 <mapper namespace="com.tastehill.myweb.mapper.PlaceMapper">
 
+      <!-- 검색 기능 -->
+    <select id="searchPlaces" parameterType="string" resultType="com.tastehill.myweb.place.PlaceVO">
+        SELECT SEQ_PLACE AS seqRestaurnat,
+           NAME AS name,
+           formatted_address AS formatted_address,
+           RATING AS rating
+		FROM Place
+		WHERE NAME LIKE '%' || #{query} || '%'
+			  OR formatted_address LIKE '%' || #{query} || '%'
+		ORDER BY RATING DESC
+    </select>
 
 <!-- place.result에 들어갈 vo5개 맵 -->
    <!-- <resultMap id="geometryMap" type="com.tastehill.myweb.place.GeometryVO" >

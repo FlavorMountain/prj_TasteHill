@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
+<mapper namespace="com.tastehill.myweb.mapper.RouteMapper">
+
+    <!-- 특정 회원이 작성한 동선 리스트 -->
+    <select id="selectRoutesByMember" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * 
+        FROM Route
+        WHERE seqMember = #{seqMember}
+        ORDER BY UPDATED_AT DESC
+    </select>
+
+    <!-- 특정 동선 삭제 -->
+    <delete id="deleteRoute" parameterType="int">
+        DELETE FROM Route
+        WHERE seqRoute = #{seqRoute}
+    </delete>
+
+    <!-- 좋아요/스크랩한 동선 리스트 -->
+    <select id="selectFavoriteRoutes" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT r.* 
+        FROM Route r
+        JOIN Fork f ON r.seqRoute = f.seqRoute
+        WHERE f.seqMember = #{seqMember}
+        ORDER BY UPDATED_AT DESC
+    </select>
+    
+    <!-- Hot 동선 리스트 -->
+    <select id="selectHotRoutes" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * 
+        FROM Route
+        ORDER BY FORK_COUNT DESC
+    </select>
+    
+     <!-- Pinned Route -->
+    <select id="getPinnedRouteBySeqMember" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT 
+            r.TITLE,
+            r.CONTENTS,
+            r.CREATED_AT,
+            r.UPDATED_AT
+        FROM 
+            MEMBER m
+            LEFT JOIN ROUTE r ON m.PINNED_ROUTE = r.SEQ_ROUTE
+        WHERE 
+            m.PINNED_ROUTE IS NOT NULL
+            AND m.SEQ_MEMBER = 1
+        ORDER BY m.SEQ_MEMBER
+    </select>
+    
+    <!-- 검색기능 -->
+    <select id="searchRoutes" parameterType="string" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * FROM Route
+        WHERE TITLE LIKE '%' || #{query} || '%'
+           OR CONTENTS LIKE '%' || #{query} || '%'
+        ORDER BY UPDATED_AT DESC
+    </select>
+
+</mapper>

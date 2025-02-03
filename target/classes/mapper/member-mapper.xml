@@ -20,14 +20,14 @@
 	<select id="selectMemberAll" resultMap="memberMap"> 
 		select *
 		from member
-		order by member_seq
+		order by seq_member
 	</select> 
 	
 	<!-- 회원상세 -->
 	<select id="selectMember" parameterType="int" resultMap="memberMap">
 		select *
 		from member
-		where member_seq = #{member_seq}
+		where seq_member = #{seq_member}
 	</select>
 	
 	<select id="loginMember" resultMap="memberMap">
@@ -65,11 +65,11 @@
     </update>
 
     <!-- 회원 삭제 -->
-    <delete id="deleteMember">
+    <update id="deleteMember">
         UPDATE Member
         SET status = 0
         WHERE seq_member = #{seqMember}
-    </delete>
+    </update>
 	
 	
 </mapper>

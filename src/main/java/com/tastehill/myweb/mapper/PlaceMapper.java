@@ -2,7 +2,6 @@ package com.tastehill.myweb.mapper;
 
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,6 +12,9 @@ import com.tastehill.myweb.place.PhotoVO;
 import com.tastehill.myweb.place.PlaceDetailVO;
 import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.place.WeekdayTextVO;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import com.tastehill.myweb.route.RouteVO;
 
 
 @Mapper
@@ -23,6 +25,7 @@ public interface PlaceMapper {
     int insertWeekdayText(Map<String, Object> wmap);
     int insertGeometry(Map<String, Object> gmap);
     int insertLocation(Map<String, Object> lmap);
+    List<PlaceVO> searchPlaces(@Param("query") String query);
     
     //placeVO + 연계된VO들 전부 싹긁어오는쿼리
 //    PlaceDetailVO selectPlaceDetailByPlaceId(@Param("placeId") String placeId);
@@ -39,4 +42,3 @@ public interface PlaceMapper {
     LocationVO selectLocationByPlaceId(@Param("seqPlace") int seqPlace);
 
 }
-
