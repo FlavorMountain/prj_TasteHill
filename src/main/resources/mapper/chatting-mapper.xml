@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
+<mapper namespace="com.tastehill.myweb.mapper.ChattingMapper">
+
+	<!-- 회원목록 -->
+	<resultMap id="chattingRoomMap" type="com.tastehill.myweb.chat.ChattingRoomVO">
+		<id     property="seqChattingRoom" 	column="seq_chatting_room" />
+		<result property="sender" 	column="sender"/>
+		<result property="receiver" column="receiver"/>
+	</resultMap>
+	
+	
+	<resultMap id="chatMap" type="com.tastehill.myweb.chat.ChatVO">
+		<id     property="seqChat" 	column="seq_chat" />
+		<result property="contents" 	column="contents"/>
+		<result property="createdAt" 	column="created_at"/>
+		<result property="seqMember" 	column="seq_member"/>
+		<result property="seqChattingRoom" 	column="seq_chatting_room"/>
+	</resultMap>
+	
+	
+	<!-- 
+	<select id="selectCommentsAll" resultMap="commentsMap">
+		select *
+		from comments
+		where seq_route = #{seqRoute}
+	</select>
+	
+
+	<insert id="insertComments">
+		insert into comments(seq_comments, contents, created_at, updated_at, seq_route, nickname, seq_member)
+		values(seq_comments.nextval, #{CVO.contents},sysdate, sysdate, #{CVO.seqRoute}, #{CVO.nickname}, #{CVO.seqMember}) 
+	</insert>
+	
+
+    <update id="updateComments">
+        UPDATE comments
+        SET contents = #{contents}
+        WHERE seq_comments = #{seqComments}
+    </update>
+
+
+    <delete id="deleteComments">
+		DELETE comments where seq_comments = #{seqComments};
+    </delete>
+	-->
+	
+</mapper>

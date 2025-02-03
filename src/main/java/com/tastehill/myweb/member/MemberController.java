@@ -26,14 +26,39 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+<<<<<<< Updated upstream
 	public String ctlMemberLogin(@RequestParam("email") String email
 			, @RequestParam("pw") String pw
+=======
+	public String ctlMemberLogin(
+			Model model,
+			@RequestParam("email") String email, 
+			@RequestParam("pw") String pw,
+			HttpServletRequest request
+>>>>>>> Stashed changes
 			) {
 		
 		MemberVO mvo = svc.svcloginMember(email, pw);
 
+<<<<<<< Updated upstream
 		System.out.println(mvo.toString());
 		return "redirect:jsp/member/member_login.jsp";
+=======
+		if (mvo != null) {
+			request.getSession().setAttribute("SESS_EMAIL", mvo.getEmail());
+			request.getSession().setAttribute("SESS_MEMBER_ID", mvo.getSeqMember());
+			request.getSession().setAttribute("SESS_NICKNAME", mvo.getNickname());
+			request.getSession().setAttribute("SESS_PROFILE", mvo.getProfile());
+			
+			System.out.println();
+			
+			model.addAttribute("MVO", mvo);
+
+			return "redirect:/main";
+		} else {
+			return "redirect:/loginPage";
+		}
+>>>>>>> Stashed changes
 	}
 	
 
