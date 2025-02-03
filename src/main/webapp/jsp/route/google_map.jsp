@@ -50,10 +50,11 @@
         initMap();
         
         function initMap() {
+        	/* 오리역 좌표 */
             const center = { lat: 37.339, lng: 127.109 };
             map = new google.maps.Map(document.getElementById("map"), {
                 center: center,
-                zoom: 20,
+                zoom: 15,
                 styles: [
                     {
                         "featureType": "poi",
@@ -78,11 +79,11 @@
         }
 
         function searchPlaces() {
-            if (currentPolyline) {
+/*             if (currentPolyline) {
                 currentPolyline.setMap(null);
             }
             markers.forEach(marker => marker.setMap(null));
-            markers = [];
+            markers = []; */
             
             const request = {
                 location: map.getCenter(),
@@ -135,11 +136,11 @@
                             (response.result.rating ? response.result.rating + ' / 5.0' : '평점 없음') + '</p>');
                         $('#place-formatted_address').html('<p><strong>주소:</strong><br>' + 
                             response.result.formatted_address + '</p>');
-                        
+                        console.log(response.result.opening_hours);
                         if (response.result.opening_hours && response.result.opening_hours.weekday_text) {
                             let openingHoursHTML = '<p><strong>영업시간:</strong><br>';
                             response.result.opening_hours.weekday_text.forEach(day => {
-                                openingHoursHTML += day + '<br>';
+                                openingHoursHTML += day.weekday_text + '<br>';
                             });
                             openingHoursHTML += '</p>';
                             $('#place-opening_hours').html(openingHoursHTML);

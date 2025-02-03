@@ -1,27 +1,25 @@
 package com.tastehill.myweb.place;
-
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PlaceVO {
-	private int seqRestaurnat;
-    private String status;
-    private Result result;
+public class ResultVO {
+	private String place_id;
     private String name;
-    private String formatted_address;
     private Double rating;
+    private String formatted_address;
+    private OpeningHoursVO opening_hours; 
+    private List<PhotoVO> photos;     
+    private GeometryVO geometry;
 }

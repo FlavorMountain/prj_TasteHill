@@ -20,6 +20,12 @@
             <appender-ref ref="console" />
     </logger>   
     
+    <logger name="jdbc.audit" additivity="false">
+    	<level value="OFF" />
+    	<appender-ref ref="console"/>
+	</logger>
+    
+    
 	<!-- Application Loggers -->
 	<logger name="com.spring.aop">
 		<level value="info" />
