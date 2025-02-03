@@ -16,7 +16,7 @@ public interface RouteService {
     
     List<RouteVO> searchRoutes(String query);
   	
-    int svcCreateRouteWithPlaces(RouteVO route, List<PlaceVO> places);
+    int svcInsertRouteWithPlaces(RouteVO route, List<PlaceVO> places);
     
     //멤버가 작성한 루트 리스트
     List<RouteVO> svcSelectRoutesAndPlaceByMember(int seqMember);

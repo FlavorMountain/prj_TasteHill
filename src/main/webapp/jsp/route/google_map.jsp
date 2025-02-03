@@ -27,15 +27,26 @@
         
         <div id="map-container">
             <div class="controls">
-                <button onclick="searchPlaces()">주변 음식점 검색</button>
-                <button onclick="drawRoute()">경로 그리기</button>
+            <button class="control-btn" onclick="searchPlaces()">주변 음식점 검색</button>
+            <button class="control-btn" onclick="drawRoute()">경로 그리기</button>
             </div>
             <div id="map"></div>
-            <div id="selected-list-container">
-                <h3>선택된 음식점 목록</h3>
-                <button onclick="sendSelectedList()">리스트 전송</button>
-                <ul id="selected-list"></ul>
+        <div id="selected-list-container">
+            <h3>선택된 음식점 목록</h3>
+            <div id="post-form">
+                <div class="form-group">
+                    <label for="post-title">글 제목:</label>
+                    <input type="text" id="post-title" class="form-control" maxlength="100">
+                    <span class="error-message" id="title-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="post-content">글 내용:</label>
+                    <textarea id="post-content" class="form-control" rows="3" maxlength="1000"></textarea>
+                    <span class="error-message" id="content-error"></span>
+                </div>
             </div>
+            <button class="submit-btn" onclick="validateAndSend()">리스트 전송</button>
+            <ul id="selected-list"></ul>
         </div>
     </div>
 
@@ -55,7 +66,7 @@
             const center = { lat: 37.339, lng: 127.109 };
             map = new google.maps.Map(document.getElementById("map"), {
                 center: center,
-                zoom: 15,
+                zoom: 16,
                 styles: [
                     {
                         "featureType": "poi",
@@ -137,7 +148,7 @@
                             (response.result.rating ? response.result.rating + ' / 5.0' : '평점 없음') + '</p>');
                         $('#place-formatted_address').html('<p><strong>주소:</strong><br>' + 
                             response.result.formatted_address + '</p>');
-                        console.log(response.result.opening_hours);
+                        //console.log(response.result.opening_hours);
                         if (response.result.opening_hours && response.result.opening_hours.weekday_text) {
                             let openingHoursHTML = '<p><strong>영업시간:</strong><br>';
                             response.result.opening_hours.weekday_text.forEach(day => {
@@ -223,24 +234,46 @@
         
         function sendSelectedList() {
             const listItems = document.querySelectorAll("#selected-list li");
-            const selectedData = [];
-
+            const selectedData = {
+                places: [],
+                title: document.getElementById("post-title").value.trim(),
+                contents: document.getElementById("post-content").value.trim()
+            };
+            
             listItems.forEach(item => {
-                selectedData.push({
+                selectedData.places.push({
                     place_id: item.getAttribute("data-place-id"),
                     name: item.textContent.replace(/제거$/, '').trim()
                 });
             });
+
+            console.log(selectedData);
+
+            // 로딩 상태 표시
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.textContent = '저장 중...';
+            submitBtn.disabled = true;
 
             fetch("/route/list", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(selectedData)  // JSON을 배열로 보냄
-            }).then(response => response.json())
-              .then(data => console.log("서버 응답:", data))
-              .catch(error => console.error("전송 중 오류 발생:", error));
+                body: JSON.stringify(selectedData)
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url; // 서버에서 보낸 redirect 주소로 이동
+                } else {
+                    throw new Error('리다이렉트되지 않았습니다.');
+                }
+            })
+            .catch(error => {
+                console.error("전송 중 오류 발생:", error);
+                alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
+                submitBtn.textContent = '리스트 전송';
+                submitBtn.disabled = false;
+            });
         }
 
 
@@ -277,6 +310,64 @@
             });
 
             currentPolyline.setMap(map);
+        }
+        
+        // 글작성하고 유효성 검사하는 부분
+        function validateForm() {
+            let isValid = true;
+            const title = document.getElementById("post-title").value.trim();
+            const content = document.getElementById("post-content").value.trim();
+            const selectedPlacesCount = document.querySelectorAll("#selected-list li").length;
+            
+            // 제목 검사
+            if (title === "") {
+                document.getElementById("title-error").textContent = "제목을 입력해주세요.";
+                isValid = false;
+            } else if (title.length < 2) {
+                document.getElementById("title-error").textContent = "제목은 2자 이상이어야 합니다.";
+                isValid = false;
+            } else {
+                document.getElementById("title-error").textContent = "";
+            }
+            
+            // 내용 검사
+            if (content === "") {
+                document.getElementById("content-error").textContent = "내용을 입력해주세요.";
+                isValid = false;
+            } else if (content.length < 10) {
+                document.getElementById("content-error").textContent = "내용은 10자 이상이어야 합니다.";
+                isValid = false;
+            } else {
+                document.getElementById("content-error").textContent = "";
+            }
+            
+            // 선택된 장소 검사
+            if (selectedPlacesCount === 0) {
+                alert("최소 1개 이상의 장소를 선택해주세요.");
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // 입력 필드 이벤트 리스너 추가
+        document.getElementById("post-title").addEventListener("input", function() {
+            if (this.value.trim().length >= 2) {
+                document.getElementById("title-error").textContent = "";
+            }
+        });
+
+        document.getElementById("post-content").addEventListener("input", function() {
+            if (this.value.trim().length >= 10) {
+                document.getElementById("content-error").textContent = "";
+            }
+        });
+        
+     // 유효성 검사 후 전송하는 함수
+        function validateAndSend() {
+            if (validateForm()) {
+                sendSelectedList();
+            }
         }
     </script>
 </body>

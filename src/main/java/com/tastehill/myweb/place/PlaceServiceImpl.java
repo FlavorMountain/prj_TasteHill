@@ -175,14 +175,12 @@ public class PlaceServiceImpl implements PlaceService{
 		// pvo가 없으면 db에 없는것, 바로 리턴
 		if(pvo == null) return null;
 		
-		
 		// 빈 장소상세 vo 만들기
 		PlaceDetailVO pdvo = new PlaceDetailVO();
 		
 		// 장소상세VO에 값 넣어줄 결과VO 만들기
 		ResultVO rvo = new ResultVO();
 	
-		
 		// 장소상세 vo에 seq랑 status 넣어주기, 이미 db에 들어간거는 항상 응답 성공인걸로 가정
 		int pseq = pvo.getSeq_place();
 		pdvo.setSeqPlace(pseq);
@@ -200,7 +198,6 @@ public class PlaceServiceImpl implements PlaceService{
 		LocationVO lvo = placeMapper.selectLocationByPlaceId(pseq);
 		gvo.setLocation(lvo);
 		rvo.setGeometry(gvo);
-		
 		
 		// 영업 정보 받아오기
 		OpeningHoursVO ovo = placeMapper.selectOpeningHoursByPlaceId(pseq);
