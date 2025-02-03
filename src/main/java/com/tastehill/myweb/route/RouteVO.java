@@ -4,6 +4,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+
+import com.tastehill.myweb.place.PlaceVO;
 
 import lombok.AllArgsConstructor;
 
@@ -11,12 +14,14 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RouteVO {
-    private int seqRoute;
+    private int seq_route;
     private String title;
     private String contents;
     private int seqMember;
-    private Date createdAt;
-    private Date updatedAt;
+    private String createdAt;
+    private String updatedAt;
     private int forkCount;
-    private int thumbUpCount;
+    
+    //다대다 해결을 위한
+    private List<RoutePlaceVO> places;
 }
