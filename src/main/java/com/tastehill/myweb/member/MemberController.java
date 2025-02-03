@@ -73,8 +73,8 @@ public class MemberController {
 		}
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public String ctlFormLoginProcess(Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String ctlFormLoginProcess(HttpServletRequest request) {
 		request.getSession().invalidate();
 		request.getSession().setMaxInactiveInterval(0);
 		return "redirect: /loginPage";

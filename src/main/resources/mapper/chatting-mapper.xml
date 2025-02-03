@@ -21,11 +21,11 @@
 	</resultMap>
 	
 	
-	<!-- 
-	<select id="selectCommentsAll" resultMap="commentsMap">
+	<select id="selectChattingRoomList" resultMap="chattingRoomMap">
 		select *
-		from comments
-		where seq_route = #{seqRoute}
+		from chatting_room
+		where sender = #{seqMember} or receiver = #{seqMember}
+		order by 
 	</select>
 	
 
@@ -45,6 +45,5 @@
     <delete id="deleteComments">
 		DELETE comments where seq_comments = #{seqComments};
     </delete>
-	-->
 	
 </mapper>
