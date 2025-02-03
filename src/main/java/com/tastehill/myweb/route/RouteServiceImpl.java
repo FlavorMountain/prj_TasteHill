@@ -43,5 +43,11 @@ public class RouteServiceImpl implements RouteService {
     public List<RouteVO> searchRoutes(String query) {
         return routeMapper.searchRoutes(query);
     }
+
+	@Override
+	public int test() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
     
 }
