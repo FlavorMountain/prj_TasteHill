@@ -9,6 +9,7 @@
 		<id     property="seqChattingRoom" 	column="seq_chatting_room" />
 		<result property="sender" 	column="sender"/>
 		<result property="receiver" column="receiver"/>
+		<result property="updatedAt" column="updated_at"/>
 	</resultMap>
 	
 	
@@ -25,25 +26,32 @@
 		select *
 		from chatting_room
 		where sender = #{seqMember} or receiver = #{seqMember}
-		order by 
+		order by updated_at desc
+	</select>
+	
+	<select id="selectChattingRoom" resultMap="chattingRoomMap">
+		select *
+		from chatting_room
+		where (sender = #{sender} and receiver = #{receiver}) or (sender = #{receiver} and receiver = #{sender})
+	</select>
+	
+	<select id="selectChattingList" resultMap="chatMap">
+		select *
+		from chat
+		where seq_chatting_room = #{seqChattingRoom}
+		order by created_at desc
 	</select>
 	
 
-	<insert id="insertComments">
-		insert into comments(seq_comments, contents, created_at, updated_at, seq_route, nickname, seq_member)
-		values(seq_comments.nextval, #{CVO.contents},sysdate, sysdate, #{CVO.seqRoute}, #{CVO.nickname}, #{CVO.seqMember}) 
+	<insert id="insertChattingRoom">
+		insert into chatting_room(seq_chatting_room, sender, receiver, updated_at)
+		values(seq_chatting_room.nextval, #{RVO.sender}, #{RVO.receiver}, sysdate) 
 	</insert>
 	
-
-    <update id="updateComments">
-        UPDATE comments
-        SET contents = #{contents}
-        WHERE seq_comments = #{seqComments}
-    </update>
-
-
-    <delete id="deleteComments">
-		DELETE comments where seq_comments = #{seqComments};
-    </delete>
 	
+	<insert id="insertChatting">
+		insert into chat(seq_chat, contents, created_at, seq_member, seq_chatting_room)
+		values(seq_chat.nextval, #{CVO.contents}, sysdate, #{CVO.seq_member}, #{CVO.seq_chatting_room}) 
+	</insert>
+
 </mapper>

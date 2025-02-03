@@ -15,4 +15,5 @@ public class ChattingRoomVO {
     private int seqChattingRoom;
     private int sender;
     private int receiver;
+    private String updatedAt;
 }
