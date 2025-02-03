@@ -1,18 +1,9 @@
 package com.tastehill.myweb.route;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import com.tastehill.myweb.place.PlaceVO;
 
-import org.springframework.http.ResponseEntity;
-
-import com.tastehill.myweb.place.OpeningHoursVO;
-import com.tastehill.myweb.place.PhotoVO;
-import com.tastehill.myweb.place.PlaceDetailVO;
-import com.tastehill.myweb.route.RouteVO;
-  import org.springframework.http.ResponseEntity;
-
-import com.tastehill.myweb.place.OpeningHoursVO;
-import com.tastehill.myweb.place.PhotoVO;
-import com.tastehill.myweb.place.PlaceDetailVO;
 
 
 public interface RouteService {
@@ -24,5 +15,14 @@ public interface RouteService {
     RouteVO svcSelectPinnedRoute(int seqMember);
     
     List<RouteVO> searchRoutes(String query);
-  	public int test();
+  	
+    int svcCreateRouteWithPlaces(RouteVO route, List<PlaceVO> places);
+    
+    //멤버가 작성한 루트 리스트
+    List<RouteVO> svcSelectRoutesAndPlaceByMember(int seqMember);
+    //특정 루트 가져오기
+    RouteVO svcSelectRoutesAndPlaceBySeqRoute(int seq_route);
+    //모든 루트 리스트
+    List<RouteVO> svcSelectAllRoutesAndPlace();
+
 }

@@ -4,12 +4,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import com.tastehill.myweb.common.CommonService;
+import com.tastehill.myweb.mapper.PlaceMapper;
 import com.tastehill.myweb.place.OpeningHoursVO;
 import com.tastehill.myweb.place.PhotoVO;
 import com.tastehill.myweb.place.PlaceService;
+import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.place.PlaceDetailVO;
 
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,6 +32,9 @@ public class RouteController {
 	
 	@Autowired
 	PlaceService placeService;
+	
+	@Autowired
+	RouteService routeService;
 
 	@Value("${google.map.apiKey}")
 	private String API_KEY;
@@ -58,11 +64,44 @@ public class RouteController {
 		else return ResponseEntity.ok(response);
 	}
 	
-//	@ResponseBody
-//	@GetMapping("/test")
-//	public String test() {
-//		System.out.println(placeService.svcSelectPlaceDetailByPlaceID("ChIJHT_MrIRZezUR-BPnggy311E").toString());
-//		return "test";
-//	}
+	 @PostMapping("/list")
+	    public ResponseEntity<String> receivePlaces(@RequestBody List<PlaceVO> plist) {
+	        // 받은 데이터 출력
+	        for (PlaceVO place : plist) {
+	        	System.out.println(place.toString());
+	        }
+	        RouteVO rvo = new RouteVO();
+	        rvo.setContents("test contents");
+	        rvo.setSeqMember(1);
+	        rvo.setTitle("test title");
+	        routeService.svcCreateRouteWithPlaces(rvo, plist);
+
+	        return ResponseEntity.ok("데이터 수신 완료");
+	    }
+	 
+	 @GetMapping("/placeMember")
+	    public ResponseEntity<String> getRoutePlacesByMember() {
+	        List<RouteVO> rlist = routeService.svcSelectRoutesAndPlaceByMember(1);
+	        System.out.println(rlist.toString());
+
+	        return ResponseEntity.ok("데이터 수신 완료");
+	    }
+	 
+	 @GetMapping("/placeSeq")
+	    public ResponseEntity<String> getRoutePlaceBySeq() {
+		 	RouteVO rvo = routeService.svcSelectRoutesAndPlaceBySeqRoute(25);
+		 	System.out.println(rvo.toString());
+	        return ResponseEntity.ok("데이터 수신 완료");
+	    }
+	 
+	 
+	 @GetMapping("/placeAll")
+	    public ResponseEntity<String> getRoutePlacesAll() {
+	        List<RouteVO> rlist = routeService.svcSelectAllRoutesAndPlace();
+	        System.out.println(rlist.toString());
+	        return ResponseEntity.ok("데이터 수신 완료");
+	    }
+	
+
 }
 

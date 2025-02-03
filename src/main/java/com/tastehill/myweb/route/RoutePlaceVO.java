@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import com.tastehill.myweb.place.PlaceVO;
+
 import lombok.AllArgsConstructor;
 
 
@@ -12,9 +14,11 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoutePlaceVO {
-    private int seqRoute;
-    private int seqPlace;
+    private int seq_route;
+    private int seq_place;
     private int order;
     private int price;
+    
+    private PlaceVO place;
 }
 
