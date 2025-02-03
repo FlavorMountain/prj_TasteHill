@@ -69,7 +69,7 @@
         <association property="result" resultMap="resultInnerMap"/>
     </resultMap>
     
-    이래도 되나
+   
 <select id="selectPlaceDetailByPlaceID" resultMap="placeDetailMap">
     		SELECT  
 		    p.seq_place as p_seqPlace, 
@@ -91,13 +91,12 @@
     LEFT JOIN opening_hours oh ON p.place_id = oh.place_id
     LEFT JOIN weekday_text w ON oh.place_id = w.place_id
 		WHERE p.place_id = #{placeId};
-</select> -->
+</select>  -->
 
-
-<!-- <resultMap id="placeMap" type="com.tastehill.myweb.place.PlaceVO" >
+<resultMap id="placeMap" type="com.tastehill.myweb.place.PlaceVO" >
         <result property="seqPlace" column="seq_place" />
         <result property="place_id" column="oh_place_id"/>
-</resultMap> -->
+</resultMap> 
 
 
     <resultMap id="photoMap" type="com.tastehill.myweb.place.PhotoVO" >
