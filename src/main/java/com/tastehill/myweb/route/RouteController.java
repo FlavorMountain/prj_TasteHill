@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/route")
@@ -38,14 +39,16 @@ public class RouteController {
 	private String API_KEY;
 	
 	@GetMapping("")
-	public String getMap(HttpServletRequest request) {
+	public String getMap(HttpServletRequest request, Model model) {
 		
 		HttpSession session =  request.getSession();
 		//테스트용 멤버 1번
 		session.setAttribute("SESS_MEMBER_ID", 1);
 		session.setAttribute("API_KEY", API_KEY);
-		return "jsp/route/google_map";
+		model.addAttribute("content", "/jsp/route/google_map.jsp");
+		return "index";
 	}
+	
 
 	@GetMapping("/{placeId}")
 	public ResponseEntity<PlaceDetailVO> getPlaceDetails(@PathVariable String placeId) {
