@@ -65,8 +65,6 @@ public class MemberController {
 			request.getSession().setAttribute("SESS_NICKNAME", mvo.getNickname());
 			request.getSession().setAttribute("SESS_PROFILE", mvo.getProfile());
 
-			System.out.println(mvo.toString());
-
 			model.addAttribute("MVO", mvo);
 
 			return "redirect: /profile";
