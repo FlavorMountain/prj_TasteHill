@@ -5,10 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>My Page</title>
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/resources/css/header.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/resources/css/index.css">
 <style>
 
 /* 네비게이션 바 */
@@ -17,15 +13,7 @@
             align-items: center;
             position: relative; /* 중앙 배치를 위한 상대 위치 */
 /*             justify-content: space-between; */
-            padding: 10px 20px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #004d00;
+            padding: 20px 20px;
         }
 
         .navbar .search-bar {
@@ -152,21 +140,44 @@
 }
 </style>
 <script>
-        // 이미지 미리보기 기능
-        function previewImage(event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('profilePreview');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
+function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function () {
+        var output = document.getElementById('profilePreview');
+        if (output) {
+            output.src = reader.result; // 미리보기 기능
         }
+    };
 
-        // 파일 선택창 열기
-        function openFileInput() {
-            document.getElementById('profileImageInput').click();
-        }
-    </script>
+    if (event.target.files.length > 0) {
+        reader.readAsDataURL(event.target.files[0]);
+
+        // 서버에 파일 업로드 요청
+        var formData = new FormData();
+        formData.append("profileImage", event.target.files[0]);
+
+        fetch("/profile/upload", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(fileUrl => {
+            console.log("업로드된 이미지 URL:", fileUrl);
+
+            // 업로드된 파일을 즉시 반영 (캐싱 방지용 timestamp 추가)
+            document.getElementById('profilePreview').src = fileUrl + "?t=" + new Date().getTime();
+        })
+        .catch(error => {
+            console.error("파일 업로드 실패:", error);
+        });
+    }
+}
+
+// 파일 입력창 열기
+function openFileInput() {
+    document.getElementById('profileImageInput').click();
+}
+</script>
 
 </head>
 <body>
@@ -178,9 +189,6 @@
 	
 	<!-- 네비게이션 바 -->
 	<div class="navbar">
-	    <div class="logo">
-	    	<a href="/main" style="text-decoration: none; color: inherit;">TasteHILL</a>
-	    </div>
 	    <div class="search-bar">
 	        <form action="/searchList" method="get">
 			    <select name="location">
@@ -198,12 +206,12 @@
     <div class="profile-section">
         <!-- 프로필 이미지 -->
         <img id="profilePreview" 
-             src="<%= request.getContextPath() %>/resources/images/default-profile.png" 
-             alt="프로필 이미지" 
-             onclick="openFileInput()" />
+			 src="${member.profile}" 
+			 alt="프로필 이미지" 
+			 onclick="openFileInput()" />
 
         <!-- 프로필 정보 -->
-            <h2>nickname${member.nickname}</h2>
+            <h2>${member.nickname}</h2>
             <p>${member.email}</p>
             <!-- 내 정보 수정 버튼 (모달 열기 트리거) -->
 				<a href="javascript:void(0);" id="editInfoButton"
@@ -212,8 +220,8 @@
     </div>
 
     <!-- 숨겨진 파일 입력 -->
-    <form action="/mypage/profile/upload" method="post" enctype="multipart/form-data">
-        <input type="file" id="profileImageInput" name="profileImage" accept="image/*" onchange="previewImage(event)" style="display: none;">
+    <form id="profileUploadForm" action="/profile/upload" method="post" enctype="multipart/form-data">
+        <input type="file" id="profileImageInput" name="profileImage" accept="image/*" style="display: none;" onchange="previewImage(event)">
     </form>
 				<!-- 모달 -->
 				<div id="editInfoModal"
@@ -221,21 +229,21 @@
 				<h2>내 정보 수정</h2>
 
 				<!-- 닉네임 변경 -->
-				<form action="/mypage/profile/update/nickname" method="post">
+				<form action="/profile/update/nickname" method="post">
 					<label for="nickname">닉네임 변경:</label> <input type="text"
 						name="nickname" required />
 					<button type="submit">변경</button>
 				</form>
 
 				<!-- 비밀번호 변경 -->
-				<form action="/mypage/profile/update/password" method="post">
+				<form action="/profile/update/password" method="post">
 					<label for="password">비밀번호 변경:</label> <input type="password"
 						name="password" required />
 					<button type="submit">변경</button>
 				</form>
 
 				<!-- 회원 탈퇴 -->
-				<form action="/mypage/profile/delete" method="post">
+				<form action="/profile/delete" method="post">
 					<button type="submit" style="color: red;">회원 탈퇴</button>
 				</form>
 
@@ -257,26 +265,27 @@
         modal.style.display = 'none';
     }
 </script>
+
 	
+		
 	<!-- 나의 동선 섹션 -->
-	<div class="section">
+	<div>
 		<h3 class="section-title">나의 동선</h3>
+		<div class="card-list">
+			<c:forEach var="route" items="${myRoutes}">
+				<div class="card">
+					<p class="card-title">${route.title}</p>
+					<p class="card-date">등록일 ${route.updatedAt}</p>
+				</div>
+			</c:forEach>
+		</div>	
 		<form action="<%=request.getContextPath()%>/myroutes" method="post">
     		<input type="submit" value="더보기" class="more-link">
 		</form>
-		<div class="card-container">
-			<c:forEach var="route" items="${myRoutes}">
-				<div class="card">
-					<img src="${route.image}" alt="동선 이미지">
-					<p>${route.title}</p>
-					<p>등록일 ${route.date}</p>
-				</div>
-			</c:forEach>
-		</div>
 	</div>
 
 	<!-- 즐겨찾기 섹션 -->
-	<div class="section">
+	<div>
 		<h3 class="section-title">즐겨찾기</h3>
 		<form action="<%=request.getContextPath()%>/forkList" method="post">
     		<input type="submit" value="더보기" class="more-link">
@@ -284,7 +293,6 @@
 		<div class="card-container">
 			<c:forEach var="route" items="${favoriteRoutes}">
 				<div class="card">
-					<img src="${route.image}" alt="동선 이미지">
 					<p>${route.title}</p>
 					<p>등록일 ${route.date}</p>
 				</div>
