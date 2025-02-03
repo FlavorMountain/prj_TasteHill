@@ -1,13 +1,14 @@
 
 /* 헤더 스타일 */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-    padding: 0 40px;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #ddd;
+
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 2rem;
+    height: 2.5rem;
+    margin-top: 15px;
+
 }
 
 /* 로고 스타일 */
