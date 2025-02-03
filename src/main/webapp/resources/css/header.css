@@ -1,18 +1,18 @@
 
 /* 헤더 스타일 */
 .header {
+
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	padding: 0 2rem;
     height: 2.5rem;
     margin-top: 15px;
+
 }
 
 /* 로고 스타일 */
 .header .header-logo {
-	display: block;
-	width: min-content;
     font-size: 24px;
     font-weight: bold;
     color: #004d00;
@@ -21,8 +21,6 @@
 
 /* MyPage 링크 스타일 */
 .header .header-mypage {
-	display: block;
-	width: min-content;
     font-size: 16px;
     color: #004d00;
     text-decoration: none;

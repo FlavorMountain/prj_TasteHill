@@ -11,8 +11,12 @@ import java.util.List;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceVO {
+	private int seqRestaurnat;
     private String status;
     private Result result;
+    private String name;
+    private String formatted_address;
+    private Double rating;
 
     @Getter
     @Setter
@@ -21,37 +25,18 @@ public class PlaceVO {
     public static class Result {
         private String name;
         private Double rating;
-        private Geometry geometry;
-        private List<String> types;
+        private String formatted_address;
         
-//        @JsonProperty("opening_hours")
         private OpeningHours opening_hours;
         private List<Photo> photos;
     }
 
-    @Getter
-    @Setter
-    @ToString
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Geometry {
-        private Location location;
-    }
-
-    @Getter
-    @Setter
-    @ToString
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Location {
-        private Double lat;
-        private Double lng;
-    }
 
     @Getter
     @Setter
     @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class OpeningHours {
-//        @JsonProperty("weekday_text")
         private List<String> weekday_text;
     }
 
@@ -60,7 +45,6 @@ public class PlaceVO {
     @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Photo {
-//        @JsonProperty("photo_reference")
         private String photo_reference;
         private String photo_url;
         
