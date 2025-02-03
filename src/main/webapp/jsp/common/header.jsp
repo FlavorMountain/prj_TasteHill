@@ -8,8 +8,10 @@
 		<a href="/loginPage" class="header-mypage">LOGIN</a>
 	</c:if>
 	<c:if test="${not empty sessionScope.SESS_MEMBER_ID}">
-		<a href="/mypage" class="header-mypage">MyPage</a>
-		<a href="/logout" class="header-mypage">LOG OUT</a>
+		<div>
+			<a href="/mypage" class="header-mypage">MyPage</a>
+			<a href="/logout" class="header-mypage">LogOut</a>
+		</div>
 	</c:if>
 	
 </div>
