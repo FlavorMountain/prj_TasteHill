@@ -12,7 +12,7 @@ public interface MemberService {
     int svcUpdateMemberNickname(int seqMember, String nickname);
 
     // 프로필 이미지 변경
-    int svcUpdateMemberProfile(int seqMember, String profilePath);
+    int svcUpdateMemberProfile(int seqMember, String profile);
 	int svcUpdateMemberPinnedRoute(int seqMember, int seqRoute);
 	int svcUpdateMemberPw(int seqMember, String pw);
 	int svcDeleteMember(int status);

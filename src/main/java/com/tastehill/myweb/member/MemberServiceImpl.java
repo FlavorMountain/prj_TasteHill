@@ -38,12 +38,10 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.selectMemberAll();
 	}
 
-
 	@Override
-	public int svcUpdateMemberProfile(int seqMember, String profile) {
-	    System.out.println("Updating profile for member ID: " + seqMember + " with profile: " + profile);
-	    return mapper.updateMemberProfileImage(seqMember, profile);
-	}
+    public int svcUpdateMemberProfile(int seqMember, String profile) {
+        return mapper.updateMemberProfileImage(seqMember, profile);
+    }
 
 	@Transactional
     @Override

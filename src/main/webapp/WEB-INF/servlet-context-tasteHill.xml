@@ -117,11 +117,6 @@
 		<aop:advisor advice-ref="ID_tx_advice"  pointcut-ref="ID_cut"/>
 	</aop:config>
 	
-<bean id="multipartResolver"
-      class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    <property name="maxUploadSize" value="5242880"/>
-</bean>
-	
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/" />
