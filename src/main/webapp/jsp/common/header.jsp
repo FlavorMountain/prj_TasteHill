@@ -9,7 +9,7 @@
 	</c:if>
 	<c:if test="${not empty sessionScope.SESS_MEMBER_ID}">
 		<div>
-			<a href="/mypage" class="header-mypage">MyPage</a>
+			<a href="/profile" class="header-mypage">MyPage</a>
 			<a href="/logout" class="header-mypage">LogOut</a>
 		</div>
 	</c:if>
