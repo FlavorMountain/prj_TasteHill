@@ -14,6 +14,6 @@ public class ChatVO {
     private int seqChat;
     private String contents;
     private Date createdAt;
-    private int createdById;
+    private int seqMember;
     private int seqChattingRoom;
 }
