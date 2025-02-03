@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.tastehill.myweb.mapper.RouteMapper;
 import com.tastehill.myweb.place.PlaceService;
 import com.tastehill.myweb.place.PlaceVO;
-import com.tastehill.myweb.route.RouteVO;
 
 @Service
 public class RouteServiceImpl implements RouteService {
@@ -55,12 +54,10 @@ public class RouteServiceImpl implements RouteService {
 
 	@Override
 	@Transactional
-	public int svcCreateRouteWithPlaces(RouteVO route, List<PlaceVO> places) {
-		// Route 저장
+	public int svcInsertRouteWithPlaces(RouteVO route, List<PlaceVO> places) {
         routeMapper.insertRoute(route);
-        int seqRoute = route.getSeq_route(); // MyBatis에서 자동 증가된 값 가져오기
+        int seqRoute = route.getSeq_route(); 
 
-        // RoutePlace 리스트 생성
         List<RoutePlaceVO> routePlaces = new ArrayList<>();
         for(int i = 0; i < places.size(); i++) {
         	 RoutePlaceVO routePlace = new RoutePlaceVO();

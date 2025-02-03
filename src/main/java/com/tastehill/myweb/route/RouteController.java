@@ -1,18 +1,16 @@
 package com.tastehill.myweb.route;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import com.tastehill.myweb.common.CommonService;
-import com.tastehill.myweb.mapper.PlaceMapper;
-import com.tastehill.myweb.place.OpeningHoursVO;
-import com.tastehill.myweb.place.PhotoVO;
 import com.tastehill.myweb.place.PlaceService;
 import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.place.PlaceDetailVO;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -64,21 +62,51 @@ public class RouteController {
 		else return ResponseEntity.ok(response);
 	}
 	
-	 @PostMapping("/list")
-	    public ResponseEntity<String> receivePlaces(@RequestBody List<PlaceVO> plist) {
-	        // 받은 데이터 출력
-	        for (PlaceVO place : plist) {
-	        	System.out.println(place.toString());
-	        }
-	        RouteVO rvo = new RouteVO();
-	        rvo.setContents("test contents");
-	        rvo.setSeqMember(1);
-	        rvo.setTitle("test title");
-	        routeService.svcCreateRouteWithPlaces(rvo, plist);
-
-	        return ResponseEntity.ok("데이터 수신 완료");
-	    }
+	 //이 부분 글 작성시 요청보내도록 수정해야됨
+//	 @PostMapping("/list")
+//	    public ResponseEntity<String> receivePlaces(@RequestBody List<PlaceVO> plist) {
+//	        // 받은 데이터 출력
+//	        for (PlaceVO place : plist) {
+//	        	System.out.println(place.toString());
+//	        }
+//	        RouteVO rvo = new RouteVO();
+//	        rvo.setSeqMember(1);
+//	        rvo.setTitle("test title");
+//	        rvo.setContents("test contents");
+//	        routeService.svcInsertRouteWithPlaces(rvo, plist);
+//
+//	        return ResponseEntity.ok("데이터 수신 완료");
+//	    }
 	 
+	@PostMapping("/list")
+	public String receivePlaces(@RequestBody Map<String, Object> requestData) {
+	    try {
+	        List<Map<String, String>> placesData = (List<Map<String, String>>) requestData.get("places");
+	        String title = (String) requestData.get("title");
+	        String contents = (String) requestData.get("contents");
+	        
+	        List<PlaceVO> plist = new ArrayList<PlaceVO>();
+	        for(Map<String, String> pmap : placesData) {
+	            PlaceVO pvo = new PlaceVO();
+	            pvo.setPlace_id(pmap.get("place_id"));
+	            pvo.setName(pmap.get("name"));
+	            plist.add(pvo);
+	        }
+	        
+	        RouteVO rvo = new RouteVO();
+	        rvo.setSeqMember(1);
+	        rvo.setTitle(title);
+	        rvo.setContents(contents);
+	        
+	        routeService.svcInsertRouteWithPlaces(rvo, plist);
+	        return "redirect:/main";
+	        
+	    } catch (Exception e) {
+	        return "redirect:/main";
+	    }
+	}
+	
+	
 	 @GetMapping("/placeMember")
 	    public ResponseEntity<String> getRoutePlacesByMember() {
 	        List<RouteVO> rlist = routeService.svcSelectRoutesAndPlaceByMember(1);
