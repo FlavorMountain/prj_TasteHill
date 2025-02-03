@@ -94,14 +94,14 @@
     <select id="selectRoutesByMember" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
         SELECT * 
         FROM Route
-        WHERE seqMember = #{seqMember}
+        WHERE seq_Member = #{seqMember}
         ORDER BY UPDATED_AT DESC
     </select>
 
     <!-- 특정 동선 삭제 -->
     <delete id="deleteRoute" parameterType="int">
         DELETE FROM Route
-        WHERE seqRoute = #{seqRoute}
+        WHERE seq_Route = #{seqRoute}
     </delete>
 
     <!-- 좋아요/스크랩한 동선 리스트 -->
@@ -109,7 +109,7 @@
         SELECT r.* 
         FROM Route r
         JOIN Fork f ON r.seqRoute = f.seqRoute
-        WHERE f.seqMember = #{seqMember}
+        WHERE f.seq_Member = #{seqMember}
         ORDER BY UPDATED_AT DESC
     </select>
     
