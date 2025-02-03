@@ -1,20 +1,21 @@
 package com.tastehill.myweb.place;
 
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.Date;
-
-import lombok.AllArgsConstructor;
-
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceVO {
-    private int seqRestaurant;
+	private int seq_place;
+	private String place_id;	
     private String name;
-    private String loc;
-    private String openingHours;
-    private Float rating;
-    private String categoryCode;
+    private String formatted_address;
+    private Double rating;
 }

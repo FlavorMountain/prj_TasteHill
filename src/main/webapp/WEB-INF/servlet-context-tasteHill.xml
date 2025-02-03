@@ -18,6 +18,7 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
  	<!-- <context:component-scan base-package="com.lec.users" /> -->
 	<context:component-scan base-package="com.tastehill.myweb.*" />
+	<context:component-scan base-package="com.lec.oauth.*" />
 	<!-- <context:component-scan base-package="com.lec.tx" /> -->
 	<mvc:annotation-driven />
 	
@@ -115,6 +116,11 @@
 		<aop:pointcut  id="ID_cut" expression="execution(public * com.tastehill.myweb.*.*Impl.*(..))"/>  
 		<aop:advisor advice-ref="ID_tx_advice"  pointcut-ref="ID_cut"/>
 	</aop:config>
+	
+<bean id="multipartResolver"
+      class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="maxUploadSize" value="5242880"/>
+</bean>
 	
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

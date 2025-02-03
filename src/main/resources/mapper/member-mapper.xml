@@ -20,14 +20,14 @@
 	<select id="selectMemberAll" resultMap="memberMap"> 
 		select *
 		from member
-		order by member_seq
+		order by seq_member
 	</select> 
 	
 	<!-- 회원상세 -->
 	<select id="selectMember" parameterType="int" resultMap="memberMap">
 		select *
 		from member
-		where member_seq = #{member_seq}
+		where seq_member = #{seq_member}
 	</select>
 	
 	<select id="loginMember" resultMap="memberMap">
@@ -36,21 +36,40 @@
 		where email = #{email} and pw = #{pw}
 	</select>
 	
-	<!-- 인증(id&pw) -->
-	<!-- 
-	<select id="usersLogin" resultMap="usersRolesMap">
-	select u.user_seq, u.user_name, u.user_id, u.user_pw, u.regdate
-		    , r.user_seq as roles_user_seq, r.role_seq , r.role_name
-	from users u, roles r
-	where u.user_id=#{userId} and u.user_pw=#{userPw}
-	      and u.user_seq = r.user_seq
-	</select>
-	 -->
 	
 	<!-- 가입(입력)  -->
 	<insert id="insertMember">
 		insert into member(seq_member, nickname, email, pw, created_at, updated_at, pinned_route, status)
 		values(seq_member.nextval, #{MVO.nickname}, #{MVO.email}, #{MVO.pw}, sysdate, sysdate, 0, 1) 
 	</insert>
+	
+     <!-- 회원 프로필 이미지 업데이트 -->
+    <update id="updateMemberProfileImage">
+        UPDATE Member
+        SET profile = #{profile}
+        WHERE seq_member = #{seqMember}
+    </update>
+
+    <!-- 닉네임 변경 -->
+    <update id="updateMemberNickname">
+        UPDATE Member
+        SET nickname = #{nickname}
+        WHERE seq_member = #{seqMember}
+    </update>
+
+    <!-- 비밀번호 변경 -->
+    <update id="updateMemberPassword">
+        UPDATE Member
+        SET PW = #{password}
+        WHERE seq_member = #{seqMember}
+    </update>
+
+    <!-- 회원 삭제 -->
+    <update id="deleteMember">
+        UPDATE Member
+        SET status = 0
+        WHERE seq_member = #{seqMember}
+    </update>
+	
 	
 </mapper>

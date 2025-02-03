@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
+<mapper namespace="com.tastehill.myweb.mapper.RouteMapper">
+
+<resultMap id="RouteWithPlacesMap" type="com.tastehill.myweb.route.RouteVO">
+    <id property="seq_route" column="seq_route"/>
+    <result property="title" column="title"/>
+    <result property="contents" column="contents"/>
+    <result property="seqMember" column="seq_member"/>
+    <result property="createdAt" column="created_at"/>
+    <result property="updatedAt" column="updated_at"/>
+    <result property="forkCount" column="fork_count"/>
+
+    <!-- RoutePlaceVO 리스트 매핑 -->
+    <collection property="places" ofType="com.tastehill.myweb.route.RoutePlaceVO">
+        <id property="seq_place" column="rp_seq_place"/>
+        <result property="order" column="order_place"/>
+        <result property="price" column="price"/>
+
+        <!-- PlaceVO 매핑 -->
+        <association property="place" javaType="com.tastehill.myweb.place.PlaceVO">
+            <id property="seq_place" column="seq_place"/>
+            <result property="place_id" column="place_id"/>
+            <result property="name" column="name"/>
+            <result property="formatted_address" column="formatted_address"/>
+            <result property="rating" column="rating"/>
+        </association>
+    </collection>
+</resultMap>
+
+<!-- 특정 유저가 작성한 루트 리스트 -->
+<select id="selectRoutesAndPlaceByMember" resultMap="RouteWithPlacesMap">
+    SELECT 
+        r.seq_route, r.title, r.contents, r.seq_member, r.created_at, r.updated_at, r.fork_count,
+        rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
+        p.seq_place, p.place_id, p.name, p.formatted_address, p.rating
+    FROM route r
+    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+    LEFT JOIN place p ON rp.seq_place = p.seq_place
+    WHERE r.seq_member = #{seqMember}
+    ORDER BY r.fork_count, rp.order_place
+</select>
+
+<!-- 모든 루트 리스트 -->
+<select id="selectAllRoutesAndPlace" resultMap="RouteWithPlacesMap">
+    SELECT 
+        r.seq_route, r.title, r.contents, r.seq_member, r.created_at, r.updated_at, r.fork_count,
+        rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
+        p.seq_place, p.place_id, p.name, p.formatted_address, p.rating
+    FROM route r
+    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+    LEFT JOIN place p ON rp.seq_place = p.seq_place
+    ORDER BY r.fork_count, rp.order_place
+</select>
+
+<!-- 단일 루트 route_seq로 select -->
+<select id="selectRoutesAndPlaceBySeqRoute" resultMap="RouteWithPlacesMap">
+    SELECT 
+        r.seq_route, r.title, r.contents, r.seq_member, r.created_at, r.updated_at, r.fork_count,
+        rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
+        p.seq_place, p.place_id, p.name, p.formatted_address, p.rating
+    FROM route r
+    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+    LEFT JOIN place p ON rp.seq_place = p.seq_place
+    WHERE r.seq_route = #{seq_route}
+    ORDER BY r.fork_count, rp.order_place
+</select>
+
+
+	<!-- 1. Route 삽입 -->
+<insert id="insertRoute" keyProperty="seq_route" keyColumn="seq_route">
+    <selectKey keyProperty="seq_route" resultType="int" order="AFTER">
+        SELECT seq_route.CURRVAL FROM DUAL
+    </selectKey>
+    INSERT INTO route (seq_route, title, contents, seq_member, created_at, updated_at, fork_count)
+    VALUES (seq_route.NEXTVAL, #{title}, #{contents}, #{seqMember}, SYSDATE, SYSDATE, 0)
+</insert>
+
+
+    <!-- 2. RoutePlace 다중 삽입 -->
+	<insert id="insertRoutePlaces">
+	    INSERT ALL
+	    <foreach collection="routePlaces" item="rp">
+	        INTO route_place (seq_route, seq_place, order_place, price)
+	        VALUES (#{rp.seq_route}, #{rp.seq_place}, #{rp.order}, #{rp.price})
+	    </foreach>
+	    SELECT 1 FROM DUAL
+	</insert>
+
+
+    <!-- 특정 회원이 작성한 동선 리스트 -->
+    <select id="selectRoutesByMember" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * 
+        FROM Route
+        WHERE seq_Member = #{seqMember}
+        ORDER BY UPDATED_AT DESC
+    </select>
+
+    <!-- 특정 동선 삭제 -->
+    <delete id="deleteRoute" parameterType="int">
+        DELETE FROM Route
+        WHERE seq_Route = #{seqRoute}
+    </delete>
+
+    <!-- 좋아요/스크랩한 동선 리스트 -->
+    <select id="selectFavoriteRoutes" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT r.* 
+        FROM Route r
+        JOIN Fork f ON r.seqRoute = f.seqRoute
+        WHERE f.seq_Member = #{seqMember}
+        ORDER BY UPDATED_AT DESC
+    </select>
+    
+    <!-- Hot 동선 리스트 -->
+    <select id="selectHotRoutes" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * 
+        FROM Route
+        ORDER BY FORK_COUNT DESC
+    </select>
+    
+     <!-- Pinned Route -->
+    <select id="getPinnedRouteBySeqMember" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT 
+            r.TITLE,
+            r.CONTENTS,
+            r.CREATED_AT,
+            r.UPDATED_AT
+        FROM 
+            MEMBER m
+            LEFT JOIN ROUTE r ON m.PINNED_ROUTE = r.SEQ_ROUTE
+        WHERE 
+            m.PINNED_ROUTE IS NOT NULL
+            AND m.SEQ_MEMBER = 1
+        ORDER BY m.SEQ_MEMBER
+    </select>
+    
+    <!-- 검색기능 -->
+    <select id="searchRoutes" parameterType="string" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * FROM Route
+        WHERE TITLE LIKE '%' || #{query} || '%'
+           OR CONTENTS LIKE '%' || #{query} || '%'
+        ORDER BY UPDATED_AT DESC
+    </select>
+
+</mapper>
