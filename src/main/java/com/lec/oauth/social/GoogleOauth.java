@@ -49,22 +49,6 @@ public class GoogleOauth implements Oauth {
 	private String ENDPOINT_URL_USERINFO;
 	private String ACCESS_TOKEN  = "";
     
-	//	public static String commonBuildQueryString(Map<String, Object> params) {
-	//		StringBuilder queryString = new StringBuilder();
-	//		try {
-	//			for (Map.Entry<String, Object> entry : params.entrySet()) {
-	//				if (queryString.length() > 0) {
-	//					queryString.append("&");
-	//				}
-	//				queryString.append(URLEncoder.encode(entry.getKey(), "UTF-8"))
-	//				.append("=")
-	//				.append(URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
-	//			}
-	//		} catch(UnsupportedEncodingException e) {
-	//			e.printStackTrace();
-	//		}
-	//		return queryString.toString();
-	//	}
 
 	/** 
 	 * 구글의 로그인창 주소
@@ -116,25 +100,6 @@ public class GoogleOauth implements Oauth {
 		if (responseEntity.getStatusCode() == HttpStatus.OK) 
 			System.out.println(responseEntity.getBody().toString());
 		
-		//			--------------------------------------------------			
-		//			방법2) GoogleRequestVo  Builder + Entity에 담아서 꺼내기
-		//			--------------------------------------------------			
-		//			RestTemplate restTemplate = new RestTemplate();
-		//			GoogleRequest googleRequest = GoogleRequest
-		//					.builder()
-		//					.clientId(CLIENT_ID)
-		//					.clientSecret(CLIENT_PW)
-		//					.code(code)
-		//					.redirectUri(CALLBACK_URL)
-		//					.grantType("authorization_code").build();
-		//			System.out.println(googleRequest.toString());
-		//			ResponseEntity<GoogleResponse> googleResponse = restTemplate.postForEntity("https://oauth2.googleapis.com/token", googleRequest, GoogleResponse.class);
-		//			System.out.println(googleResponse.toString());
-
-		//			--------------------------------------------------
-		//			방법3) commonBuildQueryString() 쿼리스트링 만들기
-		//			--------------------------------------------------
-		//			LOGIN_FORM_URL + "?" + parameterString;
 		return responseEntity.getBody();
 	}
 

@@ -203,7 +203,7 @@
              onclick="openFileInput()" />
 
         <!-- 프로필 정보 -->
-            <h2>nickname${member.nickname}</h2>
+            <h2>${sessionScope.SESS_MEMBER_ID}</h2>
             <p>${member.email}</p>
             <!-- 내 정보 수정 버튼 (모달 열기 트리거) -->
 				<a href="javascript:void(0);" id="editInfoButton"

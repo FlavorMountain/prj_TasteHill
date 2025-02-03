@@ -19,14 +19,14 @@
             <div class="input-group">
                 <label for="email">LOGIN EMAIL</label>
                 <div id="register-email">
-	                <input type="text" id="email" name="email" value="${sessionScope.SESS_EMAIL}">
+	                <input type="text" id="email" name="email" value="${sessionScope.SESS_REGISTER_EMAIL}">
             	 </div>
             </div>
             <div class="input-group">
                 <label for="nickname">NICKNAME</label>
                 <input type="text" id="nickname" name="nickname">
             </div>
-            <button type="submit" class="login-button">REGISTER</button>
+            <button type="button" class="login-button" id = "submitBtn">REGISTER</button>
         </form>
     </div>
 </body>
@@ -39,7 +39,7 @@ $(function() {
 		var email = $("#email").val().trim();
 		var nickname   = $("#nickname").val().trim();
         if (email === "") {
-            alert("이름을 입력하세요");
+            alert("이메일을 입력하세요");
             $("#email").focus();
         } else if (nickname === "") {
             alert("닉네임을 입력하세요");
