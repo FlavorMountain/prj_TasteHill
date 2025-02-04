@@ -58,6 +58,23 @@
         <association property="result" resultMap="resultInnerMap2"/>
     </resultMap>
     
+    
+    
+    <!-- 장소 검색시 사진 포함된 resultMap (PlaceVO에 사진 정보(photo_url)를 포함할 수 있도록 설정) -->
+    <resultMap id="placeWithPhotoMap" type="com.tastehill.myweb.place.PlaceVO">
+    <result property="seq_place" column="seq_place"/>
+    <result property="place_id" column="place_id"/>
+    <result property="name" column="name"/>
+    <result property="formatted_address" column="formatted_address"/>
+    <result property="rating" column="rating"/>
+    <association property="photos" resultMap="photoMap2">
+        <result property="seq_place" column="seq_place"/>
+        <result property="place_id" column="place_id"/>
+        <result property="photo_reference" column="photo_reference"/>
+        <result property="photo_url" column="photo_url"/>
+    </association>
+	</resultMap>
+    
    
 <select id="selectDetailOne" resultMap="placeDetailMap2">
     		SELECT  
@@ -82,9 +99,11 @@
 </select> 
 
 
-      <!-- 검색 기능 -->
+<!--       위치 기반 검색 기능
     <select id="searchPlaces" parameterType="string" resultType="com.tastehill.myweb.place.PlaceVO">
-        SELECT SEQ_PLACE AS seqRestaurnat,
+        SELECT 
+           PLACE_ID AS place_id,
+           SEQ_PLACE AS seqRestaurnat,
            NAME AS name,
            formatted_address AS formatted_address,
            RATING AS rating
@@ -92,7 +111,59 @@
 		WHERE NAME LIKE '%' || #{query} || '%'
 			  OR formatted_address LIKE '%' || #{query} || '%'
 		ORDER BY RATING DESC
+    </select> -->
+    
+       <!-- 장소 기반 검색 기능 -->
+    <select id="searchPlaces" parameterType="string" resultMap="placeWithPhotoMap">
+<!--         SELECT 
+        p.PLACE_ID AS place_id,
+        p.SEQ_PLACE AS seqRestaurant,
+        p.NAME AS name,
+        p.FORMATTED_ADDRESS AS formatted_address,
+        p.RATING AS rating,
+        ph.PHOTO_URL AS photo_url
+	    FROM Place p
+	    LEFT JOIN Photo ph ON p.place_id = ph.place_id 
+	    WHERE p.NAME LIKE '%' || #{query} || '%'
+	       OR p.FORMATTED_ADDRESS LIKE '%' || #{query} || '%'
+	    ORDER BY p.RATING DESC -->
+	    
+	    SELECT 
+        p.PLACE_ID AS place_id,
+        p.SEQ_PLACE AS seqRestaurant,
+        p.NAME AS name,
+        p.FORMATTED_ADDRESS AS formatted_address,
+        p.RATING AS rating,
+        ph.PHOTO_URL AS photo_url
+	    FROM 
+            Place p, 
+            (
+            SELECT place_id, PHOTO_URL 
+            FROM (
+                SELECT place_id, PHOTO_URL
+                FROM photo
+                ORDER BY place_id
+                )
+            WHERE ROWNUM = 1
+            ) ph
+	    where p.place_id = ph.place_id and
+	    p.NAME LIKE '%' || #{query} || '%'
+	       OR p.FORMATTED_ADDRESS LIKE '%' || #{query} || '%'
+ORDER BY p.RATING DESC
     </select>
+
+<resultMap id="placeMap" type="com.tastehill.myweb.place.PlaceVO" >
+        <result property="seqPlace" column="seq_place" />
+        <result property="place_id" column="oh_place_id"/>
+</resultMap> 
+
+
+    
+    <resultMap id="weekdayTextMap" type="com.tastehill.myweb.place.WeekdayTextVO" >
+        <result property="seq_place" column="seq_place"/>
+        <result property="place_id" column="place_id"/> 
+        <result property="weekday_text" column="weekday_text"/>
+    </resultMap>
 
     
     <!-- placeId 기준으로 placeVO 정보 가져오기-->
@@ -100,6 +171,42 @@
         SELECT seq_place, place_id, name, rating, formatted_address
     	FROM place
     	WHERE place_id = #{placeId}
+    </select>
+
+
+    <!-- PHOTO 데이터 조회 -->
+    <select id="selectAllPhotosByPlaceId" resultMap="photoMap2">
+        SELECT PHOTO_REFERENCE, PHOTO_URL, SEQ_PLACE, PLACE_ID
+        FROM PHOTO
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+    <!-- OPENING_HOURS 데이터 조회 -->
+    <select id="selectOpeningHoursByPlaceId" resultType="com.tastehill.myweb.place.OpeningHoursVO">
+        SELECT SEQ_PLACE, PLACE_ID
+        FROM OPENING_HOURS
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+    <!-- WEEKDAY_TEXT 데이터 조회 -->
+    <select id="selectAllWeekdayTextByPlaceId" resultMap="weekdayTextMap">
+        SELECT SEQ_PLACE, WEEKDAY_TEXT, PLACE_ID
+        FROM WEEKDAY_TEXT
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+    <!-- GEOMETRY 데이터 조회 -->
+    <select id="selectGeometryByPlaceId" resultType="com.tastehill.myweb.place.GeometryVO">
+        SELECT SEQ_PLACE, PLACE_ID
+        FROM GEOMETRY
+        WHERE SEQ_PLACE = #{seqPlace}
+    </select>
+
+    <!-- LOCATION 데이터 조회 -->
+    <select id="selectLocationByPlaceId"  resultType="com.tastehill.myweb.place.LocationVO">
+        SELECT SEQ_PLACE, PLACE_ID, LAT, LNG
+        FROM LOCATION
+        WHERE SEQ_PLACE = #{seqPlace}
     </select>
 
 

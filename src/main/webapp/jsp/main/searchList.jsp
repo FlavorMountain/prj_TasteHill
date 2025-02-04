@@ -139,9 +139,7 @@
         <p><strong>${place.name}</strong></p>
         <p>주소: ${place.formatted_address}</p>
         <p>평점: ${place.rating}</p>
-<%--         <c:if test="${not empty place.photos}">
-            <img src="${place.result.photos[0].photo_url}" alt="장소 이미지" width="100">
-        </c:if> --%>
+            <img src="${place.photos.photo_url}" alt="${place.name} 사진">
     </div>
 </c:forEach>
 

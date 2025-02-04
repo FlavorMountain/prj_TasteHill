@@ -198,7 +198,7 @@ function openFileInput() {
 			    </select>
 			    <input type="text" name="query" placeholder="search place...">
 			    <button type="submit">🔍</button>
-	        <button onclick="location.href='/main/route/rout_create'">새 동선 만들기</button>
+	        <button onclick="location.href='/route'">새 동선 만들기</button>
 			</form>
 	    </div>
 	    </div>
@@ -291,10 +291,10 @@ function openFileInput() {
     		<input type="submit" value="더보기" class="more-link">
 		</form>
 		<div class="card-container">
-			<c:forEach var="route" items="${favoriteRoutes}">
+			<c:forEach var="route" items="${forkRoutes}">				
 				<div class="card">
-					<p>${route.title}</p>
-					<p>등록일 ${route.date}</p>
+					<p class="card-title">${route.title}</p>
+					<p class="card-date">등록일 ${route.updatedAt}</p>
 				</div>
 			</c:forEach>
 		</div>

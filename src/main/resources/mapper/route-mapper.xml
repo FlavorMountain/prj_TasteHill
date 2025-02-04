@@ -55,6 +55,15 @@
     ORDER BY r.fork_count, rp.order_place
 </select>
 
+<!-- 장소(가게명) 기반 검색기능 -->
+    <select id="searchRoutes" parameterType="string" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * FROM Route
+        WHERE TITLE LIKE '%' || #{query} || '%'
+           OR CONTENTS LIKE '%' || #{query} || '%'
+        ORDER BY UPDATED_AT DESC
+    </select>
+
+
 <!-- 위치 검색결과 기반 루트리스트 -->
 
 <!-- 가게명 기반 검색결과 기반 루트리스트 -->
@@ -97,7 +106,7 @@
 
 
     <!-- 특정 회원이 작성한 동선 리스트 -->
-    <select id="selectRoutesByMember" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
+    <select id="searchRoutesByMember" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
         SELECT * 
         FROM Route
         WHERE seq_Member = #{seqMember}
@@ -110,11 +119,12 @@
         WHERE seq_Route = #{seqRoute}
     </delete>
 
+
     <!-- 좋아요/스크랩한 동선 리스트 -->
     <select id="selectFavoriteRoutes" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
         SELECT r.* 
         FROM Route r
-        JOIN Fork f ON r.seqRoute = f.seqRoute
+        JOIN Fork f ON r.seq_Route = f.seq_Route
         WHERE f.seq_Member = #{seqMember}
         ORDER BY UPDATED_AT DESC
     </select>
@@ -142,12 +152,6 @@
         ORDER BY m.SEQ_MEMBER
     </select>
     
-    <!-- 검색기능 -->
-    <select id="searchRoutes" parameterType="string" resultType="com.tastehill.myweb.route.RouteVO">
-        SELECT * FROM Route
-        WHERE TITLE LIKE '%' || #{query} || '%'
-           OR CONTENTS LIKE '%' || #{query} || '%'
-        ORDER BY UPDATED_AT DESC
-    </select>
+
 
 </mapper>
