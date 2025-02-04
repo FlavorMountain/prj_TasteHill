@@ -5,6 +5,83 @@
 
 <mapper namespace="com.tastehill.myweb.mapper.PlaceMapper">
 
+
+<!-- place.result에 들어갈 vo5개 맵 -->
+    <resultMap id="geometryMap2" type="com.tastehill.myweb.place.GeometryVO" >
+        <result property="seq_place" column="g_seq_place" />
+        <result property="place_id" column="g_place_id"/> 
+        <association property="location" resultMap="locationMap2"/>
+    </resultMap>
+    
+    <resultMap id="locationMap2" type="com.tastehill.myweb.place.LocationVO" >
+        <result property="seq_place" column="l_seq_place" />
+        <result property="place_id" column="l_place_id"/>
+        <result property="lat" column="lat"/>
+        <result property="lng" column="lng"/>
+    </resultMap>
+
+    <resultMap id="photoMap2" type="com.tastehill.myweb.place.PhotoVO" >
+        <result property="seq_place" column="ph_seq_place" />
+        <result property="place_id" column="ph_place_id"/>
+        <result property="photo_reference" column="photo_reference"/>
+        <result property="photo_url" column="photo_url"/>
+    </resultMap>
+
+    <resultMap id="openingHoursMap2" type="com.tastehill.myweb.place.OpeningHoursVO" >
+        <result property="seq_place" column="oh_seq_place" />
+        <result property="place_id" column="oh_place_id"/>
+        <collection property="weekday_text" resultMap="weekdayTextMap2"/>
+    </resultMap>
+    
+    <resultMap id="weekdayTextMap2" type="com.tastehill.myweb.place.WeekdayTextVO" >
+        <result property="seq_place" column="w_seq_place"/>
+        <result property="place_id" column="w_place_id"/> 
+        <result property="weekday_text" column="weekday_text"/>
+    </resultMap>
+
+
+    <!-- 위에 맵 합쳐서 result에 넣을 맵 -->
+    <resultMap id="resultInnerMap2" type="com.tastehill.myweb.place.ResultVO" >
+        <result property="place_id" column="p_place_id"/>
+        <result property="name" column="name"/>
+        <result property="rating" column="rating"/>
+        <result property="formatted_address" column="formatted_address"/>
+        <association property="opening_hours" resultMap="openingHoursMap2"/>
+        <association property="geometry" resultMap="geometryMap2"/>
+        <collection property="photos" resultMap="photoMap2"/>
+    </resultMap>
+
+    <!-- placeVO에 박을 데이터 -->
+    <resultMap id="placeDetailMap2" type="com.tastehill.myweb.place.PlaceDetailVO" >
+        <result property="seqPlace" column="p_seqPlace"/>
+<!--         <result property="status" column="status"/> -->
+        <association property="result" resultMap="resultInnerMap2"/>
+    </resultMap>
+    
+   
+<select id="selectDetailOne" resultMap="placeDetailMap2">
+    		SELECT  
+		    p.seq_place as p_seqPlace, 
+		    p.place_id as p_place_id, 
+		    p.name as name, 
+		    p.rating as rating, 
+		    p.formatted_address as formatted_address, 
+		    g.place_id as g_place_id, g.seq_place as g_seq_place,
+		    l.place_id as l_place_id, l.seq_place as l_seq_place, l.lat as lat, l.lng as lng,
+		    ph.photo_reference as photo_reference, ph.photo_url as photo_url, 
+		    ph.place_id as ph_place_id, ph.seq_place as ph_seq_place,
+		    oh.place_id as oh_place_id, oh.seq_place as oh_seq_place,
+		    w.place_id as w_place_id, w.seq_place as w_seq_place, w.weekday_text as weekday_text
+		FROM place p
+    LEFT JOIN geometry g ON p.place_id = g.place_id
+    LEFT JOIN location l ON p.place_id = l.place_id
+    LEFT JOIN photo ph ON p.place_id = ph.place_id
+    LEFT JOIN opening_hours oh ON p.place_id = oh.place_id
+    LEFT JOIN weekday_text w ON oh.place_id = w.place_id
+		WHERE p.place_id = #{placeId}
+</select> 
+
+
       <!-- 검색 기능 -->
     <select id="searchPlaces" parameterType="string" resultType="com.tastehill.myweb.place.PlaceVO">
         SELECT SEQ_PLACE AS seqRestaurnat,
