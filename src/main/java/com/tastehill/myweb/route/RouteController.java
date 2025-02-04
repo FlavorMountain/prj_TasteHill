@@ -59,10 +59,13 @@ public class RouteController {
 	        
 	        List<PlaceVO> plist = new ArrayList<PlaceVO>();
 	        for(Map<String, String> pmap : placesData) {
-	            PlaceVO pvo = new PlaceVO();
-	            pvo.setPlace_id(pmap.get("place_id"));
-	            pvo.setName(pmap.get("name"));
-	            plist.add(pvo);
+	        	PlaceVO pvo = placeService.svcSelectPlaceByPlaceId(pmap.get("place_id"));
+	        	plist.add(pvo);
+	        	
+//	            PlaceVO pvo = new PlaceVO();
+//	            pvo.setPlace_id(pmap.get("place_id"));
+//	            pvo.setName(pmap.get("name"));
+//	            plist.add(pvo);
 	        }
 	        
 	        RouteVO rvo = new RouteVO();
