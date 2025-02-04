@@ -65,6 +65,10 @@
             flex-wrap: wrap;
             gap: 20px;
             margin-top: 10px;
+            
+        }
+        .card-list button:hover{
+        	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         /* 카드 스타일 */
@@ -134,31 +138,49 @@
     </style>
 </head>
 <body>
-	<!-- 헤더 -->
-<!-- 	<div class="header"> -->
-<!-- 		<a href="/" class="header-logo">TasteHILL</a> <a href="/mypage" -->
-<!-- 			class="header-mypage">MyPage</a> -->
-<!-- 	</div> -->
-
 
 	<!-- 네비게이션 바 -->
 	<div class="navbar">
-	    <div class="logo">TasteHILL</div>
+	    <div class="logo">
+	    	<a href="/main" style="text-decoration: none; color: inherit;">TasteHILL</a>
+	    </div>
 	    <div class="search-bar">
-	        <select>
-	            <option>위치</option>
-	            <option>서울</option>
-	            <option>부산</option>
-	        </select>
-	        <input type="text" placeholder="search place...">
-	        <button>🔍</button>
-	        <button>새 동선 만들기</button>
+	         <form action="/searchList" method="get">
+				    <select name="location">
+	            	    <option value="">위치</option>
+				        <option value="서울">서울</option>
+				        <option value="부산">부산</option>
+				    </select>
+				    <input type="text" name="query" placeholder="search place...">
+				    <button type="submit">🔍</button>
+				</form>
+	       	<button onclick="location.href='/jsp/route/route_create.jsp'">새 동선 만들기</button>
 	  	</div>
 	  	
 	  	<a href="${pageContext.request.contextPath}/profile" class="button">My Page</a>
 	</div>
 
 
+	<!-- hotList -->
+	<div class="card-list">
+	    <c:forEach var="route" items="${hotRoutes}">
+	         <button class="card"  onclick="location.href='/detail?seq_route=${route.seq_route}'">
+	            <p class="card-title">${route.title}</p>
+	            <p class="card-date">${route.forkCount}</p>
+	        </button>
+	    </c:forEach>
+	</div>
+	
+	<!-- hotList -->
+<ul class="card-list">
+    <c:forEach var="route" items="${hotRoutes}">
+        <li class="card">
+            <div class="card-title">${route.title}</div>
+            <div class="card-date">${route.forkCount}</div>
+        </li>
+    </c:forEach>
+</ul>
+	
 	<!-- 홈으로 돌아가는 버튼 -->
 	<a href="/main">홈으로</a>
 </body>

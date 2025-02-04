@@ -148,7 +148,7 @@
             LEFT JOIN ROUTE r ON m.PINNED_ROUTE = r.SEQ_ROUTE
         WHERE 
             m.PINNED_ROUTE IS NOT NULL
-            AND m.SEQ_MEMBER = 1
+            AND m.SEQ_MEMBER = #{seqMember}
         ORDER BY m.SEQ_MEMBER
     </select>
     
