@@ -23,21 +23,9 @@ public interface PlaceMapper {
     int insertGeometry(Map<String, Object> gmap);
     int insertLocation(Map<String, Object> lmap);
     List<PlaceVO> searchPlaces(@Param("query") String query);
-    
-    //placeVO + 연계된VO들 전부 싹긁어오는쿼리
-//    PlaceDetailVO selectPlaceDetailByPlaceId(@Param("placeId") String placeId);
-    
+    // 장소VO 조회
     PlaceVO selectPlaceByPlaceId(@Param("placeId") String placeId);
-    
-    int selectPlaceSeqByPlaceId(@Param("seqPlace") int seqPlace);
-    
-    
-    List<PhotoVO> selectAllPhotosByPlaceId(@Param("seqPlace") int seqPlace);
-    OpeningHoursVO selectOpeningHoursByPlaceId(@Param("seqPlace") int seqPlace);
-    List<WeekdayTextVO> selectAllWeekdayTextByPlaceId(@Param("seqPlace") int seqPlace);
-    GeometryVO selectGeometryByPlaceId(@Param("seqPlace") int seqPlace);
-    LocationVO selectLocationByPlaceId(@Param("seqPlace") int seqPlace);
-
+    // 장소상세 조회
     PlaceDetailVO selectDetailOne(@Param("placeId") String placeId);
     
 }
