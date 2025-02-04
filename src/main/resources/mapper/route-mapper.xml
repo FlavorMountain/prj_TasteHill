@@ -55,6 +55,15 @@
     ORDER BY r.fork_count, rp.order_place
 </select>
 
+<!-- 장소(가게명) 기반 검색기능 -->
+    <select id="searchRoutes" parameterType="string" resultType="com.tastehill.myweb.route.RouteVO">
+        SELECT * FROM Route
+        WHERE TITLE LIKE '%' || #{query} || '%'
+           OR CONTENTS LIKE '%' || #{query} || '%'
+        ORDER BY UPDATED_AT DESC
+    </select>
+
+
 <!-- 위치 검색결과 기반 루트리스트 -->
 
 <!-- 가게명 기반 검색결과 기반 루트리스트 -->
@@ -143,12 +152,6 @@
         ORDER BY m.SEQ_MEMBER
     </select>
     
-    <!-- 검색기능 -->
-    <select id="searchRoutes" parameterType="string" resultType="com.tastehill.myweb.route.RouteVO">
-        SELECT * FROM Route
-        WHERE TITLE LIKE '%' || #{query} || '%'
-           OR CONTENTS LIKE '%' || #{query} || '%'
-        ORDER BY UPDATED_AT DESC
-    </select>
+
 
 </mapper>
