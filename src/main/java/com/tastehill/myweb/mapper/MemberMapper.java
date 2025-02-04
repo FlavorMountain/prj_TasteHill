@@ -25,6 +25,6 @@ public interface MemberMapper {
              @Param("password") String password);
 
     // 회원 탈퇴
-    int deleteMember(@Param("status") int status);
+    int deleteMember(@Param("seqMember") int seqMember);
 
 }

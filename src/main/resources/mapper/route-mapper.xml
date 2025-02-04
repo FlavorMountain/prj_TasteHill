@@ -91,7 +91,7 @@
 
 
     <!-- 특정 회원이 작성한 동선 리스트 -->
-    <select id="selectRoutesByMember" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
+    <select id="searchRoutesByMember" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
         SELECT * 
         FROM Route
         WHERE seq_Member = #{seqMember}
@@ -104,11 +104,12 @@
         WHERE seq_Route = #{seqRoute}
     </delete>
 
+
     <!-- 좋아요/스크랩한 동선 리스트 -->
     <select id="selectFavoriteRoutes" parameterType="int" resultType="com.tastehill.myweb.route.RouteVO">
         SELECT r.* 
         FROM Route r
-        JOIN Fork f ON r.seqRoute = f.seqRoute
+        JOIN Fork f ON r.seq_Route = f.seq_Route
         WHERE f.seq_Member = #{seqMember}
         ORDER BY UPDATED_AT DESC
     </select>
