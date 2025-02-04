@@ -31,42 +31,8 @@
     </collection>
 </resultMap>
 
-<!-- 장소(가게명) 기반 검색기능 -->
-<!--     <select id="searchRoutes" parameterType="string" resultType="com.tastehill.myweb.route.RouteVO">
-        SELECT * FROM Route
-        WHERE TITLE LIKE '%' || #{query} || '%'
-           OR CONTENTS LIKE 6'%' || #{query} || '%'
-        ORDER BY UPDATED_AT DESC
-    </select> -->
-
-<!-- 위치 검색결과 기반 루트리스트 -->
+<!-- 장소 검색결과 기반 루트리스트 -->
 <select id="selectAllRoutesAndPlaceBySearchPlace"  resultMap="RouteWithPlacesMap">
-        <!-- SELECT 
-        r.seq_route, 
-        r.title, 
-        r.contents, 
-        r.seq_member, 
-        r.created_at, 
-        r.updated_at, 
-        r.fork_count,
-        rp.seq_place AS rp_seq_place, 
-        rp.order_place, 
-        rp.price,
-        p.seq_place, 
-        p.place_id, 
-        p.name, 
-        p.formatted_address, 
-        p.rating,
-        (SELECT ph.photo_url 
-         FROM photo ph 
-         WHERE ph.seq_place = p.seq_place AND ROWNUM = 1) AS photo_url
-    FROM route r
-    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
-    LEFT JOIN place p ON rp.seq_place = p.seq_place
-    WHERE 
-        p.name LIKE '%' || #{query} || '%'
-        OR p.formatted_address LIKE '%' || #{query} || '%'
-    ORDER BY r.fork_count DESC, r.updated_at DESC -->
 SELECT 
         r.seq_route, r.title, r.contents, r.seq_member, 
         r.created_at, 
@@ -83,13 +49,7 @@ SELECT
     LEFT JOIN place p ON rp.seq_place = p.seq_place
     WHERE p.seq_place = #{seq_place}
     ORDER BY r.fork_count DESC, rp.order_place ASC
-    
 </select>
-
-
-
-<!-- 가게명 기반 검색결과 기반 루트리스트 -->
-
 <!-- 특정 유저가 작성한 루트 리스트 - 마이페이지 -->
 <select id="selectRoutesAndPlaceByMember" resultMap="RouteWithPlacesMap">
     SELECT 
@@ -114,8 +74,6 @@ SELECT
     LEFT JOIN place p ON rp.seq_place = p.seq_place
     ORDER BY r.fork_count, rp.order_place
 </select>
-
-
 
 
 <!-- 단일 루트 route_seq로 select -->

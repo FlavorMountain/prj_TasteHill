@@ -26,7 +26,7 @@ public class PlaceController {
 		PlaceDetailVO response = placeService.svcSelectPlaceDetailOne(placeId);
 		//없으면 url로 장소상세 요청보내서 가져오고 db에 추가
 		if(response == null) {
-			response = placeService.svcSelectPlaceDetail(placeId, API_KEY);
+			response = placeService.svcInsertPlaceDetail(placeId, API_KEY);
 			if(response != null) {
 				response.setStatus("OK");
 				return ResponseEntity.ok(response);
