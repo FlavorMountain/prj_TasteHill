@@ -37,11 +37,19 @@ public class SearchController {
             Model model) {
 
         // Route와 Place 검색
-        List<RouteVO> searchRoutes = routeService.searchRoutes(query);
-        List<PlaceVO> searchPlaces = placeService.searchPlaces(query);
+    	List<PlaceVO> searchPlaces = placeService.searchPlaces(query);
+    	if(searchPlaces != null) {
+    		int tmp = searchPlaces.get(0).getSeq_place();
+    		List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlace(tmp);    		
+            for(RouteVO x : searchRoutes) {
+            	System.out.println(x.toString());
+            	
+            }
+    		
+    		model.addAttribute("searchRoutes", searchRoutes);    	
+    	}
 
         // 검색 결과를 모델에 추가
-        model.addAttribute("searchRoutes", searchRoutes);
         model.addAttribute("searchPlaces", searchPlaces);
 
         return "/jsp/main/searchList";
