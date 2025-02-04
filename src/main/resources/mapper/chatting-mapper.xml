@@ -10,6 +10,7 @@
 		<result property="sender" 	column="sender"/>
 		<result property="receiver" column="receiver"/>
 		<result property="updatedAt" column="updated_at"/>
+		<result property="lastChatting" column="last_chatting"/>
 	</resultMap>
 	
 	
@@ -19,6 +20,13 @@
 		<result property="createdAt" 	column="created_at"/>
 		<result property="seqMember" 	column="seq_member"/>
 		<result property="seqChattingRoom" 	column="seq_chatting_room"/>
+        <association property="memberVO" javaType="com.tastehill.myweb.member.MemberVO" resultMap="memberMap2"/>
+	</resultMap>
+	
+	<resultMap id="memberMap2" type="com.tastehill.myweb.member.MemberVO">
+		<id     property="seqMember" 	column="seq_member2" />
+		<result property="nickname" column="nickname"/>
+		<result property="profile" 	column="profile"/>
 	</resultMap>
 	
 	
@@ -34,12 +42,13 @@
 		from chatting_room
 		where (sender = #{sender} and receiver = #{receiver}) or (sender = #{receiver} and receiver = #{sender})
 	</select>
+		
 	
 	<select id="selectChattingList" resultMap="chatMap">
-		select *
-		from chat
-		where seq_chatting_room = #{seqChattingRoom}
-		order by created_at desc
+		select c.seq_chat, c.contents, c.created_at, c.seq_member as seq_member, c.seq_chatting_room, m.seq_member as seq_member2, m.nickname, m.profile
+		from chat c, member m
+		where seq_chatting_room = #{seqChattingRoom} and m.seq_member = c.seq_member
+		order by created_at 
 	</select>
 	
 
@@ -51,7 +60,12 @@
 	
 	<insert id="insertChatting">
 		insert into chat(seq_chat, contents, created_at, seq_member, seq_chatting_room)
-		values(seq_chat.nextval, #{CVO.contents}, sysdate, #{CVO.seq_member}, #{CVO.seq_chatting_room}) 
+		values(seq_chat.nextval, #{CVO.contents}, sysdate, #{CVO.seqMember}, #{CVO.seqChattingRoom}) 
 	</insert>
 
+	<update id="updateLastChatting">
+        UPDATE chatting_room
+        SET last_chatting = #{contents}
+        WHERE seq_chatting_room = #{seqChattingRoom}
+	</update>
 </mapper>

@@ -15,4 +15,5 @@ public interface ChattingMapper {
 	List<ChatVO> selectChattingList(@Param("seqChattingRoom") int seqChattingRoom);
 	int insertChattingRoom(@Param("RVO") ChattingRoomVO rvo);
 	int insertChatting(@Param("CVO") ChatVO cvo);
+	int updateLastChatting(@Param("contents") String contents, @Param("seqChattingRoom") int seqChattingRoom);
 }
