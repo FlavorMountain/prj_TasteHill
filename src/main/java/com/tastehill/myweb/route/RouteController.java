@@ -81,6 +81,9 @@ public class RouteController {
 //	        return ResponseEntity.ok("데이터 수신 완료");
 //	    }
 	 
+
+	
+	
 	@PostMapping("/list")
 	public String receivePlaces(@RequestBody Map<String, Object> requestData) {
 	    try {
@@ -112,8 +115,11 @@ public class RouteController {
 	
 	 @GetMapping("/placeMember")
 	    public ResponseEntity<String> getRoutePlacesByMember() {
-	        List<RouteVO> rlist = routeService.svcSelectRoutesAndPlaceByMember(1);
-	        System.out.println(rlist.toString());
+		 	System.out.println("장소 상세조회 테스트");
+		 	System.out.println(placeService.svcSelectDetailOne("ChIJHT_MrIRZezUR-BPnggy311E"));
+
+//	        List<RouteVO> rlist = routeService.svcSelectRoutesAndPlaceByMember(1);
+//	        System.out.println(rlist.toString());
 
 	        return ResponseEntity.ok("데이터 수신 완료");
 	    }
@@ -132,7 +138,4 @@ public class RouteController {
 	        System.out.println(rlist.toString());
 	        return ResponseEntity.ok("데이터 수신 완료");
 	    }
-	
-
 }
-

@@ -12,9 +12,6 @@ import com.tastehill.myweb.place.PhotoVO;
 import com.tastehill.myweb.place.PlaceDetailVO;
 import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.place.WeekdayTextVO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import com.tastehill.myweb.route.RouteVO;
 
 
 @Mapper
@@ -41,4 +38,6 @@ public interface PlaceMapper {
     GeometryVO selectGeometryByPlaceId(@Param("seqPlace") int seqPlace);
     LocationVO selectLocationByPlaceId(@Param("seqPlace") int seqPlace);
 
+    PlaceDetailVO selectDetailOne(@Param("placeId") String placeId);
+    
 }
