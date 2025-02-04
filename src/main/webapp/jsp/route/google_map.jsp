@@ -107,6 +107,7 @@
 
         function placesCallback(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
+            	/* console.log(results); */
                 results.forEach(place => displayPlace(place));
             } else {
                 alert("검색 결과를 가져오는데 실패했습니다.");
@@ -132,6 +133,7 @@
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
+                    	/* console.log(response); */
                         infowindow.setContent(
                             '<div style="padding:5px;font-size:12px;">' +
                             '<strong>' + response.result.name + '</strong><br>' +
@@ -222,6 +224,7 @@
             const list = document.getElementById("selected-list");
             list.innerHTML = "";
 
+            console.log(place);
             selectedPlaces.forEach((place, index) => {
                 const item = document.createElement("li");
                 item.setAttribute("data-place-id", place.place_id); // hidden 속성 추가
@@ -246,7 +249,7 @@
                 });
             });
 
-            console.log(selectedData);
+            /* console.log(selectedData); */
 
             // 로딩 상태 표시
             const submitBtn = document.querySelector('.submit-btn');
