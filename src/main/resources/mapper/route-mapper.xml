@@ -30,7 +30,7 @@
     </collection>
 </resultMap>
 
-<!-- 특정 유저가 작성한 루트 리스트 -->
+<!-- 특정 유저가 작성한 루트 리스트 - 마이페이지 -->
 <select id="selectRoutesAndPlaceByMember" resultMap="RouteWithPlacesMap">
     SELECT 
         r.seq_route, r.title, r.contents, r.seq_member, r.created_at, r.updated_at, r.fork_count,
@@ -43,7 +43,7 @@
     ORDER BY r.fork_count, rp.order_place
 </select>
 
-<!-- 모든 루트 리스트 -->
+<!-- 모든 루트 리스트 - 메인페이지 -->
 <select id="selectAllRoutesAndPlace" resultMap="RouteWithPlacesMap">
     SELECT 
         r.seq_route, r.title, r.contents, r.seq_member, r.created_at, r.updated_at, r.fork_count,
@@ -54,6 +54,10 @@
     LEFT JOIN place p ON rp.seq_place = p.seq_place
     ORDER BY r.fork_count, rp.order_place
 </select>
+
+<!-- 위치 검색결과 기반 루트리스트 -->
+
+<!-- 가게명 기반 검색결과 기반 루트리스트 -->
 
 <!-- 단일 루트 route_seq로 select -->
 <select id="selectRoutesAndPlaceBySeqRoute" resultMap="RouteWithPlacesMap">
@@ -67,6 +71,8 @@
     WHERE r.seq_route = #{seq_route}
     ORDER BY r.fork_count, rp.order_place
 </select>
+
+
 
 
 	<!-- 1. Route 삽입 -->

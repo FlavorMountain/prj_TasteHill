@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OpeningHoursVO {
-	private int seqPlace;
+	private int seq_place;
 	private String place_id;
     private List<WeekdayTextVO> weekday_text;
 }

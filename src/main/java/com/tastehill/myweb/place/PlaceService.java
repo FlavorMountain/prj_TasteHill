@@ -10,5 +10,7 @@ public interface PlaceService {
 	
 	PlaceVO svcSelectPlaceByPlaceId(String placeId);
     List<PlaceVO> searchPlaces(String query);
+    
+    PlaceDetailVO svcSelectDetailOne(String placeId);
   
 }

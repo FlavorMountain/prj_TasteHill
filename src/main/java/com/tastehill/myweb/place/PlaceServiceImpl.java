@@ -214,4 +214,10 @@ public class PlaceServiceImpl implements PlaceService{
 		
 		return pdvo;
 	}
+
+
+	@Override
+	public PlaceDetailVO svcSelectDetailOne(String placeId) {
+		return placeMapper.selectDetailOne(placeId);
+	}
 }
