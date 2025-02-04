@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import com.tastehill.myweb.member.MemberVO;
+
 import lombok.AllArgsConstructor;
 
 @Data
@@ -16,4 +18,5 @@ public class ChatVO {
     private Date createdAt;
     private int seqMember;
     private int seqChattingRoom;
+    private MemberVO memberVO;
 }
