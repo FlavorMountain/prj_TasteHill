@@ -14,7 +14,6 @@ public interface RouteService {
     List<RouteVO> svcSelectHotRoute();
     RouteVO svcSelectPinnedRoute(int seqMember);
     
-    List<RouteVO> searchRoutes(String query);
   	
     int svcInsertRouteWithPlaces(RouteVO route, List<PlaceVO> places);
     
@@ -25,4 +24,7 @@ public interface RouteService {
     //모든 루트 리스트
     List<RouteVO> svcSelectAllRoutesAndPlace();
 
-}
+
+		List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlace(int seq_place);
+    }
+

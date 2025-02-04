@@ -112,6 +112,7 @@
 	        <button>🔍</button>
 	        <button>새 동선 만들기</button>
 	  	</div>
+	  		
 	  	
 	  	<a href="${pageContext.request.contextPath}/jsp/mypage/mypage.jsp" class="button">My Page</a>
 	</div>
@@ -122,11 +123,15 @@
 <c:if test="${empty searchRoutes}">
     <p>경로 검색 결과가 없습니다.</p>
 </c:if>
+
 <c:forEach var="route" items="${searchRoutes}">
     <div class="route-card">
         <p><strong>${route.title}</strong></p>
-        <p>${route.contents}</p>
-        <p>등록일: ${route.updatedAt}</p>
+        <p>좋아요 수: ${route.forkCount}</p>
+        <p>업데이트 날짜: ${route.updatedAt}</p>
+        <c:if test="${not empty route.photo_url}">
+            <img src="${route.photo_url}" alt="${route.title} 사진">
+        </c:if>
     </div>
 </c:forEach>
 

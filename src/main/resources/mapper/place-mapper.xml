@@ -101,13 +101,13 @@
     <select id="searchPlaces" parameterType="string" resultMap="placeWithPhotoMap">
 	  
 select res.p_place_id as place_id,
-       res.p_seqRestaurant as seqRestaurant,
+       res.p_SEQ_PLACE as SEQ_PLACE,
        res.FORMATTED_ADDRESS as formatted_address,
        res.RATING as rating,
        res.PHOTO_URL as photo_url
 from (SELECT 
         p.PLACE_ID AS p_place_id,
-        p.SEQ_PLACE AS p_seqRestaurant,
+        p.SEQ_PLACE AS p_seq_place,
         p.NAME,
         p.FORMATTED_ADDRESS,
         p.RATING,

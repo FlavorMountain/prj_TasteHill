@@ -46,10 +46,7 @@ public class RouteServiceImpl implements RouteService {
     	return routeMapper.getPinnedRouteBySeqMember(seqMember);
     }
     
-    @Override
-    public List<RouteVO> searchRoutes(String query) {
-        return routeMapper.searchRoutes(query);
-    }
+
 
 
 	@Override
@@ -87,6 +84,12 @@ public class RouteServiceImpl implements RouteService {
 	@Override
 	public List<RouteVO> svcSelectAllRoutesAndPlace() {
 		return routeMapper.selectAllRoutesAndPlace();
+	}
+
+	@Override
+	public List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlace(int seq_place) {
+		// seq_place 기준으로 루트 찾기
+        return routeMapper.selectAllRoutesAndPlaceBySearchPlace(seq_place);
 	}
     
 }

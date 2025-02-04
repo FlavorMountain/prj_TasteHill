@@ -24,4 +24,7 @@ public class RouteVO {
     
     //다대다 해결을 위한
     private List<RoutePlaceVO> places;
+    
+    // 대표 사진 추가
+    private String photo_url;
 }
