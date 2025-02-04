@@ -128,7 +128,7 @@
                 const placeId = placeData.place_id;
                 
                 $.ajax({
-                    url: '/route/' + placeId,
+                    url: '/place/' + placeId,
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
@@ -253,7 +253,7 @@
             submitBtn.textContent = '저장 중...';
             submitBtn.disabled = true;
 
-            fetch("/route/list", {
+            fetch("/route/insertRoute", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

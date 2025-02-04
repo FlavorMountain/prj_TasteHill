@@ -152,7 +152,6 @@
 ORDER BY p.RATING DESC
     </select>
 
-
 <resultMap id="placeMap" type="com.tastehill.myweb.place.PlaceVO" >
         <result property="seqPlace" column="seq_place" />
         <result property="place_id" column="oh_place_id"/>
