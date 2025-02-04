@@ -39,7 +39,7 @@ public class RouteController {
 	private String API_KEY;
 	
 	@GetMapping("")
-	public String getMap(HttpServletRequest request, Model model) {
+	public String ctlSelectMap(HttpServletRequest request, Model model) {
 		
 		HttpSession session =  request.getSession();
 		//테스트용 멤버 1번
@@ -48,44 +48,10 @@ public class RouteController {
 		model.addAttribute("content", "/jsp/route/google_map.jsp");
 		return "index";
 	}
-	
 
-	@GetMapping("/{placeId}")
-	public ResponseEntity<PlaceDetailVO> getPlaceDetails(@PathVariable String placeId) {
-		//일단 db에 있는지 찾기
-		PlaceDetailVO response = placeService.svcSelectPlaceDetailByPlaceID(placeId);
-		//없으면 url로 장소상세 요청보내서 가져오고 db에 추가
-		if(response == null) {
-			response = placeService.svcGetPlaceDetail(placeId, API_KEY);
-			if(response != null) {
-				return ResponseEntity.ok(response);
-			}
-			else return ResponseEntity.status(500).body(null);
-		}
-		else return ResponseEntity.ok(response);
-	}
-	
-	 //이 부분 글 작성시 요청보내도록 수정해야됨
-//	 @PostMapping("/list")
-//	    public ResponseEntity<String> receivePlaces(@RequestBody List<PlaceVO> plist) {
-//	        // 받은 데이터 출력
-//	        for (PlaceVO place : plist) {
-//	        	System.out.println(place.toString());
-//	        }
-//	        RouteVO rvo = new RouteVO();
-//	        rvo.setSeqMember(1);
-//	        rvo.setTitle("test title");
-//	        rvo.setContents("test contents");
-//	        routeService.svcInsertRouteWithPlaces(rvo, plist);
-//
-//	        return ResponseEntity.ok("데이터 수신 완료");
-//	    }
 	 
-
-	
-	
-	@PostMapping("/list")
-	public String receivePlaces(@RequestBody Map<String, Object> requestData) {
+	@PostMapping("/insertRoute")
+	public String ctlInsertRoute(@RequestBody Map<String, Object> requestData) {
 	    try {
 	        List<Map<String, String>> placesData = (List<Map<String, String>>) requestData.get("places");
 	        String title = (String) requestData.get("title");
@@ -113,13 +79,12 @@ public class RouteController {
 	}
 	
 	
+	// 루트 조회 테스트용
+	
 	 @GetMapping("/placeMember")
 	    public ResponseEntity<String> getRoutePlacesByMember() {
-		 	System.out.println("장소 상세조회 테스트");
-		 	System.out.println(placeService.svcSelectDetailOne("ChIJHT_MrIRZezUR-BPnggy311E"));
-
-//	        List<RouteVO> rlist = routeService.svcSelectRoutesAndPlaceByMember(1);
-//	        System.out.println(rlist.toString());
+	        List<RouteVO> rlist = routeService.svcSelectRoutesAndPlaceByMember(1);
+	        System.out.println(rlist.toString());
 
 	        return ResponseEntity.ok("데이터 수신 완료");
 	    }
