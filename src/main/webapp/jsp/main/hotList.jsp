@@ -13,43 +13,49 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/map.css">
 
     <style>
-        /* 네비게이션 바 */
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 20px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #004d00;
-        }
-
-        .navbar .search-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navbar input[type="text"] {
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 300px;
-        }
-
-        .navbar button {
-            background-color: #004d00;
-            color: white;
+        .search-container {
+		    display: flex;
+		    justify-content: center; /* 가로 정렬 */
+		    align-items: center; /* 세로 정렬 */
+		    height: 10px; /* 원하는 높이를 설정 */
+		    margin-top: 20px; /* 상단 여백 */
+		}
+		
+		.search-container button {
+			background-color: rgba(0, 77, 0, 0.8);
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
         }
+        
+        .search-container input[type="text"] {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+        }
+        
+        .search-bar {
+		    display: flex;
+		    align-items: center;
+		    gap: 30px; /* 입력 필드와 버튼 간 간격 */
+		}
+
+		.route-creat{
+        	float: right;
+        	padding-right: 10%;
+		}
+		
+		.route-creat button{
+            height: 30px;
+			background-color: rgba(0, 77, 0, 0.8);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+		}
 
         /* 섹션 제목 */
         .section-title {
@@ -139,26 +145,31 @@
 </head>
 <body>
 
-	<!-- 네비게이션 바 -->
-	<div class="navbar">
-	    <div class="logo">
-	    	<a href="/main" style="text-decoration: none; color: inherit;">TasteHILL</a>
-	    </div>
-	    <div class="search-bar">
-	         <form action="/searchList" method="get">
-				    <select name="location">
-	            	    <option value="">위치</option>
-				        <option value="서울">서울</option>
-				        <option value="부산">부산</option>
-				    </select>
-				    <input type="text" name="query" placeholder="search place...">
-				    <button type="submit">🔍</button>
-				</form>
-	       	<button onclick="location.href='/jsp/route/route_create.jsp'">새 동선 만들기</button>
-	  	</div>
-	  	
-	  	<a href="${pageContext.request.contextPath}/profile" class="button">My Page</a>
-	</div>
+		<!-- 검색 바 -->
+		<div>
+		    <div class="search-container">
+			    <div class="search-bar">
+			        <form action="/searchList" method="get">
+					    <select name="location">
+		            	    <option value="">위치</option>
+					        <option value="서울">서울</option>
+					        <option value="부산">부산</option>
+					    </select>
+					    <input type="text" name="query" placeholder="search place...">
+					    <button type="submit">🔍</button>
+					</form>
+			        
+			    </div>
+		    </div>
+		 </div>
+		 
+		 <div class="route-creat">
+		  	<button onclick="location.href='/route'">새 동선 만들기</button>
+		 </div> 
+		
+		<br>
+		<br>
+		
 
 
 	<!-- hotList -->

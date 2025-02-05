@@ -6,11 +6,24 @@
 }
 
 /* Map container */
-.map-container {
+/* .map-container {
     width: 100%;
     height: 300px;
     background-color: #f0f0f0;
     margin-bottom: 20px;
+} */
+
+.map-container {
+    flex-grow: 1;
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#map {
+    width: 100%;
+    height: 400px;
 }
 
 /* Post header */

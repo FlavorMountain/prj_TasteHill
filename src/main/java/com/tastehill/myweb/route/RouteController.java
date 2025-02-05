@@ -43,7 +43,7 @@ public class RouteController {
 		
 		HttpSession session =  request.getSession();
 		//테스트용 멤버 1번
-		session.setAttribute("SESS_MEMBER_ID", 1);
+		session.setAttribute("SESS_MEMBER_ID", 2);
 		session.setAttribute("API_KEY", API_KEY);
 		model.addAttribute("content", "/jsp/route/google_map.jsp");
 		return "index";
@@ -72,6 +72,8 @@ public class RouteController {
 	        rvo.setSeqMember(1);
 	        rvo.setTitle(title);
 	        rvo.setContents(contents);
+	        
+	        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + rvo.toString());
 	        
 	        routeService.svcInsertRouteWithPlaces(rvo, plist);
 	        return "redirect:/main";
