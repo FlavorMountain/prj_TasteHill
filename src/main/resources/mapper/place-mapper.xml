@@ -120,7 +120,8 @@ from (SELECT
                 ORDER BY place_id
             ) ph
  where p.place_id = ph.place_id and p.NAME LIKE '%' || #{query} || '%'
- OR p.FORMATTED_ADDRESS LIKE '%' || #{query} || '%')  res
+ OR p.FORMATTED_ADDRESS LIKE '%' || #{query} || '%'
+ )  res
  where rownum = 1
     </select>
 
