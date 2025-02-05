@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Post Detail</title>
+        <script src="https://maps.googleapis.com/maps/api/js?key=${sessionScope.API_KEY}&libraries=places"></script>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/route_detail.css">
 </head>
 <body>
@@ -13,6 +14,10 @@
         <!-- Map placeholder -->
         <div class="map-container">
             <!-- Map will be inserted here -->
+            <div id="map">
+            
+            
+            </div>
         </div>
 
         <!-- Post header -->
@@ -114,10 +119,77 @@ when an unknown printer took a galley of type and scrambled it to make a t
         </div>
     </div>
     
+    
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
+	let map;
+	let service;
+	let currentPolyline = null;
+	let res;
+
+function initMap(res) {
+	/* 루트VO 첫번째 장소 기준 플레이스 찍기 */
+	console.log(res.places[0].place.location.lat);
+    const center = { lat: res.places[0].place.location.lat, 
+    			     lng: res.places[0].place.location.lng };
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: center,
+        zoom: 16,
+        styles: [
+            {
+                "featureType": "poi",
+                "elementType": "labels",
+                "stylers": [{ "visibility": "off" }]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "labels.icon",
+                "stylers": [{ "visibility": "off" }]
+            }
+        ]
+    });
+    service = new google.maps.places.PlacesService(map);
+}
+	
+function displayPlace(place) {
+/*   	console.log(place.location);
+	console.log(place.location); */ 
+ 
+ 	var myLatlng = new google.maps.LatLng(place.location.lat, place.location.lng);
+    const marker = new google.maps.Marker({
+        map: map,
+        position: myLatlng
+    });
+}
+
+function markingPlace(results) {
+        results.forEach(places => {
+        	/* const placeClone = JSON.parse(JSON.stringify(place)); */
+        	/* console.log(place); */
+        	displayPlace(places.place);
+        });
+}
+
 $( document ).ready(function() {
 	
+	/* 루트 정보 컨트롤러에 요청하는 부분 */
+	 $.ajax({
+	        url: "/detail/getRoute/" + ${seqRoute},
+	        method: "GET",
+	        dataType: "json",
+	        success: function(response) {
+	            /* console.log("경로 데이터:", response.places); */
+	            res = JSON.parse(JSON.stringify(response));
+	            /* console.log(res); */
+	            initMap(res);
+	            markingPlace(res.places);
+	        },
+	        error: function(error) {
+	            console.error("에러 발생:", error);
+	        }
+	    });
+	 
+	 
 	//$("#emp-btn").click( function() {
 		
 		/*
@@ -187,11 +259,9 @@ $( document ).ready(function() {
 	    });
 	});
 	
-	
+
 	
 });
-
-
 
 </script>
 </body>
