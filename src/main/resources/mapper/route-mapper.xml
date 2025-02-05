@@ -52,8 +52,7 @@ SELECT
 </select>
 <!-- 특정 유저가 작성한 루트 리스트 - 마이페이지 -->
 <select id="selectRoutesAndPlaceByMember" resultMap="RouteWithPlacesMap">
-    SELECT 
-        r.seq_route, r.title, r.contents, r.seq_member, 
+    SELECT r.seq_route, r.title, r.contents, r.seq_member, 
         r.created_at, r.updated_at, r.fork_count,
         (SELECT ph.photo_url 
          FROM photo ph 
@@ -62,7 +61,7 @@ SELECT
           FROM route_place rp 
           WHERE rp.seq_route = r.seq_route AND ROWNUM = 1)
          AND ROWNUM = 1) AS photo_url
-    FROM route r
+    FROM route r    
     WHERE r.seq_member = #{seqMember}
     ORDER BY r.created_at DESC
 </select>
@@ -133,7 +132,7 @@ SELECT
 
 
     <!-- 좋아요/스크랩한 동선 리스트 -->
-    <select id="selectFavoriteRoutes" parameterType="int" resultMap="RouteWithPlacesMap">
+     <select id="selectFavoriteRoutes" parameterType="int" resultMap="RouteWithPlacesMap">
     SELECT 
         r.seq_route, r.title, r.contents, r.seq_member, 
         r.created_at, r.updated_at, r.fork_count,
@@ -169,19 +168,24 @@ SELECT
     </select>
     
      <!-- Pinned Route -->
-    <select id="getPinnedRouteBySeqMember" resultType="com.tastehill.myweb.route.RouteVO">
+    <select id="getPinnedRouteBySeqMember" resultMap="RouteWithPlacesMap">
         SELECT 
-            r.TITLE,
-            r.CONTENTS,
-            r.CREATED_AT,
-            r.UPDATED_AT
-        FROM 
-            MEMBER m
-            LEFT JOIN ROUTE r ON m.PINNED_ROUTE = r.SEQ_ROUTE
-        WHERE 
-            m.PINNED_ROUTE IS NOT NULL
-            AND m.SEQ_MEMBER = #{seqMember}
-        ORDER BY m.SEQ_MEMBER
+        r.seq_route, r.title, r.contents, r.seq_member, 
+        r.created_at, r.updated_at, r.fork_count,
+        (SELECT ph.photo_url 
+         FROM photo ph 
+         WHERE ph.seq_place = 
+         (SELECT rp.seq_place 
+          FROM route_place rp 
+          WHERE rp.seq_route = r.seq_route AND ROWNUM = 1)
+         AND ROWNUM = 1) AS photo_url
+    FROM route r
+    WHERE r.seq_route = (
+        SELECT m.pinned_route 
+        FROM member m 
+        WHERE m.seq_member = #{seqMember} 
+          AND m.pinned_route IS NOT NULL
+    )
     </select>
     
 
