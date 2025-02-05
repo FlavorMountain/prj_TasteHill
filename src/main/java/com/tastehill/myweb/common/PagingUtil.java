@@ -49,7 +49,7 @@ public class PagingUtil {
 		// [이전] HTML
 		pagingHtml = new StringBuffer();
 		if (currentPage > blockPage) {
-			pagingHtml.append("<a href='" + "http://localhost:8089" + url +"?&currentPage="  + (startPage - 1) + "'>");
+			pagingHtml.append("<a href='" + "http://localhost:8089/search" + url +"?&currentPage="  + (startPage - 1) + "'>");
 			pagingHtml.append("이전");
 			pagingHtml.append("</a>");
 		}

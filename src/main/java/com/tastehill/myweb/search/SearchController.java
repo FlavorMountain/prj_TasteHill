@@ -23,7 +23,10 @@ import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.route.RouteService;
 import com.tastehill.myweb.route.RouteVO;
 
+import lombok.Getter;
+
 @Controller
+@RequestMapping("/search")
 public class SearchController {
 
     @Autowired
@@ -32,13 +35,13 @@ public class SearchController {
     @Autowired
     private PlaceService placeService;
 
-    @GetMapping("/searchList_before")
+    @GetMapping("/list")
     public String searchAll(
             @RequestParam(value = "query", required = false) String query,
             Model model) {
 
         // Route와 Place 검색
-    	List<PlaceVO> searchPlaces = placeService.searchPlaces(query);
+    	List<PlaceVO> searchPlaces = placeService.searchPlacesByName(query);
     	if(searchPlaces != null) {
     		
     		int blockCount = 3; 
@@ -49,7 +52,7 @@ public class SearchController {
     		int currentPage = 1;
     		
     		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
-    		PagingUtil pg = new PagingUtil("/searchList_before", currentPage, size, blockCount, blockPage);
+    		PagingUtil pg = new PagingUtil("/list", currentPage, size, blockCount, blockPage);
     		List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
 
             for(RouteVO x : searchRoutes) {
