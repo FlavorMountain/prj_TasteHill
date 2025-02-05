@@ -7,6 +7,7 @@ public interface PlaceService {
 	
 	public PlaceDetailVO svcInsertPlaceDetail(String placeId,String API_KEY);
 	PlaceVO svcSelectPlaceByPlaceId(String placeId);
-    List<PlaceVO> searchPlaces(String query);
+    List<PlaceVO> searchPlacesByName(String query);
+    List<PlaceVO> searchPlacesByAddress(String query);
     PlaceDetailVO svcSelectPlaceDetailOne(String placeId);
 }

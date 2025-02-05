@@ -37,9 +37,14 @@ public class PlaceServiceImpl implements PlaceService{
 	CommonService commonService;
 	
   @Override
-    public List<PlaceVO> searchPlaces(String query) {
-        return placeMapper.searchPlacesByName(query);
+    public List<PlaceVO> searchPlacesByName(String query) {
+      return placeMapper.searchPlacesByName(query);
     }
+  
+  @Override
+  public List<PlaceVO> searchPlacesByAddress(String query) {
+    return placeMapper.searchPlacesByAddress(query);
+  }
 
 
 	//placeVO에 연관 VO 5개가 박혀서 6개 한방에 묶었습니다
