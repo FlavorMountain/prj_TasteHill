@@ -34,7 +34,10 @@ public interface RouteMapper {
     // RoutePlace 관계 저장
     void insertRoutePlaces(@Param("routePlaces") List<RoutePlaceVO> routePlaces);
     
-    List<RouteVO> selectAllRoutesAndPlaceBySearchPlace(@Param("seq_place") int seq_place);
+    List<RouteVO> selectAllRoutesAndPlaceBySearchPlacePaging(@Param("seq_place") int seq_place
+    		,@Param("start") int start,@Param("seq_place") int end);
 	List<RouteVO> searchRoutesByMember(int seqMember);
+	
+	int selectCountAllRoutesAndPlaceBySearchPlacePaging(@Param("seqPlace") int seqPlace);
     
     }

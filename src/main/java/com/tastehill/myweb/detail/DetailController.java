@@ -48,45 +48,25 @@ public class DetailController {
 	private PlaceService psvc;
 
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String ctlDetailPage(Model model, 
-			@RequestParam("seqRoute") int seqRoute) {
+	public String ctlDetailPage(Model model, HttpSession session,
+			@RequestParam("seq_route") int seqRoute) {
 
 		RouteVO rvo = rsvc.svcSelectRoutesAndPlaceBySeqRoute(seqRoute);
 		MemberVO mvo = msvc.svcSelectMember(rvo.getSeqMember());
 		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
 
+		session.setAttribute("API_KEY", API_KEY);
+		
 		model.addAttribute("RVO", rvo);
 		model.addAttribute("MVO", mvo);
 		model.addAttribute("CLIST", clist);
-		
-		
-		model.addAttribute("content", "jsp/detail/route_detail.jsp");
-		return "index";
-	}
-	
-	@RequestMapping(value = "/detail/{seqRoute}", method = RequestMethod.GET)
-	public String ctlDetailmapPage(HttpServletRequest request, Model model, 
-			@PathVariable("seqRoute") int seqRoute) {
-		
-		HttpSession session =  request.getSession();
-		//테스트용 멤버 1번
-		session.setAttribute("SESS_MEMBER_ID", 1);
-		session.setAttribute("API_KEY", API_KEY);
-		
+//		model.addAttribute("PLIST", plist);
 
-		MemberVO mvo = msvc.svcSelectMember(1);
-		
-		RouteVO rvo =  rsvc.svcSelectRoutesAndPlaceBySeqRoute(seqRoute);
-		
-		System.out.println(rvo.toString());
-//		List<CommentsVO> clist = csvc.svcSelectComments(1);
-//		model.addAttribute("MVO", mvo);
-//		model.addAttribute("CLIST", clist);
-		
 		model.addAttribute("seqRoute", seqRoute);
 		model.addAttribute("content", "jsp/detail/route_detail.jsp");
 		return "index";
 	}
+	
 	
 	// 루트vo 전달
 	// 공통 기능이 될거같아서 route쪽으로 빼야 될까 고민중
