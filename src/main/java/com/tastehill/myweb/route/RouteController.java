@@ -43,7 +43,7 @@ public class RouteController {
 		
 		HttpSession session =  request.getSession();
 		//테스트용 멤버 1번
-		session.setAttribute("SESS_MEMBER_ID", 2);
+		session.setAttribute("SESS_MEMBER_ID", 1);
 		session.setAttribute("API_KEY", API_KEY);
 		model.addAttribute("content", "/jsp/route/google_map.jsp");
 		return "index";
