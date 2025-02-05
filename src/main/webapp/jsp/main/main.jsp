@@ -22,7 +22,7 @@
 		}
 		
 		.search-container button {
-            color: white;
+			background-color: rgba(0, 77, 0, 0.8);
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
@@ -48,17 +48,7 @@
 		}
 		
 		.route-creat button{
-			height: 30px;
-			background-color: white;
-            color: #004d00;
-            border: 5px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-		}
-		
-		.route-creat button:hover {
-			height: 30px;
+            height: 30px;
 			background-color: rgba(0, 77, 0, 0.8);
             color: white;
             border: none;
@@ -182,7 +172,7 @@
 		<div>
 		    <div class="search-container">
 			    <div class="search-bar">
-			        <form action="/searchList" method="get">
+			        <form action="/routeList/searchList" method="get">
 					    <select name="location">
 		            	    <option value="">위치</option>
 					        <option value="서울">서울</option>
@@ -195,8 +185,6 @@
 			    </div>
 		    </div>
 		 </div>
-		 
-		 <br>
 		 
 		 <div class="route-creat">
 		  	<button onclick="location.href='/route'">새 동선 만들기</button>
@@ -212,8 +200,9 @@
 			     	<c:forEach var="route" items="${hotRoutes}" varStatus="status">
 				        <c:if test="${status.index < 4}">
 			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
-			                    <p class="card-title">${route.title}</p>
-			                    <p class="card-date">등록일: ${route.updatedAt}</p>
+			                    <p class="card-title">${route.title}</p>                               
+			                    <img src="${route.photo_url}" alt="${route.title}" width="100px" height="50px">
+                                <p class="card-date">등록일:${route.createdAt}</p>
 			                </button>
 			            </c:if>
 			        </c:forEach>
@@ -230,7 +219,8 @@
 				        <div class="pinned-route">
 				            <button class="pinned-route-content" onclick="location.href='/detail?seq_route=${route.seq_route}'">
 				                
-				                <p class="pinned-route-title">${pinnedRoute.title} 📍</p>
+				                <p class="pinned-route-title">${pinnedRoute.title} 📍</p>                            
+			                    <img src="${pinnedRoute.photo_url}" alt="${pinnedRoute.title}" width="100px" height="50px">
 				                <p class="pinned-route-contents">${pinnedRoute.contents}</p>
 				            </button>
 				        </div>

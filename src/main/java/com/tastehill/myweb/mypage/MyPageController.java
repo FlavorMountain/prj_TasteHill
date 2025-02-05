@@ -37,7 +37,7 @@ public class MyPageController {
             return "redirect:/loginPage"; // 로그인 페이지로 이동
         }
         MemberVO member = memberService.svcSelectMember(seqMember);
-        List<RouteVO> myRoutes = routeService.svcSelectRouteAllMy(seqMember);
+        List<RouteVO> myRoutes = routeService.svcSelectRoutesAndPlaceByMember(seqMember);
         List<RouteVO> forkRoutes = routeService.svcSelectRouteAllByFork(seqMember);
         model.addAttribute("member", member);
         model.addAttribute("myRoutes", myRoutes); // 추가

@@ -51,10 +51,9 @@ public class DetailController {
 	public String ctlDetailPage(Model model, HttpSession session,
 			@RequestParam("seq_route") int seqRoute) {
 
-//		RouteVO rvo = rsvc.svcSelectRoute(seqRoute);
-		
-//		MemberVO mvo = msvc.svcSelectMember(rvo.getSeqMember());
-//		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
+		RouteVO rvo = rsvc.svcSelectRoutesAndPlaceBySeqRoute(seqRoute);
+		MemberVO mvo = msvc.svcSelectMember(rvo.getSeqMember());
+		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
 
 		session.setAttribute("API_KEY", API_KEY);
 

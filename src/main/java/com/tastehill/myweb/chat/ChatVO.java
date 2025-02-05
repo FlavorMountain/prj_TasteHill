@@ -19,4 +19,5 @@ public class ChatVO {
     private int seqMember;
     private int seqChattingRoom;
     private MemberVO memberVO;
+    private String nickname;
 }
