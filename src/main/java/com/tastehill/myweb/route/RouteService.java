@@ -24,8 +24,6 @@ public interface RouteService {
     //모든 루트 리스트
     List<RouteVO> svcSelectAllRoutesAndPlace();
 
-	List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlace(int seq_place);
-
 	void svcIncreaseFork(int seqRoute);
 	void svcDecreaseFork(int seqRoute);
 	List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlacePaging(int seq_place, int start, int end);
