@@ -28,6 +28,7 @@
         </div>
         <div class="chat-input">
         	<input type="hidden" id="sess-num" value="${sessionScope.SESS_MEMBER_ID}"/>
+        	<input type="hidden" id="sess-nick" value="${sessionScope.SESS_NICKNAME}"/>
         	<input type="hidden" id="room-num" value="${seqChattingRoom}"/>
             <input type="text" id="message" placeholder="메시지를 입력하세요..." />
             <button id="sendBtn" class="send-button">전송</button>
@@ -35,66 +36,68 @@
     </div>
 	
 	<script>
-		$("#sendBtn").click(function() {
-			sendMessage();
-		});
+		let roomId = $("#room-num").val(); // 채팅방 ID 가져오기
+		let nickname = $("#sess-nick").val();
 		
-		let socket = new SockJS("http://localhost:8089/chatting");
-		socket.onmessage = onMessage;
-		socket.onclose = onClose;
+		let sessionMember = 0;
+	    let socket = new SockJS("http://localhost:8089/chatting/");
+	
+	    socket.onmessage = onMessage;
+	    socket.onclose = onClose;
+	
+	    $("#sendBtn").click(function () {
+			sessionMember = $("#sess-num").val();
+	        sendMessage();
+	    });
+
+	    function sendMessage() {
+	        let message = $("#message").val();
+	        let jsonObj = {
+	            contents: message,
+	            seqChattingRoom: roomId,
+	            seqMember: sessionMember,
+	            nickname: nickname
+	        };
+	        socket.send(JSON.stringify(jsonObj));
+	    }
+	    
+	    function onMessage(msg) {
+	        let obj = JSON.parse(msg.data);
+	        updateChat(obj);
+	    }
 		
-		function sendMessage() {
-			socket.send($("#message").val());
-		}
-		
-		function onMessage(msg) {
-			var contents = msg.data;
-			var seqChattingRoom = $("#room-num").val();
-			var sessionMember = $("#sess-num").val();
-		    jsonObj = {"contents" : contents, "seqChattingRoom" : seqChattingRoom} 
-		    jsonStr = JSON.stringify(jsonObj);
+		function updateChat(cvo) {
+		    jsonStr = JSON.stringify(cvo);
+			sessionMember = $("#sess-num").val();
 			
+			var newComment = "<div class='message " + (cvo.seqMember == sessionMember ? "mine" : "") + "'>";
+	    	newComment +=     "<div class='profile-image'>";
+	    	newComment +=     "<img src='/resources/images/tastehill.png'>";
+	    	newComment +=     "</div>";
+	    	newComment +=       "<div class='message-content'>";
+	    	newComment +=           "<div class='sender'>" + cvo.nickname+"</div>";
+	    	newComment +=             "<div class='text'>"+cvo.contents+"</div>";
+	    	newComment +=           "</div>";
+	    	newComment +=        "</div>";
+	    	
+	        $(".chat-messages").append(newComment);
+			
+	        sessionMember = 0;
+			
+            scrollToBottom();
+	        
 			$.ajax({
 		    	url  		: "/sendchatting",
 		    	method 		: "POST", 
 		    	data 		:  jsonStr ,
 		    	contentType : "application/json; charset=UTF-8", 
 		    	dataType 	: "json",
-		    	success: function(obj) {    //{"message":"okmap","status":"200"}
-		    	    // 기존 댓글 목록 비우기
-		    	    $(".chat-messages").empty();
-		    	    
-		    	    // 받아온 댓글 목록으로 새로 구성
-		    	    obj.CLIST.forEach(function(cvo) {
-
-		    	    	console.log(cvo.seqMember == sessionMember);
-		    	    	console.log(cvo.seqMember == sessionMember ? "mine" : "fail");
-
-		    	    	var newComment = "<div class='message " + (cvo.seqMember == sessionMember ? "mine" : "") + "'>";
-		    	    	newComment +=     "<div class='profile-image'>";
-		    	    	newComment +=     "<img src='/resources/images/tastehill.png'>";
-		    	    	newComment +=     "</div>";
-		    	    	newComment +=       "<div class='message-content'>";
-		    	    	newComment +=           "<div class='sender'>"+cvo.memberVO.nickname+"</div>";
-		    	    	newComment +=             "<div class='text'>"+cvo.contents+"</div>";
-		    	    	newComment +=           "</div>";
-		    	    	newComment +=        "</div>";
-		    	    	
-
-		    	        // 댓글 목록에 새로운 댓글 추가
-		    	        $(".chat-messages").append(newComment);
-		    	    });
-		    	    
-
-					$("#message").val('');
-					
-		            scrollToBottom();
-		    	    
-		    	},
+		    	success: function(obj) {
+		     	},
 		    	error : function(err) { console.log("에러:" + err) }  
 		    });
 			
-			
+			$("#message").val('');
 		}
 		
 		function onClose() {
