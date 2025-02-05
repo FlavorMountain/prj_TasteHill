@@ -94,12 +94,8 @@ public class ChatController {
 				}
 			}
 
-		    List<ChatVO> clist = svc.svcSelectChattingList(seqChattingRoom);
-		    
-			Map<String, Object> response = new HashMap<>();
-		    
-		    response.put("CLIST", clist);
-		    
+		    Map<String, Object> response = new HashMap<>();
+		    response.put("message", "ok");
 		    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }
