@@ -98,30 +98,47 @@
 </select> 
     
        <!-- 장소 기반 검색 기능 -->
-    <select id="searchPlaces" parameterType="string" resultMap="placeWithPhotoMap">
+    <select id="searchPlacesByName" parameterType="string" resultMap="placeWithPhotoMap">
 	  
-select res.p_place_id as place_id,
-       res.p_SEQ_PLACE as SEQ_PLACE,
-       res.FORMATTED_ADDRESS as formatted_address,
-       res.RATING as rating,
-       res.PHOTO_URL as photo_url
-from (SELECT 
-        p.PLACE_ID AS p_place_id,
-        p.SEQ_PLACE AS p_seq_place,
-        p.NAME,
-        p.FORMATTED_ADDRESS,
-        p.RATING,
-        ph.PHOTO_URL
-	    FROM 
-            Place p, 
-            (
+    SELECT 
+        r.seq_route, r.title, r.contents, r.seq_member, 
+        r.created_at, 
+        r.updated_at, 
+        r.fork_count,
+        rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
+        p.seq_place, p.place_id, p.name, p.formatted_address, p.rating,
+       	ph.PHOTO_URL as photo_url
+    FROM route r
+    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+    LEFT JOIN place p ON rp.seq_place = p.seq_place,(
                 SELECT place_id, PHOTO_URL
                 FROM photo
                 ORDER BY place_id
             ) ph
- where p.place_id = ph.place_id and p.NAME LIKE '%' || #{query} || '%'
- OR p.FORMATTED_ADDRESS LIKE '%' || #{query} || '%')  res
- where rownum = 1
+    WHERE p.place_id = ph.place_id and p.NAME LIKE '%' || #{query} || '%'
+    ORDER BY r.fork_count DESC, rp.order_place ASC
+    </select>
+    
+           <!-- 위치 기반 검색 기능 -->
+    <select id="searchPlacesByAddress" parameterType="string" resultMap="placeWithPhotoMap">
+	  
+SELECT 
+        r.seq_route, r.title, r.contents, r.seq_member, 
+        r.created_at, 
+        r.updated_at, 
+        r.fork_count,
+        rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
+        p.seq_place, p.place_id, p.name, p.formatted_address, p.rating,
+       	ph.PHOTO_URL as photo_url
+    FROM route r
+    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+    LEFT JOIN place p ON rp.seq_place = p.seq_place,(
+                SELECT place_id, PHOTO_URL
+                FROM photo
+                ORDER BY place_id
+            ) ph
+    WHERE p.place_id = ph.place_id and p.formatted_address LIKE '%' || #{query} || '%'
+    ORDER BY r.fork_count DESC, rp.order_place ASC
     </select>
 
 

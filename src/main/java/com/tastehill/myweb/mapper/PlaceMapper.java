@@ -22,7 +22,8 @@ public interface PlaceMapper {
     int insertWeekdayText(Map<String, Object> wmap);
     int insertGeometry(Map<String, Object> gmap);
     int insertLocation(Map<String, Object> lmap);
-    List<PlaceVO> searchPlaces(@Param("query") String query);
+    List<PlaceVO> searchPlacesByName(@Param("query") String query);
+    List<PlaceVO> searchPlacesByAddress(@Param("query") String query);
     // 장소VO 조회
     PlaceVO selectPlaceByPlaceId(@Param("placeId") String placeId);
     // 장소상세 조회
