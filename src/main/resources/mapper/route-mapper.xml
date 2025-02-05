@@ -39,39 +39,32 @@
 
 <!-- 장소 검색결과 기반 루트리스트 -->
 <select id="selectAllRoutesAndPlaceBySearchPlacePaging"  resultMap="RouteWithPlacesMap">
+
 SELECT * FROM (
     SELECT 
-        r.seq_route, r.title, r.contents, r.seq_member, 
-        r.created_at, 
-        r.updated_at, 
-        r.fork_count,
+        ROW_NUMBER() OVER (ORDER BY r.fork_count DESC) as ranking,
+        r.seq_route, r.title, r.contents, r.seq_member, r.created_at, r.updated_at, r.fork_count,
         rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
         p.seq_place, p.place_id, p.name, p.formatted_address, p.rating,
-        (SELECT ph.photo_url 
-         FROM photo ph 
-         WHERE ph.seq_place = p.seq_place 
-         AND ROWNUM = 1) AS photo_url,
-        ROWNUM AS rownum
-    FROM (
-        SELECT 
-            r.seq_route, r.title, r.contents, r.seq_member, 
-            r.created_at, 
-            r.updated_at, 
-            r.fork_count,
-            rp.seq_place, rp.order_place, rp.price,
-            p.seq_place, p.place_id, p.name, p.formatted_address, p.rating
-        FROM route r
-        LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
-        LEFT JOIN place p ON rp.seq_place = p.seq_place
-        WHERE p.seq_place = #{seq_place}
-        ORDER BY r.fork_count DESC, rp.order_place ASC
-    ) sub
-) WHERE rownum_ BETWEEN #{start} AND #{end}
+        (
+            SELECT ph.photo_url 
+            FROM photo ph 
+            WHERE ph.seq_place = p.seq_place 
+            AND ROWNUM = 1
+         ) AS photo_url
+    FROM route r
+    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+    LEFT JOIN place p ON rp.seq_place = p.seq_place
+    WHERE p.seq_place = #{seq_place}
+) ranked_routes
+WHERE ranking BETWEEN #{start} AND #{end}
+ORDER BY ranking ASC
+
 </select>
 
-<select id = "selectCountAllRoutesAndPlaceBySearchPlacePaging" resultMap="RouteWithPlacesMap">
+<select id = "selectCountAllRoutesAndPlaceBySearchPlacePaging" resultType="int">
 
-SELECT COUNT(*)
+<!-- SELECT COUNT(*)
 FROM (
     SELECT 
         r.seq_route, r.title, r.contents, r.seq_member, 
@@ -84,7 +77,13 @@ FROM (
     LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
     LEFT JOIN place p ON rp.seq_place = p.seq_place
     WHERE p.seq_place = #{seqPlace}
-)
+) -->
+
+SELECT COUNT(*)
+FROM route r
+LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+LEFT JOIN place p ON rp.seq_place = p.seq_place
+WHERE p.seq_place = #{seqPlace}
 </select>
 
 

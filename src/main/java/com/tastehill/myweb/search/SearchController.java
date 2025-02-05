@@ -35,39 +35,34 @@ public class SearchController {
     @Autowired
     private PlaceService placeService;
 
-    @GetMapping("/list")
+    @GetMapping("/searchList")
     public String searchAll(
             @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             Model model) {
 
-        // Route와 Place 검색
-    	List<PlaceVO> searchPlaces = placeService.searchPlacesByName(query);
-    	if(searchPlaces != null) {
-    		
-    		int blockCount = 3; 
-    		int blockPage = 10;
-    		
-    		int seqPlace = searchPlaces.get(0).getSeq_place();
-    		
-    		int currentPage = 1;
-    		
-    		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
-    		PagingUtil pg = new PagingUtil("/list", currentPage, size, blockCount, blockPage);
-    		List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
+        List<PlaceVO> searchPlaces = placeService.searchPlacesByName(query);
+        if (searchPlaces != null && !searchPlaces.isEmpty()) {
 
-            for(RouteVO x : searchRoutes) {
-            	System.out.println(x.toString());
-            }
-    		
-    		model.addAttribute("searchRoutes", searchRoutes);   
-    		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
-    	}
+            int blockCount = 3;
+            int blockPage = 10;
 
-        // 검색 결과를 모델에 추가
+            int seqPlace = searchPlaces.get(0).getSeq_place();
+
+            int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
+            PagingUtil pg = new PagingUtil("/routeList/searchList?query=" + query, currentPage, size, blockCount, blockPage);
+            
+            List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
+
+            model.addAttribute("searchRoutes", searchRoutes);
+            model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
+        }
+
         model.addAttribute("searchPlaces", searchPlaces);
-
-        return "/jsp/main/searchList";
+        model.addAttribute("content", "/jsp/route/route_list.jsp");
+        return "index";
     }
+
 }
 
 
