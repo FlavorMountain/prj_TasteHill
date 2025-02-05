@@ -88,6 +88,21 @@
             infowindow = new google.maps.InfoWindow();
             service = new google.maps.places.PlacesService(map);
         }
+        
+        function requestRoute(){
+        	$.ajax({
+                url: "/detail/getRoute/" + seqRoute,
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    console.log("경로 데이터:", response);
+                    $(".post-title").text(response.routeName);  // 예제: 제목 변경
+                },
+                error: function(error) {
+                    console.error("에러 발생:", error);
+                }
+            });
+        }
 
         function searchPlaces() {
 /*             if (currentPolyline) {
@@ -106,6 +121,7 @@
         }
 
         function placesCallback(results, status) {
+        	console.log(results);
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 results.forEach(place => displayPlace(place));
             } else {
@@ -121,6 +137,7 @@
             
             marker.set('placeData', place);
             markers.push(marker);
+            console.log(markers);
             
             marker.addListener("click", ({ domEvent, latLng }) => {
                 const { target } = domEvent;

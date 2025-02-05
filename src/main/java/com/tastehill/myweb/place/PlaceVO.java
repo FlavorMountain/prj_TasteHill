@@ -23,4 +23,5 @@ public class PlaceVO {
     
 
     private PhotoVO photos;
+    private LocationVO location;
 }
