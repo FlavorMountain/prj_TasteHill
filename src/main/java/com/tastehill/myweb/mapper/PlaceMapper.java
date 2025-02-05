@@ -12,6 +12,7 @@ import com.tastehill.myweb.place.PhotoVO;
 import com.tastehill.myweb.place.PlaceDetailVO;
 import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.place.WeekdayTextVO;
+import com.tastehill.myweb.route.RouteVO;
 
 
 @Mapper
@@ -22,8 +23,10 @@ public interface PlaceMapper {
     int insertWeekdayText(Map<String, Object> wmap);
     int insertGeometry(Map<String, Object> gmap);
     int insertLocation(Map<String, Object> lmap);
-    List<PlaceVO> searchPlacesByName(@Param("query") String query);
-    List<PlaceVO> searchPlacesByAddress(@Param("query") String query);
+    
+    //네이게이션바 검색
+    List<PlaceVO> searchBar(RouteVO routeVO);
+    
     // 장소VO 조회
     PlaceVO selectPlaceByPlaceId(@Param("placeId") String placeId);
     // 장소상세 조회

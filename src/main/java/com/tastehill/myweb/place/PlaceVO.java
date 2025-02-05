@@ -1,8 +1,5 @@
 package com.tastehill.myweb.place;
 
-
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +17,7 @@ public class PlaceVO {
     private String name;
     private String formatted_address;
     private Double rating;
-    
+    private int seq_route;
 
     private PhotoVO photos;
     private LocationVO location;

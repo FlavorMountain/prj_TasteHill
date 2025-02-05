@@ -52,7 +52,7 @@
 		        </c:if>
 		
 		        <c:forEach var="route" items="${searchRoutes}">
-		 			<div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
+		 			<div class="result-list-container" onclick="location.href='/detail?seqRoute=${route.seq_route}'" style="cursor: pointer;">
     		                <!-- 왼쪽 영역 -->
 		                <div class="left">
 		                    <h4>${route.title}</h4>
@@ -77,7 +77,7 @@
 			    <p>장소 검색 결과가 없습니다.</p>
 			</c:if>
 			<c:forEach var="place" items="${searchPlaces}">
-			    <div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'">
+			    <div class="result-list-container" onclick="location.href='/detail?seqRoute=${route.seq_route}'">
 			    	<!-- 왼쪽 영역 -->
 		            <div class="left">
 			        <p><strong>${place.name}</strong></p>

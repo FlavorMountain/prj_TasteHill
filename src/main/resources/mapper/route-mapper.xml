@@ -195,7 +195,4 @@ SELECT
           AND m.pinned_route IS NOT NULL
     )
     </select>
-    
-
-
 </mapper>

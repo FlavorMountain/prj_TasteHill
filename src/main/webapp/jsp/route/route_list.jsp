@@ -20,21 +20,20 @@
 		<!-- 검색 바 -->
 		<div>
 		    <div class="search-container">
-			    <div class="search-bar">
-			        <form action="/routeList/searchList" method="get">
-					    <select name="location">
-		            	    <option value="">위치</option>
-					        <option value="서울">서울</option>
-					        <option value="부산">부산</option>
-					    </select>
-					    <input type="text" name="query" placeholder="search place...">
-					    <button type="submit">🔍</button>
-					</form>
-			        
-			    </div>
+		        <div class="search-bar">
+		            <form id="searchForm" action="/searchList" method="get">
+		                <select id="searchType" name="searchGubun" onchange="toggleSearchResults()">
+		                    <option value="route">경로</option>
+		                    <option value="place">장소</option>
+		                </select>
+		                <input type="text" name="searchStr" placeholder="search place...">
+		                <button type="submit">🔍</button>
+		            </form>
+		        </div>
 		    </div>
-		 </div>
-		 
+		</div>
+		
+		
 		 <div class="route-creat">
 		  	<button onclick="location.href='/route'">새 동선 만들기</button>
 		 </div> 
@@ -43,31 +42,122 @@
 		<br>
 		
 		
-		<!-- 결과 리스트 -->
-		<div>
-		    <h3 class="section-title">경로 검색 결과</h3>
-		    <div class="card-list">
-		        <c:if test="${empty searchRoutes}">
-		            <p>경로 검색 결과가 없습니다.</p>
-		        </c:if>
+		<body>
+	    <!-- 네비게이션바 검색 결과 화면 -->
+            <h3 class="section-title">검색 결과</h3>
+            <div>
+            
+                
+                <c:if test="${empty searchBarRes}">
+                    <p>${searchGubunKor} 검색 결과가 없습니다.</p>
+                </c:if>
+                <c:forEach var="place" items="${searchBarRes}">
+                    <div class="result-list-container" onclick="location.href='/detail?seqPlace=${place.seq_route}'" style="cursor: pointer;">
+                        <div class="left">
+                            <p><strong>${place.name}</strong></p>
+                            <p class="card-title">주소: ${place.formatted_address}</p>
+                            <p class="card-date">평점: ${place.rating}</p>
+                        </div>
+                        <div class="right">
+                            <img src="${place.photos.photo_url}" alt="${place.name} 사진">
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+	        
+	
+	        <!-- Hot 동선 화면 -->
+	        <c:if test="${pageType == 'hotList'}">
+	            <h3 class="section-title">❤️ Hot 동선</h3>
+	            <c:forEach var="route" items="${hotRoutes}">
+	                <div class="result-list-container" onclick="location.href='/detail?seqRoute=${route.seq_route}'" style="cursor: pointer;">
+	                    <div class="left">
+	                        <h4>${route.title}</h4>
+	                        <p>좋아요 수: ${route.forkCount}</p>
+	                        <br><br><br><br>
+	                        <p>업데이트 날짜: ${route.updatedAt}</p>
+	                    </div>
+	                    <div class="right">
+	                        <img src="${route.photo_url}" alt="${route.title} 사진">
+	                    </div>
+	                </div>
+	            </c:forEach>
+	        </c:if>
+	        
+	        <!-- 마이페이지 동선 -->
+	        <c:if test="${pageType == 'myRoutes'}">
+	            <h3 class="section-title">나의 동선</h3>
+	            <c:forEach var="route" items="${myRoutes}">
+	                <div class="result-list-container" onclick="location.href='/detail?seqRoute=${route.seq_route}'" style="cursor: pointer;">
+	                    <div class="left">
+	                        <h4>${route.title}</h4>
+	                        <p>좋아요 수: ${route.forkCount}</p>
+	                        <br><br><br><br>
+	                        <p>업데이트 날짜: ${route.updatedAt}</p>
+	                    </div>
+	                    <div class="right">
+	                        <img src="${route.photo_url}" alt="${route.title} 사진">
+	                    </div>
+	                </div>
+	            </c:forEach>
+	        </c:if>
+	        
+	        <!-- 즐겨찾기 동선 -->
+	        <c:if test="${pageType == 'forkList'}">
+	            <h3 class="section-title">즐겨찾기</h3>
+	            <c:forEach var="route" items="${forkList}">
+	                <div class="result-list-container" onclick="location.href='/detail?seqRoute=${route.seq_route}'" style="cursor: pointer;">
+	                    <div class="left">
+	                        <h4>${route.title}</h4>
+	                        <p>좋아요 수: ${route.forkCount}</p>
+	                        <br><br><br><br>
+	                        <p>업데이트 날짜: ${route.updatedAt}</p>
+	                    </div>
+	                    <div class="right">
+	                        <img src="${route.photo_url}" alt="${route.title} 사진">
+	                    </div>
+	                </div>
+	            </c:forEach>
+	        </c:if>
+			     
 		
-		        <c:forEach var="route" items="${searchRoutes}">
-		 			<div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
-    		                <!-- 왼쪽 영역 -->
-		                <div class="left">
-		                    <h4>${route.title}</h4>
-		                    <p>좋아요 수: ${route.forkCount}</p>
-		                    <p>업데이트 날짜: ${route.updatedAt}</p>
-		                </div>
+			
+		<script>
+		    function toggleSearchResults() {
+		        const pageType = '<c:out value="${pageType}" />'; // 서버에서 전달된 pageType 값
 		
-		                <!-- 오른쪽 영역 (이미지) -->
-		                <div class="right">
-		                    <img src="${route.photo_url}" alt="${route.title} 사진">
-		                </div>
-		            </div>
-		        </c:forEach>
-		    </div>
-		</div>
+		        const routeResults = document.getElementById('routeResults');
+		        const placeResults = document.getElementById('placeResults');
+		        const routeTitle = document.getElementById('routeTitle');
+		        const placeTitle = document.getElementById('placeTitle');
 		
+		        if (pageType === 'searchList') {
+		            routeResults.style.display = 'block';
+		            routeTitle.style.display = 'block';
+		            placeResults.style.display = 'block';
+		            placeTitle.style.display = 'block';
+		        } else if (pageType === 'hotList') {
+		            routeResults.style.display = 'none';
+		            routeTitle.style.display = 'none';
+		            placeResults.style.display = 'none';
+		            placeTitle.style.display = 'none';
+		        } else if (pageType === 'myRoutes') {
+		            routeResults.style.display = 'none';
+		            routeTitle.style.display = 'none';
+		            placeResults.style.display = 'none';
+		            placeTitle.style.display = 'none';
+		        } else if (pageType === 'forkList') {
+		            routeResults.style.display = 'none';
+		            routeTitle.style.display = 'none';
+		            placeResults.style.display = 'none';
+		            placeTitle.style.display = 'none';
+		        }
+		    }
+		
+		    // 페이지 로드 시 초기화
+		    window.onload = function () {
+		        toggleSearchResults();
+		    };
+		</script>
 </body>
 </html>

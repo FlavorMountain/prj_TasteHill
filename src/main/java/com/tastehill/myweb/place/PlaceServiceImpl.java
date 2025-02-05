@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.tastehill.myweb.common.CommonService;
 import com.tastehill.myweb.mapper.PlaceMapper;
+import com.tastehill.myweb.route.RouteVO;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -37,14 +38,10 @@ public class PlaceServiceImpl implements PlaceService{
 	CommonService commonService;
 	
   @Override
-    public List<PlaceVO> searchPlacesByName(String query) {
-      return placeMapper.searchPlacesByName(query);
+    public List<PlaceVO> searchBar(RouteVO routeVO) {  
+      return placeMapper.searchBar(routeVO);
     }
   
-  @Override
-  public List<PlaceVO> searchPlacesByAddress(String query) {
-    return placeMapper.searchPlacesByAddress(query);
-  }
 
 
 	//placeVO에 연관 VO 5개가 박혀서 6개 한방에 묶었습니다
