@@ -30,6 +30,7 @@ public class ChatController {
     public String chatRoom( Model model, @PathVariable("seqChattingRoom") int seqChattingRoom) {
     	
 	    List<ChatVO> clist = svc.svcSelectChattingList(seqChattingRoom);
+	    
 
 	    System.out.println(clist.toString());
     	model.addAttribute("CLIST", clist);
@@ -79,17 +80,22 @@ public class ChatController {
 			// 세션에서 현재 로그인한 사용자 정보 가져오기
 			int seqMember = (int) session.getAttribute("SESS_MEMBER_ID");
 			int seqChattingRoom = cvo.getSeqChattingRoom();
-			cvo.setSeqMember(seqMember);
-			
-		    svc.svcInsertChatting(cvo);
-		    
-		    svc.updateLastChatting(seqChattingRoom, cvo.getContents());
-		    List<ChatVO> clist = svc.svcSelectChattingList(seqChattingRoom);
-		    
-			Map<String, Object> response = new HashMap<>();
-		    
-		    response.put("CLIST", clist);
-		    
+			System.out.println(cvo.toString());
+
+			if (seqMember == cvo.getSeqMember()) {
+				svc.svcInsertChatting(cvo);
+			    svc.updateLastChatting(seqChattingRoom, cvo.getContents());
+			} else {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		    Map<String, Object> response = new HashMap<>();
+		    response.put("message", "ok");
 		    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

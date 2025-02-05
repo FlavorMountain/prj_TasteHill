@@ -44,21 +44,14 @@ public class DetailController {
 	public String ctlDetailPage(Model model, 
 			@RequestParam("seqRoute") int seqRoute) {
 
-//		RouteVO rvo = rsvc.svcSelectRoute(seqRoute);
-		
-//		MemberVO mvo = msvc.svcSelectMember(rvo.getSeqMember());
-//		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
+		RouteVO rvo = rsvc.svcSelectRoutesAndPlaceBySeqRoute(seqRoute);
+		MemberVO mvo = msvc.svcSelectMember(rvo.getSeqMember());
+		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
 
-		MemberVO mvo = msvc.svcSelectMember(5);
-		
-		
-		List<CommentsVO> clist = csvc.svcSelectComments(1);
-//		List<PlaceVO> plist = psvc.svcSelectPlace(seqRoute);
-		
-//		model.addAttribute("RVO", rvo);
+		model.addAttribute("RVO", rvo);
 		model.addAttribute("MVO", mvo);
 		model.addAttribute("CLIST", clist);
-//		model.addAttribute("PLIST", plist);
+		
 		
 		model.addAttribute("content", "jsp/detail/route_detail.jsp");
 		return "index";
