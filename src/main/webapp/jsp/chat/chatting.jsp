@@ -40,7 +40,7 @@
 		let nickname = $("#sess-nick").val();
 		
 		let sessionMember = 0;
-	    let socket = new SockJS("http://localhost:8089/chatting/");
+	    let socket = new SockJS("http://localhost:8089/chatting?roomId=" + roomId);
 	
 	    socket.onmessage = onMessage;
 	    socket.onclose = onClose;
