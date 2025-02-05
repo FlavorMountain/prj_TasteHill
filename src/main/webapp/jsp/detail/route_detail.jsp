@@ -18,7 +18,9 @@
         <!-- Post header -->
         <div class="post-header">
             <div class="post-title">제목</div>
-            <a href="/user/${MVO.seqMember}" class="user-nickname">${MVO.nickname}</a>
+            <div class="user-nickname">${MVO.nickname}</div>
+            <a href="/newchat/${MVO.seqMember}"><i class="fa-solid fa-comment" style="color: #26473c;"></i></a>
+            
             <div class="post-actions">
                 <a href="" class="pin-button">📌</a>
                 <a href="" class="like-button">❤️</a>
