@@ -185,6 +185,7 @@ public class MemberController {
 //		mvo.setEmail((String)request.getSession().getAttribute("SESS_REGISTER_EMAIL"));
 		// usersTblVO.setUserPw(userPw);
 		// usersTblVO.setUserName(userName);
+		mvo.setProfile(usersOauthVO.getPicture());
 		mvo.setUsersOauthVO(usersOauthVO);
 
 		int insertUserSeq = oauthService.svcInsertToken(mvo);

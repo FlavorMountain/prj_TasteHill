@@ -91,5 +91,15 @@ public class RouteServiceImpl implements RouteService {
 		// seq_place 기준으로 루트 찾기
         return routeMapper.selectAllRoutesAndPlaceBySearchPlace(seq_place);
 	}
+
+	@Override
+	public void svcIncreaseFork(int seqRoute) {
+		routeMapper.increaseFork(seqRoute);
+	}
+
+	@Override
+	public void svcDecreaseFork(int seqRoute) {
+		routeMapper.decreaseFork(seqRoute);
+	}
     
 }

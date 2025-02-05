@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Post Detail</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/route_detail.css">
+	<script src="https://kit.fontawesome.com/7a7c0970b6.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
@@ -17,57 +18,52 @@
 
         <!-- Post header -->
         <div class="post-header">
+        	<input type="hidden" class="seq_route" value="${RVO.seq_route}" >
             <div class="post-title">제목</div>
             <a href="/user/${MVO.seqMember}" class="user-nickname">${MVO.nickname}</a>
+            <a href="/newchat/${MVO.seqMember}"><i class="fa-solid fa-comment" style="color: #26473c;"></i></a>
+            
             <div class="post-actions">
-                <a href="" class="pin-button">📌</a>
-                <a href="" class="like-button">❤️</a>
+	            <div class = "pin-buttons">
+		            <button type="button" class="pin-button">
+			            <c:if test="${MVO.pinnedRoute == RVO.seq_route}"><i class="fa-solid fa-star" style="color: yellow;"></i></c:if>
+			            <c:if test="${MVO.pinnedRoute != RVO.seq_route}"><i class="fa-solid fa-star"></i></c:if>
+		            </button>
+		        </div>
+		        <div class="fork-buttons">
+	                <button type="button" class="like-button">
+	                	<c:if test="${FVO.seqRoute == RVO.seq_route}"><i class="fa-solid fa-heart" style="color: red;"></i></c:if>
+	                	<c:if test="${FVO.seqRoute != RVO.seq_route}"><i class="fa-solid fa-heart"></i></c:if>
+	                </button>
+                </div>
             </div>
         </div>
 
         <!-- Restaurant cards -->
         <div class="restaurant-cards">
-            <!-- <c:forEach items="${restaurants}" var="restaurant">
+            <c:forEach items="${RVO.places}" var="place">
                 <div class="restaurant-card">
-                    <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-image">
+                	<div class="restaurant-img-size">
+                    	<img src="${place.place.photos.photo_url}" alt="${place.place.name}" class="restaurant-image">
+                    </div>
                     <div class="restaurant-info">
-                        <h3>${restaurant.name}</h3>
-                        <p class="hours">영업시간: ${restaurant.hours}</p>
-                        <p class="address">${restaurant.address}</p>
-                        <p class="category">${restaurant.category}</p>
+                        <h3>${place.place.name}</h3>
+                        <p class="hours">${place.place.rating}</p>
+                        <p class="address">${place.place.formatted_address}</p>
                     </div>
                 </div>
-            </c:forEach>
-             -->
-            <div class="restaurant-card">
-                    <img src="resources/images/tastehill.png" alt="img" class="restaurant-image">
-                    <div class="restaurant-info">
-                        <h3>짬뽕지존</h3>
-                        <p class="hours">영업시간: 10:00 ~ 22:00</p>
-                        <p class="address">분당구 원미동 뭐시기</p>
-                        <p class="category">중식당</p>
-                    </div>
-                </div>
-                <div class="restaurant-card">
-                    <img src="resources/images/tastehill.png" alt="img" class="restaurant-image">
-                    <div class="restaurant-info">
-                        <h3>짬뽕지존</h3>
-                        <p class="hours">영업시간: 10:00 ~ 22:00</p>
-                        <p class="address">분당구 원미동 뭐시기</p>
-                        <p class="category">중식당</p>
-                    </div>
-                </div>            
+            </c:forEach>    
         </div>
 
         <!-- Post content -->
         <div class="post-content">
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-when an unknown printer took a galley of type and scrambled it to make a tLorem Ipsum is simply dummy text of the printing and typesetting industry.
-Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-when an unknown printer took a galley of type and scrambled it to make a tLorem Ipsum is simply dummy text of the printing and typesetting industry.
-Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-when an unknown printer took a galley of type and scrambled it to make a t
+			Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+			when an unknown printer took a galley of type and scrambled it to make a tLorem Ipsum is simply dummy text of the printing and typesetting industry.
+			Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+			when an unknown printer took a galley of type and scrambled it to make a tLorem Ipsum is simply dummy text of the printing and typesetting industry.
+			Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+			when an unknown printer took a galley of type and scrambled it to make a t
         </div>
 
         <!-- Comment section -->
@@ -84,7 +80,12 @@ when an unknown printer took a galley of type and scrambled it to make a t
                 <c:forEach items="${CLIST}" var="cvo">
                     <div class="comment">
                         <div class="comment-user">
-                            <img src="/resources/images/tastehill.png" alt="프로필" class="profile-image">
+                        	<c:if test="${empty cvo.profile}">
+                            	<img src="/resources/images/tastehill.png" alt="프로필" class="profile-image">
+                            </c:if>
+                            <c:if test="${not empty cvo.profile}">
+                            	<img src="${cvo.profile}" alt="프로필" class="profile-image">
+                            </c:if>
                             <span class="comment-nickname">${cvo.nickname}</span>
                         </div>
                         <div class="comment-content">
@@ -117,6 +118,7 @@ when an unknown printer took a galley of type and scrambled it to make a t
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $( document ).ready(function() {
+<<<<<<< Updated upstream
 	
 	//$("#emp-btn").click( function() {
 		
@@ -149,9 +151,28 @@ $( document ).ready(function() {
 	    });
 	*/
 	    
+=======
+	let seqRoute     = $(".seq_route").val();
+	/* 루트 정보 컨트롤러에 요청하는 부분 */
+	 $.ajax({
+	        url: "/detail/getRoute/" + ${RVO.seq_route},
+	        method: "GET",
+	        dataType: "json",
+	        success: function(response) {
+	            /* console.log("경로 데이터:", response.places); */
+	            res = JSON.parse(JSON.stringify(response));
+	            /* console.log(res); */
+	            initMap(res);
+	            markingPlace(res.places);
+	        },
+	        error: function(error) {
+	            console.error("에러 발생:", error);
+	        }
+	    });
+>>>>>>> Stashed changes
 	
 	$("#comment-submit").click( function() {  
-	    seqRoute     = 1;
+	    
 	    contents     = $("#content").val();
 	    jsonObj = {"seqRoute" : seqRoute, "contents" : contents} 
 	    jsonStr = JSON.stringify(jsonObj);
@@ -186,9 +207,78 @@ $( document ).ready(function() {
 	    	error : function(err) { console.log("에러:" + err) }  
 	    });
 	});
+<<<<<<< Updated upstream
 	
 	
 	
+=======
+});
+
+//pin-button 클릭 이벤트
+$(document).on('click', '.pin-button', function() {
+    $.ajax({
+        url: "/pinroute?seqRoute=" + ${RVO.seq_route},
+        method: "GET",
+        dataType: "json",
+        success: function(response) {
+            if(response.message) {
+                let newButton = $('<button>', {
+                    type: 'button',
+                    class: 'pin-button'
+                }).append(
+                    response.pin ? 
+                    $('<i>', {
+                        class: 'fa-solid fa-star',
+                        style: 'color: yellow;'
+                    }) :
+                    $('<i>', {
+                        class: 'fa-solid fa-star'
+                    })
+                );
+                
+                $('.pin-buttons').empty().append(newButton);
+            } else {
+                alert("로그인 해주세요");
+            }
+        },
+        error: function(error) {
+            console.error("에러 발생:", error);
+        }
+    });
+});
+
+// like-button 클릭 이벤트
+$(document).on('click', '.like-button', function() {
+    $.ajax({
+        url: "/forkroute?seqRoute=" + ${RVO.seq_route},
+        method: "GET",
+        dataType: "json",
+        success: function(response) {
+            if(response.message) {
+                let newButton = $('<button>', {
+                    type: 'button',
+                    class: 'like-button'
+                }).append(
+                    response.fork ? 
+                    $('<i>', {
+                        class: 'fa-solid fa-heart',
+                        style: 'color: red;'
+                    }) :
+                    $('<i>', {
+                        class: 'fa-solid fa-heart'
+                    })
+                );
+                
+                $('.fork-buttons').empty().append(newButton);
+            } else {
+                alert("로그인 해주세요");
+            }
+        },
+        error: function(error) {
+            console.error("에러 발생:", error);
+        }
+    });
+>>>>>>> Stashed changes
 });
 
 

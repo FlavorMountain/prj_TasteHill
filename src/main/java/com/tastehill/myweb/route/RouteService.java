@@ -25,6 +25,9 @@ public interface RouteService {
     List<RouteVO> svcSelectAllRoutesAndPlace();
 
 
-		List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlace(int seq_place);
-    }
+	List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlace(int seq_place);
+
+	void svcIncreaseFork(int seqRoute);
+	void svcDecreaseFork(int seqRoute);
+}
 

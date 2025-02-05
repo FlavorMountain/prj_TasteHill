@@ -36,5 +36,8 @@ public interface RouteMapper {
     
     List<RouteVO> selectAllRoutesAndPlaceBySearchPlace(@Param("seq_place") int seq_place);
 	List<RouteVO> searchRoutesByMember(int seqMember);
-    
-    }
+
+	
+	void increaseFork(@Param("seq_route") int seq_route);
+	void decreaseFork(@Param("seq_route") int seq_route);
+}
