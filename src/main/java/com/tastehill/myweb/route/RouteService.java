@@ -25,6 +25,9 @@ public interface RouteService {
     List<RouteVO> svcSelectAllRoutesAndPlace();
 
 
-		List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlace(int seq_place);
-    }
+	List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlacePaging(int seq_place, int start, int end);
+	
+	int svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(@Param("seqPlace") int seqPlace);
+
+   }
 

@@ -56,12 +56,6 @@ public class DetailController {
 		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
 
 		session.setAttribute("API_KEY", API_KEY);
-
-		RouteVO rvo =  rsvc.svcSelectRoutesAndPlaceBySeqRoute(seqRoute);
-
-		MemberVO mvo = msvc.svcSelectMember(rvo.getSeqMember());
-
-		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
 		
 		model.addAttribute("RVO", rvo);
 		model.addAttribute("MVO", mvo);

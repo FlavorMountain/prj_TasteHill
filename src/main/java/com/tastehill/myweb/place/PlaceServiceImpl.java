@@ -38,7 +38,7 @@ public class PlaceServiceImpl implements PlaceService{
 	
   @Override
     public List<PlaceVO> searchPlaces(String query) {
-        return placeMapper.searchPlaces(query);
+        return placeMapper.searchPlacesByName(query);
     }
 
 

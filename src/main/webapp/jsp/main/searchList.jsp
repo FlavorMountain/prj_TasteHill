@@ -92,5 +92,7 @@
 			</c:forEach>
 		</div>
 		
+		${MY_KEY_PAGING_HTML}
+		
 </body>
 </html>
