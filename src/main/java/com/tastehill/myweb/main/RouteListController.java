@@ -25,7 +25,8 @@ public class RouteListController {
 
     @Autowired
     private PlaceService placeService;
-
+    
+    // 검색창
     @GetMapping("/searchList")
     public String searchAll(
             @RequestParam(value = "query", required = false) String query,
@@ -49,6 +50,7 @@ public class RouteListController {
         // routee_list.jsp 페이지로 이동
 	    model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    return "index";
-
     }
+    
+    
 }
