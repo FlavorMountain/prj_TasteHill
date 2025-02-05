@@ -34,7 +34,7 @@ public class RouteListController {
             Model model) {
 
         // Route와 Place 검색
-    	List<PlaceVO> searchPlaces = placeService.searchPlaces(query);
+    	List<PlaceVO> searchPlaces = placeService.searchPlacesByName(query);
     	if(searchPlaces != null) {
     		
     		int blockCount = 3; 
