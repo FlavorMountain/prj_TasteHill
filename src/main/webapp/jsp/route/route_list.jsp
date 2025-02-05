@@ -18,6 +18,7 @@
 </head>
 <body>
 		<!-- 검색 바 -->
+		${MY_KEY_PAGING_HTML}
 		<div>
 		    <div class="search-container">
 			    <div class="search-bar">

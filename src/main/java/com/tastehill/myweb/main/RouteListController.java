@@ -30,21 +30,19 @@ public class RouteListController {
     // 검색창
     @GetMapping("/searchList")
     public String searchAll(
+    		@RequestParam(value = "location", required = false) String location,
             @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             Model model) {
 
         // Route와 Place 검색
     	List<PlaceVO> searchPlaces = placeService.searchPlacesByName(query);
-    	if(searchPlaces != null) {
-    		
+    	if (searchPlaces != null && !searchPlaces.isEmpty()) {
     		int blockCount = 3; 
     		int blockPage = 10;
-    		
     		int seqPlace = searchPlaces.get(0).getSeq_place();
-    		
-    		int currentPage = 1;
     		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
-    		PagingUtil pg = new PagingUtil("/searchList", currentPage, size, blockCount, blockPage);
+    		PagingUtil pg = new PagingUtil("/routeList/searchList", currentPage, size, blockCount, blockPage);
     		List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
 
     		
@@ -57,10 +55,7 @@ public class RouteListController {
 
     	}
 
-        // 검색 결과를 모델에 추가
         model.addAttribute("searchPlaces", searchPlaces);
-        
-        // routee_list.jsp 페이지로 이동
 	    model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    return "index";
     }
