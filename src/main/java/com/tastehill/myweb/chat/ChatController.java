@@ -85,14 +85,7 @@ public class ChatController {
 			if (seqMember == cvo.getSeqMember()) {
 				svc.svcInsertChatting(cvo);
 			    svc.updateLastChatting(seqChattingRoom, cvo.getContents());
-			} else {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			} 
 
 		    Map<String, Object> response = new HashMap<>();
 		    response.put("message", "ok");
