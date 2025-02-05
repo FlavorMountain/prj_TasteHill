@@ -294,7 +294,7 @@ function openFileInput() {
 			    <div class="card-list">
 			     	<c:forEach var="route" items="${myRoutes}" varStatus="status">
 				        <c:if test="${status.index < 4}">
-			                <button class="card" onclick="location.href='/detail?seqRoute=${route.seq_route}'">
+			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
 			                    <p class="card-title">${route.title}</p>
 			                    <img src="${route.photo_url}" alt="${route.title}" width="200px" height="150px">
 			                    <p class="card-date">등록일:${route.createdAt}</p>
@@ -312,7 +312,7 @@ function openFileInput() {
 			    <div class="card-list">
 			     	<c:forEach var="route" items="${forkRoutes}" varStatus="status">
 				        <c:if test="${status.index < 4}">
-			                <button class="card" onclick="location.href='/detail?seqRoute=${route.seq_route}'">
+			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
 			                    <p class="card-title">${route.title}</p>
 			                     <img src="${route.photo_url}" alt="${route.title}" width="200px" height="150px">
 			                    <p class="card-date">등록일:${route.createdAt}</p>
