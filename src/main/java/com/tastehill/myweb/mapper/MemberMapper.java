@@ -23,6 +23,11 @@ public interface MemberMapper {
     // 비밀번호 변경
     int updateMemberPassword(@Param("seqMember") int seqMember,
              @Param("password") String password);
+    
+
+    // 비밀번호 변경
+    int updatePinnedRoute(@Param("seqMember") int seqMember,
+             @Param("seqRoute") int seqRoute);
 
     // 회원 탈퇴
     int deleteMember(@Param("seqMember") int seqMember);

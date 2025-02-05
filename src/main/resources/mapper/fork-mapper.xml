@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
+<mapper namespace="com.tastehill.myweb.mapper.ForkMapper">
+
+	<resultMap id="forkMap" type="com.tastehill.myweb.fork.ForkVO">
+		<id     property="seqFork" 	column="seq_fork" />
+		<result property="seqMember" 	column="seq_member"/>
+		<result property="seqRoute" column="seq-route"/>
+	</resultMap>
+	
+	<select id="selectForkAll" parameterType="int" resultMap="forkMap">
+		select *
+		from fork
+		where seq_member = #{seqMember}
+	</select>
+	
+	<select id="seleteFork" resultMap="forkMap">
+		select *
+		from fork
+		where seq_member = #{seqMember} and seq_route=#{seqRoute} 
+	</select>
+	
+	<insert id="insertFork">
+		insert into fork(seq_fork, seq_member, seq_route)
+		values(seq_fork.nextval, #{seqMember}, #{seqRoute}) 
+	</insert>
+	
+
+    <!-- 회원 삭제 -->
+    <delete id="deleteFork">
+        DELETE fork
+        WHERE seq_member = #{seqMember} and seq_route=${seqRoute}
+    </delete>
+	
+</mapper>

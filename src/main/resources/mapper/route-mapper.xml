@@ -231,6 +231,16 @@ FROM (
     )
     </select>
     
+    <update id="increaseFork">
+    	update route
+    	set fork_count = fork_count+1
+    	where seq_route = #{seq_route}
+    </update>
+    <update id="decreaseFork">
+    	update route
+    	set fork_count = fork_count-1
+    	where seq_route = #{seq_route}
+    </update>
 
 
 </mapper>

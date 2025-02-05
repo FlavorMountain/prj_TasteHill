@@ -1,5 +1,6 @@
 package com.tastehill.myweb.detail;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +26,8 @@ import com.lec.oauth.svc.OauthService;
 import com.lec.oauth.vo.UsersOauthVO;
 import com.tastehill.myweb.comments.CommentsService;
 import com.tastehill.myweb.comments.CommentsVO;
+import com.tastehill.myweb.fork.ForkService;
+import com.tastehill.myweb.fork.ForkVO;
 import com.tastehill.myweb.member.MemberService;
 import com.tastehill.myweb.member.MemberVO;
 import com.tastehill.myweb.place.PlaceService;
@@ -45,7 +50,7 @@ public class DetailController {
 	@Autowired
 	private RouteService rsvc;
 	@Autowired
-	private PlaceService psvc;
+	private ForkService fsvc;
 
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String ctlDetailPage(Model model, HttpSession session,
@@ -56,18 +61,22 @@ public class DetailController {
 		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
 
 		session.setAttribute("API_KEY", API_KEY);
-		
+    
+		ForkVO fvo = new ForkVO(0,0,0);
+		if(session.getAttribute("SESS_MEMBER_ID") != null) {
+			fvo = fsvc.selectFork((int)session.getAttribute("SESS_MEMBER_ID"), seqRoute);	
+		}
+    
 		model.addAttribute("RVO", rvo);
 		model.addAttribute("MVO", mvo);
 		model.addAttribute("CLIST", clist);
-//		model.addAttribute("PLIST", plist);
-
-		model.addAttribute("seqRoute", seqRoute);
+		model.addAttribute("FVO", fvo);
+		
 		model.addAttribute("content", "jsp/detail/route_detail.jsp");
 		return "index";
 	}
-	
-	
+  
+
 	// 루트vo 전달
 	// 공통 기능이 될거같아서 route쪽으로 빼야 될까 고민중
 	@GetMapping("/detail/getRoute/{seqRoute}")
@@ -78,6 +87,25 @@ public class DetailController {
             return ResponseEntity.status(404).body(null); 
         }
         return ResponseEntity.ok(rvo); 
+    }
+  
+	
+	@GetMapping("/pinroute")
+	public ResponseEntity<Map<String, Object>> pinRoute(@RequestParam("seqRoute") int seqRoute, HttpSession session) {
+
+	    Map<String, Object> response = new HashMap<>();		
+		if(session.getAttribute("SESS_MEMBER_ID") != null) {
+			int seqMember = (int)session.getAttribute("SESS_MEMBER_ID");
+			msvc.svcUpdateMemberPinnedRoute(seqMember, seqRoute);
+			
+			response.put("message", true);
+			response.put("pin", msvc.svcSelectMember(seqMember).getPinnedRoute() == seqRoute);
+		}
+		else {
+		    response.put("message", false);
+		}
+	    
+	    return new ResponseEntity<>(response, HttpStatus.OK);
     }
 		
 }

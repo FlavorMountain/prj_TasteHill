@@ -69,7 +69,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int svcUpdateMemberPinnedRoute(int seqMember, int seqRoute) {
 		// TODO Auto-generated method stub
-		return 0;
+		return mapper.updatePinnedRoute(seqMember, seqRoute);
 	}
 
 

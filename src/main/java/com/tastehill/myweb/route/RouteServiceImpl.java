@@ -95,5 +95,15 @@ public class RouteServiceImpl implements RouteService {
 	public int svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(int seqPlace) {
 		return routeMapper.selectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
 	}
+
+	@Override
+	public void svcIncreaseFork(int seqRoute) {
+		routeMapper.increaseFork(seqRoute);
+	}
+
+	@Override
+	public void svcDecreaseFork(int seqRoute) {
+		routeMapper.decreaseFork(seqRoute);
+	}
     
 }
