@@ -153,7 +153,7 @@ FROM (
 	    INSERT ALL
 	    <foreach collection="routePlaces" item="rp">
 	        INTO route_place (seq_route, seq_place, order_place, price)
-	        VALUES (#{rpRseq_route}, #{rP.seq_place}, #{rp.order}, #{rp.price})
+	        VALUES (#{rp.seq_route}, #{rp.seq_place}, #{rp.order}, #{rp.price})
 	    </foreach>
 	    SELECT 1 FROM DUAL
 	</insert>
