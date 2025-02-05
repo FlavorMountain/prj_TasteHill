@@ -30,7 +30,7 @@ public class MainController {
 	        // hotList.jsp 페이지로 이동
 	        return "/jsp/main/hotList";
 	    }
-		
+	
 		// MainPage
 	    @RequestMapping(value="/main")
 	     public String homePage(Model model, HttpSession session) {

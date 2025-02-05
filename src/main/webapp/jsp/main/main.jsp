@@ -22,7 +22,7 @@
 		}
 		
 		.search-container button {
-            color: white;
+			background-color: rgba(0, 77, 0, 0.8);
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
@@ -48,17 +48,7 @@
 		}
 		
 		.route-creat button{
-			height: 30px;
-			background-color: white;
-            color: #004d00;
-            border: 5px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-		}
-		
-		.route-creat button:hover {
-			height: 30px;
+            height: 30px;
 			background-color: rgba(0, 77, 0, 0.8);
             color: white;
             border: none;
@@ -182,7 +172,7 @@
 		<div>
 		    <div class="search-container">
 			    <div class="search-bar">
-			        <form action="/searchList" method="get">
+			        <form action="/routeList/searchList" method="get">
 					    <select name="location">
 		            	    <option value="">위치</option>
 					        <option value="서울">서울</option>
@@ -195,8 +185,6 @@
 			    </div>
 		    </div>
 		 </div>
-		 
-		 <br>
 		 
 		 <div class="route-creat">
 		  	<button onclick="location.href='/route'">새 동선 만들기</button>
