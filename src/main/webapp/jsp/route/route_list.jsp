@@ -84,10 +84,13 @@
 	                    </div>
 	                    <div class="right">
 	                        <img src="${route.photo_url}" alt="${route.title} 사진">
-	                    </div>
+                <input type="button" value="삭제" class="deleteRouteBtn" data-seq="${route.seq_route}">
+	                </div>
 	                </div>
 	            </c:forEach>
 	        </c:if>
+	        
+
 	        
 	        <!-- 즐겨찾기 동선 -->
 	        <c:if test="${pageType == 'forkList'}">
@@ -146,5 +149,35 @@
 		        toggleSearchResults();
 		    };
 		</script>
+		
+		<script>
+    // 모든 삭제 버튼에 클릭 이벤트 추가
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteButtons = document.querySelectorAll(".deleteRouteBtn");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function(event) {
+                event.stopPropagation(); // 부모 div 클릭 이벤트 방지
+
+                const seqRoute = this.getAttribute("data-seq"); // 해당 동선 seq_route 값 가져오기
+
+                if (confirm("정말 삭제하시겠습니까?")) {
+                    fetch(`/profile/myroutes/delete?seqRoute=` + seqRoute, {
+                        method: "POST",
+                    })
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url; // 삭제 후 리디렉션
+                        } else {
+                            return response.text();
+                        }
+                    })
+                    .catch(error => console.error("삭제 오류:", error));
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

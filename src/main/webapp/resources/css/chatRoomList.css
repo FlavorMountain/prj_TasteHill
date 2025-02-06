@@ -16,6 +16,12 @@
     margin-top: 1rem;
 }
 
+
+.no-chatting-room {
+	margin-top: 10px;
+	color: #00a000;
+	font-size: 40px;
+}
 .chat-room-user {
     display: flex;
     align-items: center;
