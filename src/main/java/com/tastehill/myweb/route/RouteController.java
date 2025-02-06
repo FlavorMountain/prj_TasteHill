@@ -43,7 +43,9 @@ public class RouteController {
 		
 		HttpSession session =  request.getSession();
 		//테스트용 멤버 1번
-		session.setAttribute("SESS_MEMBER_ID", 2);
+		if(request.getSession().getAttribute("SESS_MEMBER_ID") == null) {
+			return "redirect:/loginPage";
+		}
 		session.setAttribute("API_KEY", API_KEY);
 		model.addAttribute("content", "/jsp/route/google_map.jsp");
 		return "index";
@@ -52,6 +54,7 @@ public class RouteController {
 	 
 	@PostMapping("/insertRoute")
 	public String ctlInsertRoute(HttpServletRequest request, @RequestBody Map<String, Object> requestData) {
+
 	    try {
 	        List<Map<String, String>> placesData = (List<Map<String, String>>) requestData.get("places");
 	        String title = (String) requestData.get("title");

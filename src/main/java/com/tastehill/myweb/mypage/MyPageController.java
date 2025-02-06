@@ -42,6 +42,8 @@ public class MyPageController {
         model.addAttribute("member", member);
         model.addAttribute("myRoutes", myRoutes); // 추가
         model.addAttribute("forkRoutes", forkRoutes); // 추가
+	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+
         model.addAttribute("content", "/jsp/mypage/mypage.jsp");
         return "index";
     }
