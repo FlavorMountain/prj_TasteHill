@@ -39,10 +39,16 @@ public interface RouteMapper {
     		@Param("start") int start,
     		@Param("end") int end);
     
+    List<RouteVO> selectAllRoutesAndPlaceByAddressPlacePaging(
+    		@Param("seqPlaceList") List<Integer> seqPlaceList,
+    		@Param("start") int start,
+    		@Param("end") int end);
+    
 	List<RouteVO> searchRoutesByMember(int seqMember);
 	
 	void increaseFork(@Param("seq_route") int seq_route);
 	void decreaseFork(@Param("seq_route") int seq_route);
+	
 	int selectCountAllRoutesAndPlaceBySearchPlacePaging(@Param("seqPlace") int seqPlace);
-    
-    }
+
+}

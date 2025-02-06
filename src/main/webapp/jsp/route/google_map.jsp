@@ -14,40 +14,54 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/map.css">
 </head>
 <body>
-    <div class="container">
-        <div id="side-panel">
-            <h2>Place Details</h2>
-            <div id="place-name"></div>
-            <div id="place-rating"></div>
-            <div id="place-formatted_address"></div>
-            <div id="place-opening_hours"></div>
-            <div id="place-photos"></div>
-        </div>
-        
-        <div id="map-container">
-            <div class="controls">
+<div class="container">
+    <div id="side-panel">
+        <h2>Place Details</h2>
+        <div id="place-name"></div>
+        <div id="place-rating"></div>
+        <div id="place-formatted_address"></div>
+        <div id="place-opening_hours"></div>
+        <div id="place-photos"></div>
+    </div>
+    
+    <div id="map-container">
+        <div class="controls">
             <button class="control-btn" onclick="searchPlaces()">주변 음식점 검색</button>
             <button class="control-btn" onclick="drawRoute()">경로 그리기</button>
-            </div>
-            <div id="map"></div>
+        </div>
+        <div id="map"></div>
+        
+        <!-- 순서 변경된 부분 -->
+        
         <div id="selected-list-container">
-            <h3>선택된 음식점 목록</h3>
-            <div id="post-form">
+            <div class="post-title-section">
                 <div class="form-group">
-                    <label for="post-title">글 제목:</label>
-                    <input type="text" id="post-title" class="form-control" maxlength="100">
+                    <input type="text" id="post-title" class="form-control" maxlength="100" 
+                     placeholder="제목을 입력해주세요">
+                    
                     <span class="error-message" id="title-error"></span>
                 </div>
+            </div>
+            
+            <div class="selected-places-section">
+                <h3>선택된 음식점 목록</h3>
+            </div>
+            
+			<div class="selected-places-section">
+                <ul id="selected-list"></ul>
+            </div>
+            
+            <div class="post-content-section">
                 <div class="form-group">
-                    <label for="post-content">글 내용:</label>
-                    <textarea id="post-content" class="form-control" rows="3" maxlength="1000"></textarea>
+                    <textarea id="post-content" class="description"
+                    placeholder="동선에 대해서 설명해주세요"></textarea>
                     <span class="error-message" id="content-error"></span>
                 </div>
+                <button class="submit-btn" onclick="validateAndSend()">리스트 전송</button>
             </div>
-            <button class="submit-btn" onclick="validateAndSend()">리스트 전송</button>
-            <ul id="selected-list"></ul>
         </div>
     </div>
+</div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
@@ -58,6 +72,22 @@
         let markers = [];
         let currentPolyline = null;
 
+/*         function getPlaceDetail(){
+       	 $.ajax({
+       	        url: "/detail/getRoute/" + ${RVO.seq_route},
+       	        method: "GET",
+       	        dataType: "json",
+       	        success: function(response) {
+       	            res = JSON.parse(JSON.stringify(response));
+       	            initMap(res);
+       	            markingPlace(res.places);
+       	        },
+       	        error: function(error) {
+       	            console.error("에러 발생:", error);
+       	        }
+       	    });
+        } */
+        
         initMap();
         
         function initMap() {
@@ -235,7 +265,7 @@
             });
         }
 
-        function updateSelectedListUI(place) {
+/*         function updateSelectedListUI(place) {
             const list = document.getElementById("selected-list");
             list.innerHTML = "";
 
@@ -244,6 +274,40 @@
                 item.setAttribute("data-place-id", place.place_id); // hidden 속성 추가
                 item.innerHTML = index + 1 + ": " + (place.name || "이름 없음") + 
                              " <button onclick=\"removePlace(" + index + ")\">제거</button>";
+                list.appendChild(item);
+            });
+        } */
+        
+        function updateSelectedListUI(place) {
+        	console.log(place);
+            const list = document.getElementById("selected-list");
+            list.innerHTML = "";
+
+            selectedPlaces.forEach((place, index) => {
+                const item = document.createElement("li");
+                item.setAttribute("data-place-id", place.place_id);
+                
+                // 장소 정보를 포함하는 div 생성
+                const placeInfo = document.createElement("div");
+                placeInfo.className = "place-info";
+                
+                // 장소 번호와 이름
+                const nameElement = document.createElement("div");
+                nameElement.className = "place-name";
+                nameElement.textContent = (index + 1) + ". " + (place.name || "이름 없음");
+                // 장소 상세 정보
+                const detailsElement = document.createElement("div");
+                detailsElement.className = "place-details";
+                detailsElement.innerHTML = 
+                    (place.rating ? '<div>평점: ' + place.rating + '</div>' : '') +
+                    '<button onclick="removePlace(' + index + ')" class="remove-btn">제거</button>';
+
+                
+                // 요소들을 조립
+                placeInfo.appendChild(nameElement);
+                placeInfo.appendChild(detailsElement);
+                item.appendChild(placeInfo);
+                
                 list.appendChild(item);
             });
         }

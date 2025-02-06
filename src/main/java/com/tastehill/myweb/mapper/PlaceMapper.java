@@ -33,4 +33,6 @@ public interface PlaceMapper {
     PlaceDetailVO selectDetailOne(@Param("placeId") String placeId);
     // 장소 이름으로 조회
     List<PlaceVO> searchPlacesByName(@Param("query") String query);
+    // 장소 주소로 조회
+    List<PlaceVO> searchPlacesByAddress(@Param("query") String query);
 }
