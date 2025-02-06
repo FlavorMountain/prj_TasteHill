@@ -12,8 +12,6 @@ import com.tastehill.myweb.place.PhotoVO;
 import com.tastehill.myweb.place.PlaceDetailVO;
 import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.place.WeekdayTextVO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import com.tastehill.myweb.route.RouteVO;
 
 
@@ -25,20 +23,14 @@ public interface PlaceMapper {
     int insertWeekdayText(Map<String, Object> wmap);
     int insertGeometry(Map<String, Object> gmap);
     int insertLocation(Map<String, Object> lmap);
-    List<PlaceVO> searchPlaces(@Param("query") String query);
     
-    //placeVO + 연계된VO들 전부 싹긁어오는쿼리
-//    PlaceDetailVO selectPlaceDetailByPlaceId(@Param("placeId") String placeId);
+    //네이게이션바 검색
+    List<PlaceVO> searchBar(RouteVO routeVO);
     
+    // 장소VO 조회
     PlaceVO selectPlaceByPlaceId(@Param("placeId") String placeId);
-    
-    int selectPlaceSeqByPlaceId(@Param("seqPlace") int seqPlace);
-    
-    
-    List<PhotoVO> selectAllPhotosByPlaceId(@Param("seqPlace") int seqPlace);
-    OpeningHoursVO selectOpeningHoursByPlaceId(@Param("seqPlace") int seqPlace);
-    List<WeekdayTextVO> selectAllWeekdayTextByPlaceId(@Param("seqPlace") int seqPlace);
-    GeometryVO selectGeometryByPlaceId(@Param("seqPlace") int seqPlace);
-    LocationVO selectLocationByPlaceId(@Param("seqPlace") int seqPlace);
-
+    // 장소상세 조회
+    PlaceDetailVO selectDetailOne(@Param("placeId") String placeId);
+    // 장소 이름으로 조회
+    List<PlaceVO> searchPlacesByName(@Param("query") String query);
 }

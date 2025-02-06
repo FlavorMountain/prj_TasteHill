@@ -46,10 +46,7 @@ public class RouteServiceImpl implements RouteService {
     	return routeMapper.getPinnedRouteBySeqMember(seqMember);
     }
     
-    @Override
-    public List<RouteVO> searchRoutes(String query) {
-        return routeMapper.searchRoutes(query);
-    }
+
 
 
 	@Override
@@ -88,5 +85,26 @@ public class RouteServiceImpl implements RouteService {
 	public List<RouteVO> svcSelectAllRoutesAndPlace() {
 		return routeMapper.selectAllRoutesAndPlace();
 	}
+
+	@Override
+	public List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlacePaging(int seq_place, int start, int end) {
+        return routeMapper.selectAllRoutesAndPlaceBySearchPlacePaging(seq_place, start, end);
+	}
+
+	@Override
+	public int svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(int seqPlace) {
+		return routeMapper.selectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
+	}
+
+	@Override
+	public void svcIncreaseFork(int seqRoute) {
+		routeMapper.increaseFork(seqRoute);
+	}
+
+	@Override
+	public void svcDecreaseFork(int seqRoute) {
+		routeMapper.decreaseFork(seqRoute);
+	}
+
     
 }

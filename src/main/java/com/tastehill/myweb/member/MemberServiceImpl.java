@@ -61,15 +61,15 @@ public class MemberServiceImpl implements MemberService{
 
 	@Transactional
 	@Override
-	public int svcDeleteMember(int status) {
+	public int svcDeleteMember(int seqMember) {
 		// TODO Auto-generated method stub
-		return mapper.deleteMember(status);
+		return mapper.deleteMember(seqMember);
 	}
 	
 	@Override
 	public int svcUpdateMemberPinnedRoute(int seqMember, int seqRoute) {
 		// TODO Auto-generated method stub
-		return 0;
+		return mapper.updatePinnedRoute(seqMember, seqRoute);
 	}
 
 

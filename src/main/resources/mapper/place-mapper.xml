@@ -5,39 +5,142 @@
 
 <mapper namespace="com.tastehill.myweb.mapper.PlaceMapper">
 
-      <!-- 검색 기능 -->
-    <select id="searchPlaces" parameterType="string" resultType="com.tastehill.myweb.place.PlaceVO">
-        SELECT SEQ_PLACE AS seqRestaurnat,
-           NAME AS name,
-           formatted_address AS formatted_address,
-           RATING AS rating
-		FROM Place
-		WHERE NAME LIKE '%' || #{query} || '%'
-			  OR formatted_address LIKE '%' || #{query} || '%'
-		ORDER BY RATING DESC
-    </select>
-
-
-<resultMap id="placeMap" type="com.tastehill.myweb.place.PlaceVO" >
-        <result property="seqPlace" column="seq_place" />
-        <result property="place_id" column="oh_place_id"/>
-</resultMap> 
-
+<!-- place.result에 들어갈 vo5개 맵 -->
+    <resultMap id="geometryMap" type="com.tastehill.myweb.place.GeometryVO" >
+        <result property="seq_place" column="g_seq_place" />
+        <result property="place_id" column="g_place_id"/> 
+        <association property="location" resultMap="locationMap"/>
+    </resultMap>
+    
+    <resultMap id="locationMap" type="com.tastehill.myweb.place.LocationVO" >
+        <result property="seq_place" column="l_seq_place" />
+        <result property="place_id" column="l_place_id"/>
+        <result property="lat" column="lat"/>
+        <result property="lng" column="lng"/>
+    </resultMap>
 
     <resultMap id="photoMap" type="com.tastehill.myweb.place.PhotoVO" >
-        <result property="seq_place" column="seq_place" />
-        <result property="place_id" column="place_id"/>
+        <result property="seq_place" column="ph_seq_place" />
+        <result property="place_id" column="ph_place_id"/>
         <result property="photo_reference" column="photo_reference"/>
         <result property="photo_url" column="photo_url"/>
     </resultMap>
+
+    <resultMap id="openingHoursMap" type="com.tastehill.myweb.place.OpeningHoursVO" >
+        <result property="seq_place" column="oh_seq_place" />
+        <result property="place_id" column="oh_place_id"/>
+        <collection property="weekday_text" resultMap="weekdayTextMap"/>
+    </resultMap>
     
     <resultMap id="weekdayTextMap" type="com.tastehill.myweb.place.WeekdayTextVO" >
-        <result property="seq_place" column="seq_place"/>
-        <result property="place_id" column="place_id"/> 
+        <result property="seq_place" column="w_seq_place"/>
+        <result property="place_id" column="w_place_id"/> 
         <result property="weekday_text" column="weekday_text"/>
     </resultMap>
 
+
+    <!-- 위에 맵 합쳐서 result에 넣을 맵 -->
+    <resultMap id="resultInnerMap" type="com.tastehill.myweb.place.ResultVO" >
+        <result property="place_id" column="p_place_id"/>
+        <result property="name" column="name"/>
+        <result property="rating" column="rating"/>
+        <result property="formatted_address" column="formatted_address"/>
+        <association property="opening_hours" resultMap="openingHoursMap"/>
+        <association property="geometry" resultMap="geometryMap"/>
+        <collection property="photos" resultMap="photoMap"/>
+    </resultMap>
+
+    <!-- placeVO에 박을 데이터 -->
+    <resultMap id="placeDetailMap" type="com.tastehill.myweb.place.PlaceDetailVO" >
+        <result property="seqPlace" column="p_seqPlace"/>
+<!--         <result property="status" column="status"/> -->
+        <association property="result" resultMap="resultInnerMap"/>
+    </resultMap>
     
+    
+    
+    <!-- 장소 검색시 사진 포함된 resultMap (PlaceVO에 사진 정보(photo_url)를 포함할 수 있도록 설정) -->
+    <resultMap id="placeWithPhotoMap" type="com.tastehill.myweb.place.PlaceVO">
+    <result property="seq_place" column="seq_place"/>
+    <result property="place_id" column="place_id"/>
+    <result property="name" column="name"/>
+    <result property="formatted_address" column="formatted_address"/>
+    <result property="rating" column="rating"/>
+    <association property="photos" resultMap="photoMap">
+        <result property="seq_place" column="seq_place"/>
+        <result property="place_id" column="place_id"/>
+        <result property="photo_reference" column="photo_reference"/>
+        <result property="photo_url" column="photo_url"/>
+    </association>
+	</resultMap>
+    
+   
+<select id="selectDetailOne" resultMap="placeDetailMap">
+    		SELECT  
+		    p.seq_place as p_seqPlace, 
+		    p.place_id as p_place_id, 
+		    p.name as name, 
+		    p.rating as rating, 
+		    p.formatted_address as formatted_address, 
+		    g.place_id as g_place_id, g.seq_place as g_seq_place,
+		    l.place_id as l_place_id, l.seq_place as l_seq_place, l.lat as lat, l.lng as lng,
+		    ph.photo_reference as photo_reference, ph.photo_url as photo_url, 
+		    ph.place_id as ph_place_id, ph.seq_place as ph_seq_place,
+		    oh.place_id as oh_place_id, oh.seq_place as oh_seq_place,
+		    w.place_id as w_place_id, w.seq_place as w_seq_place, w.weekday_text as weekday_text
+		FROM place p
+    LEFT JOIN geometry g ON p.place_id = g.place_id
+    LEFT JOIN location l ON p.place_id = l.place_id
+    LEFT JOIN photo ph ON p.place_id = ph.place_id
+    LEFT JOIN opening_hours oh ON p.place_id = oh.place_id
+    LEFT JOIN weekday_text w ON oh.place_id = w.place_id
+		WHERE p.place_id = #{placeId}
+</select> 
+    
+       <!-- 장소 기반 검색 기능 -->
+    <select id="searchPlacesByName" parameterType="string" resultMap="placeWithPhotoMap">
+    SELECT 
+        r.seq_route, r.title, r.contents, r.seq_member, 
+        r.created_at, 
+        r.updated_at, 
+        r.fork_count,
+        rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
+        p.seq_place, p.place_id, p.name, p.formatted_address, p.rating,
+       	ph.PHOTO_URL as photo_url
+    FROM route r
+    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+    LEFT JOIN place p ON rp.seq_place = p.seq_place,(
+                SELECT place_id, PHOTO_URL
+                FROM photo
+                ORDER BY place_id
+            ) ph
+    WHERE p.place_id = ph.place_id and p.NAME LIKE '%' || #{query} || '%'
+    ORDER BY r.fork_count DESC, rp.order_place ASC
+    </select>
+    
+    
+    <!-- 네이게이션바 검색 기능 -->
+    <select id="searchBar" parameterType="com.tastehill.myweb.route.RouteVO" resultMap="placeWithPhotoMap">
+	  
+SELECT 
+        r.seq_route, r.title, r.contents, r.seq_member, 
+        r.created_at, 
+        r.updated_at, 
+        r.fork_count,
+        rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
+        p.seq_place, p.place_id, p.name, p.formatted_address, p.rating,
+       	ph.PHOTO_URL as photo_url
+    FROM route r
+    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+    LEFT JOIN place p ON rp.seq_place = p.seq_place,(
+                SELECT place_id, PHOTO_URL
+                FROM photo
+                ORDER BY place_id
+            ) ph
+    WHERE p.place_id = ph.place_id and ${searchGubun} LIKE '%' || #{searchStr} || '%'
+    ORDER BY r.fork_count DESC, rp.order_place ASC
+    </select>
+
     <!-- placeId 기준으로 placeVO 정보 가져오기-->
     <select id="selectPlaceByPlaceId" resultType="com.tastehill.myweb.place.PlaceVO">
         SELECT seq_place, place_id, name, rating, formatted_address
@@ -45,41 +148,6 @@
     	WHERE place_id = #{placeId}
     </select>
 
-
-    <!-- PHOTO 데이터 조회 -->
-    <select id="selectAllPhotosByPlaceId" resultMap="photoMap">
-        SELECT PHOTO_REFERENCE, PHOTO_URL, SEQ_PLACE, PLACE_ID
-        FROM PHOTO
-        WHERE SEQ_PLACE = #{seqPlace}
-    </select>
-
-    <!-- OPENING_HOURS 데이터 조회 -->
-    <select id="selectOpeningHoursByPlaceId" resultType="com.tastehill.myweb.place.OpeningHoursVO">
-        SELECT SEQ_PLACE, PLACE_ID
-        FROM OPENING_HOURS
-        WHERE SEQ_PLACE = #{seqPlace}
-    </select>
-
-    <!-- WEEKDAY_TEXT 데이터 조회 -->
-    <select id="selectAllWeekdayTextByPlaceId" resultMap="weekdayTextMap">
-        SELECT SEQ_PLACE, WEEKDAY_TEXT, PLACE_ID
-        FROM WEEKDAY_TEXT
-        WHERE SEQ_PLACE = #{seqPlace}
-    </select>
-
-    <!-- GEOMETRY 데이터 조회 -->
-    <select id="selectGeometryByPlaceId" resultType="com.tastehill.myweb.place.GeometryVO">
-        SELECT SEQ_PLACE, PLACE_ID
-        FROM GEOMETRY
-        WHERE SEQ_PLACE = #{seqPlace}
-    </select>
-
-    <!-- LOCATION 데이터 조회 -->
-    <select id="selectLocationByPlaceId"  resultType="com.tastehill.myweb.place.LocationVO">
-        SELECT SEQ_PLACE, PLACE_ID, LAT, LNG
-        FROM LOCATION
-        WHERE SEQ_PLACE = #{seqPlace}
-    </select>
 
 
 <!-- 인서트 -->

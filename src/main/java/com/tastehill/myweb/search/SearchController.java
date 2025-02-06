@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tastehill.myweb.common.PagingUtil;
 import com.tastehill.myweb.member.MemberService;
 import com.tastehill.myweb.member.MemberVO;
 import com.tastehill.myweb.place.PlaceService;
@@ -22,7 +23,10 @@ import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.route.RouteService;
 import com.tastehill.myweb.route.RouteVO;
 
+import lombok.Getter;
+
 @Controller
+@RequestMapping("/search")
 public class SearchController {
 
     @Autowired
@@ -34,18 +38,31 @@ public class SearchController {
     @GetMapping("/searchList")
     public String searchAll(
             @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             Model model) {
 
-        // Route와 Place 검색
-        List<RouteVO> searchRoutes = routeService.searchRoutes(query);
-        List<PlaceVO> searchPlaces = placeService.searchPlaces(query);
+        List<PlaceVO> searchPlaces = placeService.svcSearchPlacesByName(query);
+        if (searchPlaces != null && !searchPlaces.isEmpty()) {
 
-        // 검색 결과를 모델에 추가
-        model.addAttribute("searchRoutes", searchRoutes);
+            int blockCount = 3;
+            int blockPage = 10;
+
+            int seqPlace = searchPlaces.get(0).getSeq_place();
+
+            int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
+            PagingUtil pg = new PagingUtil("/routeList/searchList?query=" + query, currentPage, size, blockCount, blockPage);
+            
+            List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
+
+            model.addAttribute("searchRoutes", searchRoutes);
+            model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
+        }
+
         model.addAttribute("searchPlaces", searchPlaces);
-
-        return "/jsp/main/searchList";
+        model.addAttribute("content", "/jsp/route/route_list.jsp");
+        return "index";
     }
+
 }
 
 

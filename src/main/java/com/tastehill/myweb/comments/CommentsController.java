@@ -30,14 +30,10 @@ public class CommentsController {
 			// 세션에서 현재 로그인한 사용자 정보 가져오기
 			int seqMember = (int) session.getAttribute("SESS_MEMBER_ID");
 			String nickname = (String) session.getAttribute("SESS_NICKNAME");
-//			
+			
 			cvo.setSeqMember(seqMember);
 			cvo.setNickname(nickname);
-
-//			service.svcInsertComments(cvo);
-//			
-//			return "redirect: /detail?seqRoute=" + cvo.getSeqRoute();
-
+			
 		    service.svcInsertComments(cvo);
 		    
 			Map<String, Object> response = new HashMap<>();

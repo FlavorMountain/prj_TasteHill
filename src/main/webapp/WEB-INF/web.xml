@@ -36,12 +36,7 @@
     <url-pattern>/uploads/*</url-pattern>
 	</servlet-mapping>
 	
-	<bean id="multipartResolver"
-      class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    <!-- 최대 업로드 가능 크기 설정 (5MB) -->
-    <property name="maxUploadSize" value="5242880"/>
-	</bean>
-	
+
 	
 	<!--  한글 필터 설정 -->	
 	 <filter>

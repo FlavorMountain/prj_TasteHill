@@ -2,13 +2,16 @@ package com.tastehill.myweb.place;
 
 import java.util.List;
 
+import com.tastehill.myweb.route.RouteVO;
+
 public interface PlaceService {
-	public void svcSavePlace(PlaceDetailVO placeVO);
+	public void svcInsertPlace(PlaceDetailVO placeVO);
 	
-	public PlaceDetailVO svcGetPlaceDetail(String placeId,String API_KEY);
-	PlaceDetailVO svcSelectPlaceDetailByPlaceID(String placeId);
-	
+	public PlaceDetailVO svcInsertPlaceDetail(String placeId,String API_KEY);
 	PlaceVO svcSelectPlaceByPlaceId(String placeId);
-    List<PlaceVO> searchPlaces(String query);
-  
+	//네이게이션바 검색기능
+    List<PlaceVO> searchBar(RouteVO routeVO);
+    PlaceDetailVO svcSelectPlaceDetailOne(String placeId);
+    
+    List<PlaceVO> svcSearchPlacesByName(String query);
 }

@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+		/* 카드 리스트 (결과 전체 컨테이너) */
+		.result-list {
+		    width: 90%;
+		    display: flex;
+		    flex-wrap: wrap;
+		    gap: 20px;
+		    margin-top: 10px;
+		    justify-content: space-between; /* 양쪽 균등 정렬 */
+		    margin: 0 5%; /* 왼쪽, 오른쪽 5% 여백 */
+		}
+		
+		/* 개별 결과 리스트 컨테이너 (세로 분할) */
+		.result-list-container {
+		    display: flex;
+		    flex-direction: row; /* 가로 정렬 */
+		    width: 100%;
+		    height: 200px; /* 각 카드 높이 */
+		    border: 1px solid #ddd;
+		    border-radius: 10px;
+		    overflow: hidden;
+		    background-color: #f9f9f9;
+		    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+		
+		/* 왼쪽 영역 */
+		.left {
+		    flex: 7;
+		    text-align: center;
+		    padding: 20px;
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		}
+		
+		/* 오른쪽 영역 (이미지) */
+		.right {
+		    flex: 3;
+		    text-align: center;
+		    display: flex;
+		    justify-content: right;
+		    align-items: center;
+		    padding-right: 1%;
+		}
+		
+		.right img {
+			width: 65%; /* 부모 요소 대비 너비 설정 */
+		    aspect-ratio: 4 / 3; /* 4:3 비율 유지 */
+		    object-fit: cover; /* 비율 유지하며 채우기 */
+		    max-height: 90%;
+		    border-radius: 10px;
+		    object-fit: cover;
+		}

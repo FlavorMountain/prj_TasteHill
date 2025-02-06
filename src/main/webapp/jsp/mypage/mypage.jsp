@@ -5,139 +5,54 @@
 <head>
 <meta charset="UTF-8">
 <title>My Page</title>
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/header.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/index.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/searchBar.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card_list.css">
 <style>
+		/* 프로필 섹션 */
+		.profile-section {
+			display: flex;
+			align-items: center;
+			padding: 20px;
+			margin-left: 200px;
+		    margin-top: 30px; /* 위쪽 여백 줄이기 */
+			border-radius: 10px;
+			width: 90%;
+			max-width: 800px;
+		}
+		
+		.profile-section img {
+			border-radius: 50%;
+			width: 100px;
+			height: 100px;
+			margin-right: 20px;
+		}
+		
+		.profile-details {
+			margin-left: 400px;
+		    margin-top: -40px;
+			text-align: left;
+		}
+		
+		.profile-details h2 {
+			margin: 0 0 20px 0;
+			font-size: 20px;
+		    justify-content: flex-start;
+		}
+		
+		.profile-details p {
+			margin: 5px 0;
+			color: #666;
+		    justify-content: flex-start;
+		}
 
-/* 네비게이션 바 */
-        .navbar {
-            display: flex;
-            align-items: center;
-            position: relative; /* 중앙 배치를 위한 상대 위치 */
-/*             justify-content: space-between; */
-            padding: 20px 20px;
+        .see-more {
+        	float: right;
+        	color: #004d00;
+        	padding-right: 3%;
         }
-
-        .navbar .search-bar {
-	        position: absolute;
-	    	left: 50%;
-	    	transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navbar input[type="text"] {
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 300px;
-        }
-
-        .navbar button {
-            background-color: #004d00;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* 섹션 제목 */
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 20px 0 10px;
-            color: #004d00;
-        }
-
-/* 프로필 섹션 */
-.profile-section {
-	display: flex;
-	align-items: center;
-	padding: 20px;
-	margin-left: 200px;
-    margin-top: 30px; /* 위쪽 여백 줄이기 */
-	border-radius: 10px;
-	width: 90%;
-	max-width: 800px;
-}
-
-.profile-section img {
-	border-radius: 50%;
-	width: 100px;
-	height: 100px;
-	margin-right: 20px;
-}
-
-.profile-details {
-	margin-left: 400px;
-    margin-top: -40px;
-	text-align: left;
-}
-
-.profile-details h2 {
-	margin: 0 0 20px 0;
-	font-size: 20px;
-    justify-content: flex-start;
-}
-
-.profile-details p {
-	margin: 5px 0;
-	color: #666;
-    justify-content: flex-start;
-}
-
-/* 카드 및 섹션 레이아웃 */
-.section {
-	margin-left: 130px;
-	width: 90%;
-	max-width: 800px;
-}
-
-.section-title {
-	font-size: 20px;
-	margin-left: 30px;
-	text-align: left;
-	color: #333;
-}
-
-.more-link {
-	float: right;
-	margin-top: -45px;
-	color: #004d00;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-.card-container {
-	display: flex;
-	margin-left: 130px;
-	flex-wrap: wrap;
-	gap: 20px;
-	justify-content: flex-start;
-}
-
-.card {
-    flex: 0 0 calc(25% - 20px); /* 한 줄에 4개 배치 */
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.card img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
-.card p {
-	margin: 10px 0;
-	font-size: 16px;
-	color: #333;
-}
 </style>
 <script>
 function previewImage(event) {
@@ -181,27 +96,29 @@ function openFileInput() {
 
 </head>
 <body>
-	<!-- 헤더 -->
-<!-- 	<div class="header"> -->
-<!-- 		<a href="/" class="header-logo">TasteHILL</a> <a href="/mypage" -->
-<!-- 			class="header-mypage">MyPage</a> -->
-<!-- 	</div> -->
-	
-	<!-- 네비게이션 바 -->
-	<div class="navbar">
-	    <div class="search-bar">
-	        <form action="/searchList" method="get">
-			    <select name="location">
-            	    <option value="">위치</option>
-			        <option value="서울">서울</option>
-			        <option value="부산">부산</option>
-			    </select>
-			    <input type="text" name="query" placeholder="search place...">
-			    <button type="submit">🔍</button>
-	        <button onclick="location.href='/main/route/rout_create'">새 동선 만들기</button>
-			</form>
-	    </div>
-	    </div>
+		<div>
+		    <div class="search-container">
+			    <div class="search-bar">
+			        <form action="/searchList" method="get">
+					    <select name="location">
+		            	    <option value="">위치</option>
+					        <option value="서울">서울</option>
+					        <option value="부산">부산</option>
+					    </select>
+					    <input type="text" name="query" placeholder="search place...">
+					    <button type="submit">🔍</button>
+					</form>
+			        
+			    </div>
+		    </div>
+		 </div>
+		 
+		 <br>
+		 
+		 <div class="route-creat">
+		  	<button onclick="location.href='/route'">새 동선 만들기</button>
+		 </div> 
+		 
   <!-- 프로필 섹션 -->
     <div class="profile-section">
         <!-- 프로필 이미지 -->
@@ -266,56 +183,43 @@ function openFileInput() {
     }
 </script>
 
-	
-		
 	<!-- 나의 동선 섹션 -->
-	<div>
-		<h3 class="section-title">나의 동선</h3>
-		<div class="card-list">
-			<c:forEach var="route" items="${myRoutes}">
-				<div class="card">
-					<p class="card-title">${route.title}</p>
-					<p class="card-date">등록일 ${route.updatedAt}</p>
-				</div>
-			</c:forEach>
-		</div>	
-		<form action="<%=request.getContextPath()%>/myroutes" method="post">
-    		<input type="submit" value="더보기" class="more-link">
-		</form>
-	</div>
+			<div>
+			    <h2 class="section-title">나의 동선</h2>
+			    <div class="card-list">
+			     	<c:forEach var="route" items="${myRoutes}" varStatus="status">
+				        <c:if test="${status.index < 4}">
+			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
+			                    <p class="card-title">${route.title}</p>
+			                    <img src="${route.photo_url}" alt="${route.title}" width="200px" height="150px">
+			                    <p class="card-date">등록일:${route.createdAt}</p>
+			                </button>
+			            </c:if>
+			        </c:forEach>
+			    <a href="/myRoutes" class="see-more">더보기 ></a>
+			    </div>
+			    <br>
+			</div>
 
 	<!-- 즐겨찾기 섹션 -->
-	<div>
-		<h3 class="section-title">즐겨찾기</h3>
-		<form action="<%=request.getContextPath()%>/forkList" method="post">
-    		<input type="submit" value="더보기" class="more-link">
-		</form>
-		<div class="card-container">
-			<c:forEach var="route" items="${favoriteRoutes}">
-				<div class="card">
-					<p>${route.title}</p>
-					<p>등록일 ${route.date}</p>
-				</div>
-			</c:forEach>
-		</div>
-	</div>
+			<div>
+			    <h2 class="section-title">즐겨찾기</h2>
+			    <div class="card-list">
+			     	<c:forEach var="route" items="${forkRoutes}" varStatus="status">
+				        <c:if test="${status.index < 4}">
+			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
+			                    <p class="card-title">${route.title}</p>
+			                     <img src="${route.photo_url}" alt="${route.title}" width="200px" height="150px">
+			                    <p class="card-date">등록일:${route.createdAt}</p>
+			                </button>
+			            </c:if>
+			        </c:forEach>
+			    <a href="/forkList" class="see-more">더보기 ></a>
+			    </div>
+			    <br>
+			</div>
 
 
-	<!-- 링크 목록 -->
-	<br>
-	<br>
-	<br>
-	<nav>
-		<a href="<%=request.getContextPath()%>/jsp/main/main.jsp">메인 페이지</a> <a
-			href="<%=request.getContextPath()%>/jsp/detail/route_detail.jsp">루트
-			상세 페이지</a> <a
-			href="<%=request.getContextPath()%>/jsp/route/route_create.jsp">루트
-			생성 페이지</a> <a
-			href="<%=request.getContextPath()%>/jsp/route/route_list.jsp">루트
-			리스트 - 나의 동선</a> <a
-			href="<%=request.getContextPath()%>/jsp/route/route_list.jsp">루트
-			리스트 - 즐겨찾기</a>
-	</nav>
 </body>
 <script>
     const modal = document.getElementById('editInfoModal');

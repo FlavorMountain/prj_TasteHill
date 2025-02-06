@@ -13,14 +13,16 @@
 		<result property="updatedAt" 	column="updated_at"/>
 		<result property="seqRoute" 	column="seq_route"/>
 		<result property="seqMember" 	column="seq_member"/>
+		<result property="profile" 	column="profile"/>
 	</resultMap>
 	
 	
 	<!-- 회원상세 -->
 	<select id="selectCommentsAll" resultMap="commentsMap">
-		select *
-		from comments
-		where seq_route = #{seqRoute}
+		select c.seq_comments, c.contents, c.nickname, c.created_at, c.updated_at, c.seq_route, c.seq_member, m.profile
+		from comments c, member m
+		where seq_route = #{seqRoute} and c.seq_member = m.seq_member
+		order by c.created_at desc
 	</select>
 	
 	<!-- 댓글 작성  -->

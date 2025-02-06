@@ -13,43 +13,49 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/map.css">
 
     <style>
-        /* 네비게이션 바 */
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 20px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #004d00;
-        }
-
-        .navbar .search-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navbar input[type="text"] {
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 300px;
-        }
-
-        .navbar button {
-            background-color: #004d00;
-            color: white;
+        .search-container {
+		    display: flex;
+		    justify-content: center; /* 가로 정렬 */
+		    align-items: center; /* 세로 정렬 */
+		    height: 10px; /* 원하는 높이를 설정 */
+		    margin-top: 20px; /* 상단 여백 */
+		}
+		
+		.search-container button {
+			background-color: rgba(0, 77, 0, 0.8);
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
         }
+        
+        .search-container input[type="text"] {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+        }
+        
+        .search-bar {
+		    display: flex;
+		    align-items: center;
+		    gap: 30px; /* 입력 필드와 버튼 간 간격 */
+		}
+
+		.route-creat{
+        	float: right;
+        	padding-right: 10%;
+		}
+		
+		.route-creat button{
+            height: 30px;
+			background-color: rgba(0, 77, 0, 0.8);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+		}
 
         /* 섹션 제목 */
         .section-title {
@@ -65,6 +71,10 @@
             flex-wrap: wrap;
             gap: 20px;
             margin-top: 10px;
+            
+        }
+        .card-list button:hover{
+        	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         /* 카드 스타일 */
@@ -134,31 +144,54 @@
     </style>
 </head>
 <body>
-	<!-- 헤더 -->
-<!-- 	<div class="header"> -->
-<!-- 		<a href="/" class="header-logo">TasteHILL</a> <a href="/mypage" -->
-<!-- 			class="header-mypage">MyPage</a> -->
-<!-- 	</div> -->
+
+		<!-- 검색 바 -->
+		<div>
+		    <div class="search-container">
+			    <div class="search-bar">
+			        <form action="/searchList" method="get">
+					    <select name="location">
+		            	    <option value="">위치</option>
+					        <option value="서울">서울</option>
+					        <option value="부산">부산</option>
+					    </select>
+					    <input type="text" name="query" placeholder="search place...">
+					    <button type="submit">🔍</button>
+					</form>
+			        
+			    </div>
+		    </div>
+		 </div>
+		 
+		 <div class="route-creat">
+		  	<button onclick="location.href='/route'">새 동선 만들기</button>
+		 </div> 
+		
+		<br>
+		<br>
+		
 
 
-	<!-- 네비게이션 바 -->
-	<div class="navbar">
-	    <div class="logo">TasteHILL</div>
-	    <div class="search-bar">
-	        <select>
-	            <option>위치</option>
-	            <option>서울</option>
-	            <option>부산</option>
-	        </select>
-	        <input type="text" placeholder="search place...">
-	        <button>🔍</button>
-	        <button>새 동선 만들기</button>
-	  	</div>
-	  	
-	  	<a href="${pageContext.request.contextPath}/profile" class="button">My Page</a>
+	<!-- hotList -->
+	<div class="card-list">
+	    <c:forEach var="route" items="${hotRoutes}">
+	         <button class="card"  onclick="location.href='/detail?seq_route=${route.seq_route}'">
+	            <p class="card-title">${route.title}</p>
+	            <p class="card-date">${route.forkCount}</p>
+	        </button>
+	    </c:forEach>
 	</div>
-
-
+	
+	<!-- hotList -->
+<ul class="card-list">
+    <c:forEach var="route" items="${hotRoutes}">
+        <li class="card">
+            <div class="card-title">${route.title}</div>
+            <div class="card-date">${route.forkCount}</div>
+        </li>
+    </c:forEach>
+</ul>
+	
 	<!-- 홈으로 돌아가는 버튼 -->
 	<a href="/main">홈으로</a>
 </body>
