@@ -72,16 +72,13 @@
         let markers = [];
         let currentPolyline = null;
 
-        function getPlaceDetail(){
-        	/* 루트 정보 컨트롤러에 요청하는 부분 */
+/*         function getPlaceDetail(){
        	 $.ajax({
        	        url: "/detail/getRoute/" + ${RVO.seq_route},
        	        method: "GET",
        	        dataType: "json",
        	        success: function(response) {
-       	            /* console.log("경로 데이터:", response.places); */
        	            res = JSON.parse(JSON.stringify(response));
-       	            /* console.log(res); */
        	            initMap(res);
        	            markingPlace(res.places);
        	        },
@@ -89,7 +86,7 @@
        	            console.error("에러 발생:", error);
        	        }
        	    });
-        }
+        } */
         
         initMap();
         
