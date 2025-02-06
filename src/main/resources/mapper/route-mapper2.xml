@@ -210,9 +210,7 @@ WHERE p.seq_place = #{seqPlace}
     
     <!-- Hot 동선 리스트 -->
     <select id="selectHotRoutes" resultMap="RouteWithPlacesMap">
-    SELECT * FROM(
 		SELECT 
-			ROW_NUMBER() OVER (ORDER BY r.fork_count DESC) as ranking,
 		    m.nickname,
 		    r.seq_route, 
 		    r.title, 
@@ -228,16 +226,8 @@ WHERE p.seq_place = #{seqPlace}
 		        ) AS photo_url
 		FROM route r, member m
         where r.seq_member = m.seq_member
-        ) rr
-        WHERE ranking BETWEEN #{start} AND #{end}
-      	order by ranking
-    </select>
-    
-    <!-- 페이징용 사이즈 구하기 -->
-    <select id="selectHotRoutesSize" resultType="int">
-		SELECT count(*)
-		FROM route r, member m
-        where r.seq_member = m.seq_member
+		ORDER BY r.fork_count DESC;
+
     </select>
     
      <!-- Pinned Route -->

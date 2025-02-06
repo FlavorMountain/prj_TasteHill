@@ -64,7 +64,7 @@ public class RouteListController {
             Model model) {
 
 
-    		int blockCount = 3; 
+    		int blockCount = 4; 
     		int blockPage = 10;
     		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
     		PagingUtil pg = new PagingUtil("/searchList2?seqPlace="+ seqPlace, currentPage, size, blockCount, blockPage);
@@ -105,7 +105,7 @@ public class RouteListController {
     	
     	List<PlaceVO> searchPlaces;
     	List<RouteVO> searchRoutes;
-		int blockCount = 3; 
+		int blockCount = 4; 
 		int blockPage = 10;
 		PagingUtil pg;
     	
@@ -163,13 +163,23 @@ public class RouteListController {
     
     // 핫 동선 리스트
     @GetMapping("/hotList")
-    public String hotRoutesPage(Model model) {
-        List<RouteVO> hotRoutes = routeService.svcSelectHotRoute();
+    public String hotRoutesPage(Model model,
+    		 @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+             @RequestParam(value = "seqPlace", required = false, defaultValue = "1") int seqPlace
+    		) {
+		int blockCount = 4; 
+		int blockPage = 10;
+    	
+		//바꿔야됨
+    	int size = routeService.svcSelectHotRoutesSize();
+		PagingUtil pg = new PagingUtil("/hotList?seqPlace", currentPage, size, blockCount, blockPage);
+    	
+        List<RouteVO> hotRoutes = routeService.svcSelectHotRoute(pg.getStartSeq(), pg.getEndSeq());
         model.addAttribute("pageType", "hotList");
 	    model.addAttribute("hotRoutes", hotRoutes);
         model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
-
+		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 	    return "index";
     }
     

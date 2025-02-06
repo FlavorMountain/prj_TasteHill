@@ -37,8 +37,8 @@ public class RouteServiceImpl implements RouteService {
     }
     
     @Override
-    public List<RouteVO> svcSelectHotRoute(){
-    	return routeMapper.selectHotRoutes();
+    public List<RouteVO> svcSelectHotRoute(int start, int end){
+    	return routeMapper.selectHotRoutes(start, end);
     }
     
     @Override
@@ -112,6 +112,11 @@ public class RouteServiceImpl implements RouteService {
 			int start,
 			int end) {
 		return routeMapper.selectAllRoutesAndPlaceByAddressPlacePaging(seqPlaceList, start, end);
+	}
+
+	@Override
+	public int svcSelectHotRoutesSize() {
+		return routeMapper.selectHotRoutesSize();
 	}
 
     

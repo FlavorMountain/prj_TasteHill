@@ -11,7 +11,7 @@ public interface RouteService {
     void svcDeleteRoute(int seqRoute);
     List<RouteVO> svcSelectRouteAllByFork(int seqMember);
     
-    List<RouteVO> svcSelectHotRoute();
+    List<RouteVO> svcSelectHotRoute(int start, int end);
     RouteVO svcSelectPinnedRoute(int seqMember);
     
   	
@@ -33,5 +33,12 @@ public interface RouteService {
 	int svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(int seqPlace);
 	
 	List<RouteVO> svcSelectAllRoutesAndPlaceByAddressPlacePaging(
-			List<Integer> seqPlaceList,int start, int end);
+			List<Integer> seqPlaceList,
+			int start, 
+			int end
+		);
+	
+	int svcSelectHotRoutesSize();
+
+	
 }
