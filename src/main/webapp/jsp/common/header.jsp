@@ -9,6 +9,7 @@
 	</c:if>
 	<c:if test="${not empty sessionScope.SESS_MEMBER_ID}">
 		<div>
+            <a href="/chatroomlist/${sessionScope.SESS_MEMBER_ID}" class="header-mypage"><i class="fa-solid fa-comment" style="color: #26473c;"></i></a>
 			<a href="/profile" class="header-mypage">MyPage</a>
 			<a href="/logout" class="header-mypage">LogOut</a>
 		</div>

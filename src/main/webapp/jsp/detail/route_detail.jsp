@@ -8,7 +8,6 @@
     <title>Post Detail</title>
         <script src="https://maps.googleapis.com/maps/api/js?key=${sessionScope.API_KEY}&libraries=places"></script>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/route_detail.css">
-	<script src="https://kit.fontawesome.com/7a7c0970b6.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
