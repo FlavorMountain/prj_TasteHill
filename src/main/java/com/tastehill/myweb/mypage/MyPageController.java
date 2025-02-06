@@ -134,10 +134,12 @@ public class MyPageController {
 
 
     // 특정 동선 삭제
-    @RequestMapping(value = "/myroutes/delete")
-    public String deleteRoute(@RequestParam int seqRoute) {
-        routeService.svcDelectRoute(seqRoute);
-        return "redirect:/myroutes";
+    @RequestMapping(value = "/profile/myroutes/delete", method = RequestMethod.POST)
+    public String deleteRoute(@RequestParam("seqRoute") int seqRoute) {
+        System.out.println("🔴 삭제 요청 수신: seqRoute = " + seqRoute); // 요청 확인
+        routeService.svcDeleteRoute(seqRoute);
+        System.out.println("✅ 삭제 완료: seqRoute = " + seqRoute); // 삭제 완료 확인
+        return "redirect:/myRoutes";
     }
 }
 
