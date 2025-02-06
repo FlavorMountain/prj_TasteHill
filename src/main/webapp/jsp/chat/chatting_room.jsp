@@ -9,7 +9,12 @@
 </head>
 <body>
     <div class="chat-room-list">
-    CHATTING
+    CHATTING Room
+    <c:if test="${empty RLIST}">
+    <div class="no-chatting-room">
+    	채팅방이 없습니다!
+    </div>
+    </c:if>
         <c:forEach items="${RLIST}" var="room">
             <a href="/chat/${room.seqChattingRoom}" class="chat-room-item">
 	            <div class = "chat-room-user">
