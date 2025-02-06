@@ -47,7 +47,13 @@ public interface RouteMapper {
     		@Param("start") int start,
     		@Param("end") int end);
     
-	List<RouteVO> searchRoutesByMember(int seqMember);
+	List<RouteVO> searchRoutesByMember(
+			@Param("seqMember") int seqMember, 
+			@Param("start") int start,
+    		@Param("end") int end);
+	
+	int searchRoutesByMemberSize(@Param("seqMember") int seqMember);
+
 	
 	void increaseFork(@Param("seq_route") int seq_route);
 	void decreaseFork(@Param("seq_route") int seq_route);

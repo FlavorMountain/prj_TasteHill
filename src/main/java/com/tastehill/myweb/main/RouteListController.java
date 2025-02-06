@@ -185,18 +185,28 @@ public class RouteListController {
     
     // 마이페이지 동선 리스트
     @RequestMapping(value = "/myRoutes")
-    public String getMyRoutes(Model model, HttpSession session) {
+    public String getMyRoutes(Model model, HttpSession session,
+    		@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+            @RequestParam(value = "seqPlace", required = false, defaultValue = "1") int seqPlace
+    		) {
         Integer seqMember = (Integer) session.getAttribute("SESS_MEMBER_ID");
         if (seqMember == null) {
             return "redirect:/myroutes"; //"redirect:/loginPage"
         }
 
-        List<RouteVO> myRoutes = routeService.svcSelectRouteAllMy(seqMember);
+        
+		int blockCount = 4; 
+		int blockPage = 10;
+    	int size = routeService.svcSearchRoutesByMemberSize(seqMember);
+		PagingUtil pg = new PagingUtil("/myRoutes?", currentPage, size, blockCount, blockPage);
+        
+        List<RouteVO> myRoutes = routeService.svsSearchRoutesByMember(seqMember, pg.getStartSeq(), pg.getEndSeq());
         
         model.addAttribute("pageType", "myRoutes");        
         model.addAttribute("myRoutes", myRoutes);
         model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 
         return "index";
     }

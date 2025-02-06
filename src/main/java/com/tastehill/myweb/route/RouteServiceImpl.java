@@ -21,10 +21,6 @@ public class RouteServiceImpl implements RouteService {
     @Autowired
     private RouteMapper routeMapper;
 
-    @Override
-    public List<RouteVO> svcSelectRouteAllMy(int seqMember) {
-        return routeMapper.searchRoutesByMember(seqMember);
-    }
 
     @Override
     public void svcDeleteRoute(int seqRoute) {
@@ -117,6 +113,16 @@ public class RouteServiceImpl implements RouteService {
 	@Override
 	public int svcSelectHotRoutesSize() {
 		return routeMapper.selectHotRoutesSize();
+	}
+	
+    @Override
+    public List<RouteVO> svsSearchRoutesByMember (int seqMember, int start, int end) {
+        return routeMapper.searchRoutesByMember(seqMember, start, end);
+    }
+	
+
+	public int svcSearchRoutesByMemberSize(int seqMember) {
+		return routeMapper.searchRoutesByMemberSize(seqMember);
 	}
 
     
