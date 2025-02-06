@@ -17,6 +17,8 @@
     </style>
 </head>
 <body>
+		console.log(${MY_KEY_PAGING_HTML});
+		console.log('test');
 		<!-- 검색 바 -->
 		<div>
 		    <div class="search-container">
@@ -91,6 +93,8 @@
 			    </div>
 			</c:forEach>
 		</div>
+		
+		${MY_KEY_PAGING_HTML}
 		
 </body>
 </html>

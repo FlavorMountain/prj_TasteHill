@@ -73,6 +73,8 @@ public class RouteController {
 	        rvo.setTitle(title);
 	        rvo.setContents(contents);
 	        
+	        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + rvo.toString());
+	        
 	        routeService.svcInsertRouteWithPlaces(rvo, plist);
 	        return "redirect:/main";
 	        

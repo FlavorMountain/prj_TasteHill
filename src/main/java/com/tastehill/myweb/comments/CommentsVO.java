@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import com.tastehill.myweb.member.MemberVO;
+
 import lombok.AllArgsConstructor;
 
 @Data
@@ -18,4 +20,5 @@ public class CommentsVO {
     private int seqRoute;
     private String nickname;
     private int seqMember;
+    private String profile;
 }

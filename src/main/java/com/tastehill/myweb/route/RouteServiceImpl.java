@@ -87,9 +87,24 @@ public class RouteServiceImpl implements RouteService {
 	}
 
 	@Override
-	public List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlace(int seq_place) {
-		// seq_place 기준으로 루트 찾기
-        return routeMapper.selectAllRoutesAndPlaceBySearchPlace(seq_place);
+	public List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlacePaging(int seq_place, int start, int end) {
+        return routeMapper.selectAllRoutesAndPlaceBySearchPlacePaging(seq_place, start, end);
 	}
+
+	@Override
+	public int svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(int seqPlace) {
+		return routeMapper.selectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
+	}
+
+	@Override
+	public void svcIncreaseFork(int seqRoute) {
+		routeMapper.increaseFork(seqRoute);
+	}
+
+	@Override
+	public void svcDecreaseFork(int seqRoute) {
+		routeMapper.decreaseFork(seqRoute);
+	}
+
     
 }
