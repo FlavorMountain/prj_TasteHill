@@ -19,20 +19,7 @@
 <body>
 		<!-- 검색 바 -->
 		${MY_KEY_PAGING_HTML}
-		<div>
-		    <div class="search-container">
-		        <div class="search-bar">
-		            <form id="searchForm" action="/searchList" method="get">
-		                <select id="searchType" name="searchGubun" onchange="toggleSearchResults()">
-					        <option value="formatted_address">주소</option>
-					        <option value="name">장소</option>
-		                </select>
-		                <input type="text" name="searchStr" placeholder="search place...">
-		                <button type="submit">🔍</button>
-		            </form>
-		        </div>
-		    </div>
-		</div>
+		<jsp:include page="${searchBar}" />
 		
 		
 		 <div class="route-creat">
