@@ -21,7 +21,7 @@ public interface RouteMapper {
     
     
     void deleteRoute(int seqRoute);
-    List<RouteVO> selectFavoriteRoutes(int seqMember);
+    List<RouteVO> selectFavoriteRoutes(@Param("seqMember") int seqMember);
     
     List<RouteVO> selectHotRoutes();
     RouteVO getPinnedRouteBySeqMember(int seqMember);

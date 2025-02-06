@@ -191,6 +191,7 @@ function openFileInput() {
 			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
 			                    <p class="card-title">${route.title}</p>
 			                    <img src="${route.photo_url}" alt="${route.title}" width="200px" height="150px">
+			                     <p class="card-title">${route.nickname}</p>  
 			                    <p class="card-date">등록일:${route.createdAt}</p>
 			                </button>
 			            </c:if>
@@ -209,6 +210,7 @@ function openFileInput() {
 			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
 			                    <p class="card-title">${route.title}</p>
 			                     <img src="${route.photo_url}" alt="${route.title}" width="200px" height="150px">
+			                     <p class="card-title">${route.nickname}</p>  
 			                    <p class="card-date">등록일:${route.createdAt}</p>
 			                </button>
 			            </c:if>
