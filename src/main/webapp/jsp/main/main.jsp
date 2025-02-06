@@ -93,6 +93,7 @@
 			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
 			                    <p class="card-title">${route.title}</p>                               
 			                    <img src="${route.photo_url}" alt="${route.title}" width="100px" height="50px">
+			                    <p class="card-title">${route.nickname}</p>                               
                                 <p class="card-date">등록일:${route.createdAt}</p>
 			                </button>
 			            </c:if>
@@ -110,9 +111,9 @@
 					        <h2 class="section-title">📌 My Pinned Route</h2>
 					        <div class="pinned-route">
 					            <button class="pinned-route-content" onclick="location.href='/detail?seqRoute=${pinnedRoute.seq_route}'">
-					                
 					                <p class="pinned-route-title">${pinnedRoute.title} 📍</p>                            
 				                    <img src="${pinnedRoute.photo_url}" alt="${pinnedRoute.title}" width="100px" height="50px">
+				                    <p class="card-title">${pinnedRoute.nickname}</p>  
 					                <p class="pinned-route-contents">${pinnedRoute.contents}</p>
 					            </button>
 					        </div>

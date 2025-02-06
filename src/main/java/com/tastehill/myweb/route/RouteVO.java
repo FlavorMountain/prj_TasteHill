@@ -41,4 +41,7 @@ public class RouteVO {
     
     // 대표 사진 추가
     private String photo_url;
+    
+
+    private String nickname;
 }
