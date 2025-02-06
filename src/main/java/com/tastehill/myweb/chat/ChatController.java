@@ -36,7 +36,7 @@ public class ChatController {
     	model.addAttribute("CLIST", clist);
 
     	model.addAttribute("content", "jsp/chat/chatting.jsp");
-    	return "jsp/chat/chatting";
+    	return "index";
     }
     
     @RequestMapping("/newchat/{seqMember}")

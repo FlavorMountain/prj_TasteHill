@@ -25,7 +25,7 @@
         <div class="post-header">
         	<input type="hidden" class="seq_route" value="${RVO.seq_route}" >
             <div class="post-title">제목</div>
-            <a href="/user/${MVO.seqMember}" class="user-nickname">${MVO.nickname}</a>
+            <div class="user-nickname">${MVO.nickname}</div>
             <a href="/newchat/${MVO.seqMember}"><i class="fa-solid fa-comment" style="color: #26473c;"></i></a>
             
             <div class="post-actions">
@@ -172,58 +172,6 @@ function markingPlace(results) {
 }
 
 $( document ).ready(function() {
-<<<<<<< Updated upstream
-	
-	/* 루트 정보 컨트롤러에 요청하는 부분 */
-	 $.ajax({
-	        url: "/detail/getRoute/" + ${seqRoute},
-	        method: "GET",
-	        dataType: "json",
-	        success: function(response) {
-	            /* console.log("경로 데이터:", response.places); */
-	            res = JSON.parse(JSON.stringify(response));
-	            /* console.log(res); */
-	            initMap(res);
-	            markingPlace(res.places);
-	        },
-	        error: function(error) {
-	            console.error("에러 발생:", error);
-	        }
-	    });
-	 
-	 
-	//$("#emp-btn").click( function() {
-		
-		/*
-	    $.ajax({
-	    	url  		: "/restctl/blist" ,
-	    	method 		: 'POST' , 
-	    	data 		: "uid=값&upw=값", 			
-	    	//dataType 	: "json", 	
-	    	success 	: function(obj) { 
-	    					console.log("응답:" + obj);
-	    					console.log("------------- $().map(function(i,v){})----------------");
-	    					
-	    					$("#empDiv").empty();
-	    					var htmlStr = "<table class=blueTable>";
-	    					htmlStr += "<tr><th>번호</th><th>제목</th><th>글쓴이</th></tr>";
-	    					$(obj).map(function(i,v){ 
-	    						//console.log(i + "," + v["bseq"] + "," + v.title + "," + v.regid);
-	    						htmlStr += "<tr>";
-	    						htmlStr += "<td>"+v.bseq+"</td>";
-	    						htmlStr += "<td><a href='/myboard'>"+v.title+"</a></td>";
-	    						htmlStr += "<td>"+v.regid+"</td>";
-	    						htmlStr += "</tr>";
-	    					});
-	    					htmlStr += "</table>";
-	    					$("#empDiv").html(htmlStr);
-	    					
-	    				  }   ,
-	    	error 		: function(err) { console.log("에러:" + err) }  
-	    });
-	*/
-	    
-=======
 	let seqRoute     = $(".seq_route").val();
 	/* 루트 정보 컨트롤러에 요청하는 부분 */
 	 $.ajax({
@@ -241,7 +189,6 @@ $( document ).ready(function() {
 	            console.error("에러 발생:", error);
 	        }
 	    });
->>>>>>> Stashed changes
 	
 	$("#comment-submit").click( function() {  
 	    
@@ -279,11 +226,6 @@ $( document ).ready(function() {
 	    	error : function(err) { console.log("에러:" + err) }  
 	    });
 	});
-<<<<<<< Updated upstream
-	
-
-	
-=======
 });
 
 //pin-button 클릭 이벤트
@@ -350,7 +292,6 @@ $(document).on('click', '.like-button', function() {
             console.error("에러 발생:", error);
         }
     });
->>>>>>> Stashed changes
 });
 
 </script>

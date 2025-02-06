@@ -18,18 +18,6 @@ public class MainController {
 
 	 @Autowired
 	    private RouteService routeService;
-	 
-		// Hot 동선 리스트 가져오기
-	 	@RequestMapping(value="/main/hotList")
-	    public String hotRoutesPage(Model model) {
-	        List<RouteVO> hotRoutes = routeService.svcSelectHotRoute();
-
-	        // 모델에 데이터 추가
-	        model.addAttribute("hotRoutes", hotRoutes);
-
-	        // hotList.jsp 페이지로 이동
-	        return "/jsp/main/hotList";
-	    }
 	
 		// MainPage
 	    @RequestMapping(value="/main")

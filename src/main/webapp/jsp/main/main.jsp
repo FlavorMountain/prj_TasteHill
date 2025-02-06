@@ -64,13 +64,12 @@
 		<div>
 		    <div class="search-container">
 			    <div class="search-bar">
-			        <form action="/routeList/searchList" method="get">
-					    <select name="location">
-		            	    <option value="">위치</option>
-					        <option value="서울">서울</option>
-					        <option value="부산">부산</option>
+			        <form action="/searchList" method="get">
+					    <select name="searchGubun">
+					        <option value="formatted_address">경로</option>
+					        <option value="name">장소</option>
 					    </select>
-					    <input type="text" name="query" placeholder="search place...">
+					    <input type="text" name="searchStr" placeholder="search place...">
 					    <button type="submit">🔍</button>
 					</form>
 			        
@@ -100,7 +99,7 @@
 			        </c:forEach>
 			    </div>
 			    <br>
-			    <a href="/main/hotList" class="see-more">더보기 ></a>
+			    <a href="/hotList" class="see-more">더보기 ></a>
 			</div>
 			
 			<!-- My Pinned Route 섹션 -->
@@ -110,7 +109,7 @@
 					    <div>
 					        <h2 class="section-title">📌 My Pinned Route</h2>
 					        <div class="pinned-route">
-					            <button class="pinned-route-content" onclick="location.href='/detail?seq_route=${route.seq_route}'">
+					            <button class="pinned-route-content" onclick="location.href='/detail?seqRoute=${pinnedRoute.seq_route}'">
 					                
 					                <p class="pinned-route-title">${pinnedRoute.title} 📍</p>                            
 				                    <img src="${pinnedRoute.photo_url}" alt="${pinnedRoute.title}" width="100px" height="50px">

@@ -105,5 +105,6 @@ public class RouteServiceImpl implements RouteService {
 	public void svcDecreaseFork(int seqRoute) {
 		routeMapper.decreaseFork(seqRoute);
 	}
+
     
 }

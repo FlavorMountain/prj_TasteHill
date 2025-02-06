@@ -1,28 +1,29 @@
-
 /* 1. 기본 여백 제거 */
 html, body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 /* 2. 폰트 등록 */
 @font-face {
-    font-family: 'IM_Hyemin-Bold';
-    src: url('/resources/font/IM_Hyemin-Bold.ttf') format('truetype'); /* 파일 경로와 형식을 적절히 수정 */
-    font-weight: bold;
-    font-style: normal;
+	font-family: 'IM_Hyemin-Bold';
+	src: url('/resources/font/IM_Hyemin-Bold.ttf') format('truetype');
+	/* 파일 경로와 형식을 적절히 수정 */
+	font-weight: bold;
+	font-style: normal;
 }
 
 /* 3. 페이지 전체에 폰트 적용 */
 body {
 	width: 100%;
-    display: block;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'IM_Hyemin-Bold', sans-serif; /* 등록된 폰트를 기본으로 설정 */
+	display: block;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-family: 'IM_Hyemin-Bold', sans-serif; /* 등록된 폰트를 기본으로 설정 */
 }
+
 header {
 	width: 100%;
 	display: flex;

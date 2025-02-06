@@ -118,8 +118,9 @@
     ORDER BY r.fork_count DESC, rp.order_place ASC
     </select>
     
-           <!-- 위치 기반 검색 기능 -->
-    <select id="searchPlacesByAddress" parameterType="string" resultMap="placeWithPhotoMap">
+    
+    <!-- 네이게이션바 검색 기능 -->
+    <select id="searchBar" parameterType="com.tastehill.myweb.route.RouteVO" resultMap="placeWithPhotoMap">
 	  
 SELECT 
         r.seq_route, r.title, r.contents, r.seq_member, 
@@ -136,7 +137,7 @@ SELECT
                 FROM photo
                 ORDER BY place_id
             ) ph
-    WHERE p.place_id = ph.place_id and p.formatted_address LIKE '%' || #{query} || '%'
+    WHERE p.place_id = ph.place_id and ${searchGubun} LIKE '%' || #{searchStr} || '%'
     ORDER BY r.fork_count DESC, rp.order_place ASC
     </select>
 
