@@ -130,37 +130,12 @@ public class MyPageController {
         return "redirect:/main";
     }
 
-    // 내가 작성한 동선 리스트
-    @RequestMapping(value = "/myroutes")
-    public String getMyRoutes(Model model, HttpSession session) {
-        Integer seqMember = (Integer) session.getAttribute("SESS_MEMBER_ID");
-        if (seqMember == null) {
-            return "redirect:/myroutes"; //"redirect:/loginPage"
-        }
-
-        List<RouteVO> myRoutes = routeService.svcSelectRouteAllMy(seqMember);
-        model.addAttribute("myRoutes", myRoutes);
-        return "/jsp/mypage/myroutes";
-    }
 
     // 특정 동선 삭제
     @RequestMapping(value = "/myroutes/delete")
     public String deleteRoute(@RequestParam int seqRoute) {
         routeService.svcDelectRoute(seqRoute);
         return "redirect:/myroutes";
-    }
-
-    // 좋아요한 동선 리스트
-    @RequestMapping(value = "/forkList")
-    public String getFavorites(Model model, HttpSession session) {
-        Integer seqMember = (Integer) session.getAttribute("SESS_MEMBER_ID");
-        if (seqMember == null) {
-            return "/jsp/fork/forkList";  //"redirect:/loginPage"
-        }
-
-        List<RouteVO> forkRoutes = routeService.svcSelectRouteAllByFork(seqMember);
-        model.addAttribute("forkRoutes", forkRoutes);
-        return "/jsp/fork/forkList";
     }
 }
 

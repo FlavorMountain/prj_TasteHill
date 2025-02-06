@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 		/* 카드 리스트 (결과 전체 컨테이너) */
-		.card-list {
+		.result-list {
 		    width: 90%;
 		    display: flex;
 		    flex-wrap: wrap;

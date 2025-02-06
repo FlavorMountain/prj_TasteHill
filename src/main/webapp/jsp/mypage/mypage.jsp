@@ -5,148 +5,50 @@
 <head>
 <meta charset="UTF-8">
 <title>My Page</title>
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/header.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/index.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/searchBar.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card_list.css">
 <style>
-
-		.search-container {
-		    display: flex;
-		    justify-content: center; /* 가로 정렬 */
-		    align-items: center; /* 세로 정렬 */
-		    height: 10px; /* 원하는 높이를 설정 */
-		    margin-top: 20px; /* 상단 여백 */
+		/* 프로필 섹션 */
+		.profile-section {
+			display: flex;
+			align-items: center;
+			padding: 20px;
+			margin-left: 200px;
+		    margin-top: 30px; /* 위쪽 여백 줄이기 */
+			border-radius: 10px;
+			width: 90%;
+			max-width: 800px;
 		}
 		
-		.search-container button {
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .search-container input[type="text"] {
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 300px;
-        }
-        
-        .search-bar {
-		    display: flex;
-		    align-items: center;
-		    gap: 30px; /* 입력 필드와 버튼 간 간격 */
-		}
-
-		.route-creat{
-        	float: right;
-        	padding-right: 10%;
+		.profile-section img {
+			border-radius: 50%;
+			width: 100px;
+			height: 100px;
+			margin-right: 20px;
 		}
 		
-		.route-creat button{
-			height: 30px;
-			background-color: white;
-            color: #004d00;
-            border: 5px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
+		.profile-details {
+			margin-left: 400px;
+		    margin-top: -40px;
+			text-align: left;
 		}
 		
-		.route-creat button:hover {
-			height: 30px;
-			background-color: rgba(0, 77, 0, 0.8);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
+		.profile-details h2 {
+			margin: 0 0 20px 0;
+			font-size: 20px;
+		    justify-content: flex-start;
 		}
 		
-        /* 섹션 제목 */
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 20px 0 10px;
-            color: #004d00;
-            margin-left: 3%;
-        }
+		.profile-details p {
+			margin: 5px 0;
+			color: #666;
+		    justify-content: flex-start;
+		}
 
-/* 프로필 섹션 */
-.profile-section {
-	display: flex;
-	align-items: center;
-	padding: 20px;
-	margin-left: 200px;
-    margin-top: 30px; /* 위쪽 여백 줄이기 */
-	border-radius: 10px;
-	width: 90%;
-	max-width: 800px;
-}
-
-.profile-section img {
-	border-radius: 50%;
-	width: 100px;
-	height: 100px;
-	margin-right: 20px;
-}
-
-.profile-details {
-	margin-left: 400px;
-    margin-top: -40px;
-	text-align: left;
-}
-
-.profile-details h2 {
-	margin: 0 0 20px 0;
-	font-size: 20px;
-    justify-content: flex-start;
-}
-
-.profile-details p {
-	margin: 5px 0;
-	color: #666;
-    justify-content: flex-start;
-}
-
-        /* 카드 리스트 */
-        .card-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 10px;
-            justify-content: space-between; /* 양쪽 균등 정렬 */
-		    margin: 0 5%; /* 왼쪽, 오른쪽 5% 여백 */
-        }
-
-        /* 카드 스타일 */
-        .card {
-            width: 300px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .card .card-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #333;
-        }
-
-        .card .card-date {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 10px;
-        }
-                .see-more {
+        .see-more {
         	float: right;
         	color: #004d00;
         	padding-right: 3%;
@@ -194,13 +96,6 @@ function openFileInput() {
 
 </head>
 <body>
-	<!-- 헤더 -->
-<!-- 	<div class="header"> -->
-<!-- 		<a href="/" class="header-logo">TasteHILL</a> <a href="/mypage" -->
-<!-- 			class="header-mypage">MyPage</a> -->
-<!-- 	</div> -->
-	
-		<!-- 검색 바 -->
 		<div>
 		    <div class="search-container">
 			    <div class="search-bar">
@@ -301,7 +196,7 @@ function openFileInput() {
 			                </button>
 			            </c:if>
 			        </c:forEach>
-			    <a href="/myroutes" class="see-more">더보기 ></a>
+			    <a href="/myRoutes" class="see-more">더보기 ></a>
 			    </div>
 			    <br>
 			</div>
