@@ -81,5 +81,5 @@ footer {
 /* Add this to ensure content doesn't get hidden behind the fixed footer */
 #wrapper {
     padding-bottom: 80px; 
-    min-height: calc(100vh - 60px); 
+    min-height: calc(100vh - 300px); 
 }
