@@ -12,4 +12,6 @@ public interface PlaceService {
 	//네이게이션바 검색기능
     List<PlaceVO> searchBar(RouteVO routeVO);
     PlaceDetailVO svcSelectPlaceDetailOne(String placeId);
+    
+    List<PlaceVO> svcSearchPlacesByName(String query);
 }

@@ -41,7 +41,7 @@ public class SearchController {
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             Model model) {
 
-        List<PlaceVO> searchPlaces = placeService.searchPlacesByName(query);
+        List<PlaceVO> searchPlaces = placeService.svcSearchPlacesByName(query);
         if (searchPlaces != null && !searchPlaces.isEmpty()) {
 
             int blockCount = 3;

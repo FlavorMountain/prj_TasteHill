@@ -172,4 +172,11 @@ public class PlaceServiceImpl implements PlaceService{
 	public PlaceDetailVO svcSelectPlaceDetailOne(String placeId) {
 		return placeMapper.selectDetailOne(placeId);
 	}
+
+
+
+	@Override
+	public List<PlaceVO> svcSearchPlacesByName(String query) {
+		return placeMapper.searchPlacesByName(query);
+	}
 }
