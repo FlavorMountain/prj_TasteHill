@@ -53,6 +53,8 @@ public class MainController {
 	
 		     // main.jsp 페이지로 이동
 		     model.addAttribute("content", "/jsp/main/main.jsp");
+			    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+
 		     return "index";
 		 }
 }
