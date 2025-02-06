@@ -8,8 +8,8 @@
 #side-panel {
     position: absolute; /* fixed에서 absolute로 변경 */
     top: 0;
-    left: -600px;
-    width: 600px;
+    left: -25vw;
+    width: 25vw;
     height: 600px;
     background: white;
     padding: 20px;
@@ -24,29 +24,12 @@
     left: 0;
 }
 
-#map-container {
-    flex-grow: 1;
-    position: relative;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-}
 
 #map {
-    width: 100%;
+    width: 99vw;
     height: 600px;
 }
 
-#selected-list-container {
-    width: 100%;
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    box-sizing: border-box;
-    margin-top: 20px;
-    position: relative;
-}
 
 .place-photo {
     width: 33%;
@@ -63,14 +46,15 @@
         
         
 .form-group {
-    margin-bottom: 20px;
+    max-width: 100vw; /* 너비 제한 */
 }
 
 .form-control {
-    width: 100%;
-    padding: 10px;
+    width: 20vw;
+    padding: 15px;
+    margin-left: 15px;
     margin-top: 8px;
-    border: 1px solid #ddd;
+    border: 2px solid #006600;
     border-radius: 4px;
     font-size: 14px;
     transition: border-color 0.3s ease;
@@ -82,17 +66,26 @@
     box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
 }
 
-textarea.form-control {
-    resize: vertical;
-    min-height: 100px;
+.description {
+	width: 98%;
+	height: 20vh;
+    padding: 10px;
+    margin-left: 15px;
+    margin-top: 8px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 18px;
+    resize: none;
 }
 
-.control-btn, .submit-btn {
+
+.control-btn, .submit-btn{
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
+    height: 50px;
     transition: background-color 0.3s ease;
 }
 
@@ -107,12 +100,13 @@ textarea.form-control {
 }
 
 .submit-btn {
-    background-color: #5CB85C;
+    background-color: #006600;
     color: white;
-    width: 100%;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    width: 30vw;
+    font-size: 20px;
+    margin: 20px auto; /* 중앙 정렬 */
 }
+
 
 .submit-btn:hover {
     background-color: #4CAE4C;
@@ -120,40 +114,13 @@ textarea.form-control {
 
 .error-message {
     color: #D9534F;
-    font-size: 12px;
+    font-size: 15px;
     margin-top: 5px;
+    margin-left: 15px;
     display: block;
 }
 
-#selected-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
 
-#selected-list li {
-    padding: 10px;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#selected-list li button {
-    padding: 5px 10px;
-    background-color: #DC3545;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-#selected-list li button:hover {
-    background-color: #C82333;
-}
 
 label {
     font-weight: 600;
@@ -170,5 +137,115 @@ label {
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 4px;
-    margin-bottom: 15px;
+    margin: 0 auto; /* 중앙 정렬 */
+    max-width: 800px; /* 너비 제한 */
+    text-align: center; /* 내부 요소 중앙 정렬 */
+}
+
+
+.post-title-section {
+    order: 1;
+    margin-top: 10px;
+}
+
+.selected-places-section {
+    order: 2;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; /* 왼쪽 정렬 확실히 */
+    gap: 20px;
+}
+
+
+
+.post-content-section {
+	min-width: 800px;
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-center; /* 왼쪽 정렬 확실히 */
+}
+
+
+#selected-list {
+    flex-wrap: wrap;
+    gap: 8px; /* 간격을 더 좁게 조정 */
+    padding: 0;
+    list-style: none;
+    display: flex;
+    width: 100%; /* 전체 너비 사용 */
+    height:100px;
+    border: 1px solid #dee2e6;
+    color: #2d2d2d;
+}
+
+
+#selected-list li {
+	flex: 0 0 auto;
+    margin: 0;
+}
+
+
+#selected-list-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#selected-list li button {
+    padding: 5px 10px;
+    background-color: #DC3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#selected-list li button:hover {
+    background-color: #C82333;
+}
+
+
+/* place-info 스타일 */
+.place-info {
+    width: 300px;
+    height: 200px
+    padding: 8px; /* 내부 여백도 약간 줄임 */
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+.place-name {
+    font-weight: 600;
+    margin-bottom: 4px; /* 내부 요소 간격도 조정 */
+    word-break: break-word;
+}
+
+.place-details {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* 제거 버튼 스타일 */
+
+.remove-btn:hover {
+    background-color: #C82333;
+}
+
+/* 제거 버튼 스타일 */
+.remove-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 5px 10px;
+    background-color: #DC3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background-color: #C82333;
 }

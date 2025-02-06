@@ -36,4 +36,3 @@ public class PlaceController {
 		else return ResponseEntity.ok(response);
 	}
 }
-//
