@@ -70,7 +70,7 @@
 	        <c:if test="${pageType == 'hotList'}">
 	            <h3 class="section-title">❤️ Hot 동선</h3>
 	            <c:forEach var="route" items="${hotRoutes}">
-	                <div class="result-list-container" onclick="location.href='/detail?seqRoute=${route.seq_route}'" style="cursor: pointer;">
+	                <div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
 	                    <div class="left">
 	                        <h4>${route.title}</h4>
 	                        <p>좋아요 수: ${route.forkCount}</p>
@@ -88,7 +88,7 @@
 	        <c:if test="${pageType == 'myRoutes'}">
 	            <h3 class="section-title">나의 동선</h3>
 	            <c:forEach var="route" items="${myRoutes}">
-	                <div class="result-list-container" onclick="location.href='/detail?seqRoute=${route.seq_route}'" style="cursor: pointer;">
+	                <div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
 	                    <div class="left">
 	                        <h4>${route.title}</h4>
 	                        <p>좋아요 수: ${route.forkCount}</p>
@@ -106,7 +106,7 @@
 	        <c:if test="${pageType == 'forkList'}">
 	            <h3 class="section-title">즐겨찾기</h3>
 	            <c:forEach var="route" items="${forkList}">
-	                <div class="result-list-container" onclick="location.href='/detail?seqRoute=${route.seq_route}'" style="cursor: pointer;">
+	                <div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
 	                    <div class="left">
 	                        <h4>${route.title}</h4>
 	                        <p>좋아요 수: ${route.forkCount}</p>

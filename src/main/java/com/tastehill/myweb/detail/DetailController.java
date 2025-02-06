@@ -30,6 +30,7 @@ import com.tastehill.myweb.fork.ForkService;
 import com.tastehill.myweb.fork.ForkVO;
 import com.tastehill.myweb.member.MemberService;
 import com.tastehill.myweb.member.MemberVO;
+import com.tastehill.myweb.place.PhotoVO;
 import com.tastehill.myweb.place.PlaceService;
 import com.tastehill.myweb.place.PlaceVO;
 import com.tastehill.myweb.route.RouteService;
@@ -51,14 +52,25 @@ public class DetailController {
 	private RouteService rsvc;
 	@Autowired
 	private ForkService fsvc;
+	@Autowired
+	private PlaceService psvc;
 
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String ctlDetailPage(Model model, HttpSession session,
 			@RequestParam("seq_route") int seqRoute) {
 
 		RouteVO rvo = rsvc.svcSelectRoutesAndPlaceBySeqRoute(seqRoute);
+		System.out.println("테스트으으 : " + rvo.toString());
 		MemberVO mvo = msvc.svcSelectMember(rvo.getSeqMember());
 		List<CommentsVO> clist = csvc.svcSelectComments(seqRoute);
+		
+		for(int i = 0; i < rvo.getPlaces().size(); i++) {
+			int seqPlace = rvo.getPlaces().get(i).getSeq_place();
+			rvo.getPlaces().get(i).getPlace().setPhotos(new PhotoVO());
+			rvo.getPlaces().get(i).getPlace().getPhotos().
+			setPhoto_url(psvc.selectPhotoUrlBySeqPlace(seqPlace));
+			
+		}
 
 		session.setAttribute("API_KEY", API_KEY);
     
