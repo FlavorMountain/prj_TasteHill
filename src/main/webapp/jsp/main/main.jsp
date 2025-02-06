@@ -110,13 +110,22 @@
 					    <div>
 					        <h2 class="section-title">📌 My Pinned Route</h2>
 					        <div class="pinned-route">
-<button class="pinned-route-content" onclick="location.href='/detail?seq_route=${pinnedRoute.seq_route}'">
-					                
-					                <p class="pinned-route-title">${pinnedRoute.title} 📍</p>                            
-				                    <img src="${pinnedRoute.photo_url}" alt="${pinnedRoute.title}" width="100px" height="50px">
-				                    <p class="card-title">${pinnedRoute.nickname}</p>  
-					                <p class="pinned-route-contents">${pinnedRoute.contents}</p>
-					            </button>
+					            <button class="result-list-container" onclick="location.href='/detail?seq_route=${pinnedRoute.seq_route}'">
+									<div class="left">
+										<p class="card-title">${pinnedRoute.title}</p>
+										 <c:forEach var="routePlace" items="${pinnedRoute.places}" varStatus="status">
+										    <c:if test="${routePlace.place != null}">
+										        ${routePlace.place.name}
+										        <c:if test="${!status.last}"> → </c:if>
+										    </c:if>
+										</c:forEach>
+										<p class="card-title">${pinnedRoute.nickname}</p>  
+										<p>${pinnedRoute.contents}</p>
+									</div>
+									<div class="right">
+									    <img src="${pinnedRoute.photo_url}">
+									</div>
+								</button>
 					        </div>
 					    </div>
 					</c:when>
