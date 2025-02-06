@@ -37,8 +37,8 @@
 		        </div>
 		        <div class="fork-buttons">
 	                <button type="button" class="like-button">
-	                	<c:if test="${FVO.seqRoute == RVO.seq_route}"><i class="fa-solid fa-heart" style="color: red;"></i></c:if>
-	                	<c:if test="${FVO.seqRoute != RVO.seq_route}"><i class="fa-solid fa-heart"></i></c:if>
+	                	<c:if test="${not empty FVO.seqRoute}"><i class="fa-solid fa-heart" style="color: red;"></i></c:if>
+	                	<c:if test="${empty FVO.seqRoute}"><i class="fa-solid fa-heart"></i></c:if>
 	                </button>
                 </div>
             </div>
@@ -49,7 +49,8 @@
             <c:forEach items="${RVO.places}" var="place">
                 <div class="restaurant-card">
                 	<div class="restaurant-img-size">
-                    	<img src="${place.place.photos.photo_url}" alt="${place.place.name}" class="restaurant-image">
+                		<c:if test="${not empty place.place.photos.photo_url}"><img src="${place.place.photos.photo_url}" alt="${place.place.name}" class="restaurant-image"></c:if>
+                    	<c:if test="${empty place.place.photos.photo_url}"><img src="/resources/images/default-img.jpg" alt="${place.place.name}" class="restaurant-image"></c:if>
                     </div>
                     <div class="restaurant-info">
                         <h3>${place.place.name}</h3>
