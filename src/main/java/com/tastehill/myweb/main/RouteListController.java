@@ -29,7 +29,7 @@ public class RouteListController {
     
     // 검색창
     @GetMapping("/searchList")
-    public String searchAll(
+    public String searchAll2(
     		@RequestParam(value = "location", required = false) String location,
             @RequestParam(value = "query", required = false) String query,
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
