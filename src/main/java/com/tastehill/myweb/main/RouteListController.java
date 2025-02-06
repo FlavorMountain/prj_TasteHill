@@ -52,7 +52,7 @@ public class RouteListController {
       model.addAttribute("content", "/jsp/route/route_list.jsp");
       return "index";
     }
-}
+
       
       
     
@@ -65,7 +65,7 @@ public class RouteListController {
             Model model) {
 
         // Route와 Place 검색
-    	List<PlaceVO> searchPlaces = placeService.searchPlacesByName(query);
+    	List<PlaceVO> searchPlaces = placeService.svcSearchPlacesByName(query);
     	if (searchPlaces != null && !searchPlaces.isEmpty()) {
     		int blockCount = 3; 
     		int blockPage = 10;
