@@ -24,8 +24,8 @@
 		        <div class="search-bar">
 		            <form id="searchForm" action="/searchList" method="get">
 		                <select id="searchType" name="searchGubun" onchange="toggleSearchResults()">
-		                    <option value="route">경로</option>
-		                    <option value="place">장소</option>
+					        <option value="formatted_address">주소</option>
+					        <option value="name">장소</option>
 		                </select>
 		                <input type="text" name="searchStr" placeholder="search place...">
 		                <button type="submit">🔍</button>
@@ -38,7 +38,6 @@
 		 <div class="route-creat">
 		  	<button onclick="location.href='/route'">새 동선 만들기</button>
 		 </div> 
-		
 		<br>
 		<br>
 		
@@ -53,7 +52,7 @@
                     <p>${searchGubunKor} 검색 결과가 없습니다.</p>
                 </c:if>
                 <c:forEach var="place" items="${searchBarRes}">
-                    <div class="result-list-container" onclick="location.href='/detail?seqPlace=${place.seq_route}'" style="cursor: pointer;">
+                    <div class="result-list-container" onclick="location.href='/searchList2?seqPlace=${place.seq_place}'" style="cursor: pointer;">
                         <div class="left">
                             <p><strong>${place.name}</strong></p>
                             <p class="card-title">주소: ${place.formatted_address}</p>
