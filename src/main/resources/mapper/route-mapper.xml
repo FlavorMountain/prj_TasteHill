@@ -183,57 +183,52 @@ WHERE p.seq_place = #{seqPlace}
     
     <!-- Hot 동선 리스트 -->
     <select id="selectHotRoutes" resultMap="RouteWithPlacesMap">
-<!--         SELECT 
-        r.seq_route, r.title, r.contents, r.seq_member, 
-        r.created_at, 
-        r.updated_at, 
-        r.fork_count,
-        (SELECT ph.photo_url 
-         FROM photo ph 
-         WHERE ph.seq_place = 
-         (SELECT rp.seq_place 
-          FROM route_place rp 
-          WHERE rp.seq_route = r.seq_route AND ROWNUM = 1)
-         AND ROWNUM = 1) AS photo_url
-    FROM route r
-    ORDER BY r.fork_count DESC -->
-    
-    SELECT 
-    m.nickname,
-    r.seq_route, 
-    r.title, 
-    r.contents, 
-    r.seq_member, 
-    r.created_at, 
-    r.updated_at, 
-    r.fork_count,
-        (SELECT ph.photo_url 
-         FROM photo ph
-         JOIN route_place rp ON ph.seq_place = rp.seq_place
-         WHERE rp.seq_route = r.seq_route AND ph.photo_url IS NOT NULL AND ROWNUM = 1
-        ) AS photo_url
-FROM route r, member m
-ORDER BY r.fork_count DESC
+	    SELECT 
+		    m.nickname,
+		    r.seq_route, 
+		    r.title, 
+		    r.contents, 
+		    r.seq_member, 
+		    r.created_at, 
+		    r.updated_at, 
+		    r.fork_count,
+		        (SELECT ph.photo_url 
+		         FROM photo ph
+		         JOIN route_place rp ON ph.seq_place = rp.seq_place
+		         WHERE rp.seq_route = r.seq_route AND ph.photo_url IS NOT NULL AND ROWNUM = 1
+		        ) AS photo_url
+		FROM route r, member m
+		ORDER BY r.fork_count DESC
 
     </select>
     
      <!-- Pinned Route -->
     <select id="getPinnedRouteBySeqMember" resultMap="RouteWithPlacesMap">
         SELECT 
-        m.nickname, r.seq_route, r.title, r.contents, r.seq_member, 
-        r.created_at, r.updated_at, r.fork_count,
-        (SELECT ph.photo_url 
-         FROM photo ph
-         JOIN route_place rp ON ph.seq_place = rp.seq_place
-         WHERE rp.seq_route = r.seq_route AND ph.photo_url IS NOT NULL AND ROWNUM = 1
-        ) AS photo_url
-    FROM route r, member m
-    WHERE r.seq_route = (
-        SELECT m.pinned_route 
-        FROM member m 
-        WHERE m.seq_member = #{seqMember} 
-          AND m.pinned_route IS NOT NULL
-    )
+		    r.seq_route, r.title, r.contents, r.seq_member, r.created_at, r.updated_at, r.fork_count,
+		    rp.seq_place AS rp_seq_place, rp.order_place, rp.price,
+		    p.seq_place, p.place_id, p.name, p.formatted_address, p.rating,
+		    l.seq_place AS l_seq_place, l.place_id AS l_place_id, l.lat, l.lng,
+		    m.nickname,
+		    (SELECT ph.photo_url 
+		     FROM photo ph
+		     JOIN route_place rp2 ON ph.seq_place = rp2.seq_place
+		     WHERE rp2.seq_route = r.seq_route 
+				       AND ph.photo_url IS NOT NULL 
+				       AND ROWNUM = 1
+				    ) AS photo_url
+		FROM route r
+			    LEFT JOIN route_place rp ON r.seq_route = rp.seq_route
+			    LEFT JOIN place p ON rp.seq_place = p.seq_place
+			    LEFT JOIN location l ON l.seq_place = p.seq_place
+			    LEFT JOIN member m ON m.seq_member = r.seq_member
+		WHERE r.seq_route = (
+							    SELECT m.pinned_route 
+							    FROM member m 
+							    WHERE m.seq_member = #{seq_member}
+							     	 AND m.pinned_route IS NOT NULL
+							)
+		ORDER BY rp.order_place
     </select>
     
     <update id="increaseFork">
