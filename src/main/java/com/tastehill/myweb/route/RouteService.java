@@ -8,7 +8,7 @@ import com.tastehill.myweb.place.PlaceVO;
 
 public interface RouteService {
     List<RouteVO> svcSelectRouteAllMy(int seqMember);
-    void svcDelectRoute(int seqRoute);
+    void svcDeleteRoute(int seqRoute);
     List<RouteVO> svcSelectRouteAllByFork(int seqMember);
     
     List<RouteVO> svcSelectHotRoute();

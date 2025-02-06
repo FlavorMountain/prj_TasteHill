@@ -27,8 +27,8 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void svcDelectRoute(int seqRoute) {
-        routeMapper.deleteRoute(seqRoute);
+    public void svcDeleteRoute(int seqRoute) {
+    	routeMapper.deleteRoute(seqRoute);
     }
 
     @Override
