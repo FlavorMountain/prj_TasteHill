@@ -25,7 +25,7 @@
         <div class="post-header">
         	<input type="hidden" class="seq_route" value="${RVO.seq_route}" >
             <div class="post-title">제목</div>
-            <a href="/user/${MVO.seqMember}" class="user-nickname">${MVO.nickname}</a>
+            <div class="user-nickname">${MVO.nickname}</div>
             <a href="/newchat/${MVO.seqMember}"><i class="fa-solid fa-comment" style="color: #26473c;"></i></a>
             
             <div class="post-actions">
