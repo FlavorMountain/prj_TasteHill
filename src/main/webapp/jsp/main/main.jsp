@@ -109,7 +109,7 @@
 					    <div>
 					        <h2 class="section-title">📌 My Pinned Route</h2>
 					        <div class="pinned-route">
-					            <button class="pinned-route-content" onclick="location.href='/detail?seqRoute=${pinnedRoute.seq_route}'">
+					            <button class="pinned-route-content" onclick="location.href='/detail?seq_route=${pinnedRoute.seq_route}'">
 					                
 					                <p class="pinned-route-title">${pinnedRoute.title} 📍</p>                            
 				                    <img src="${pinnedRoute.photo_url}" alt="${pinnedRoute.title}" width="100px" height="50px">
