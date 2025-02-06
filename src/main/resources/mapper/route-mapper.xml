@@ -111,7 +111,7 @@ WHERE p.seq_place = #{seqPlace}
          WHERE rp.seq_route = r.seq_route AND ph.photo_url IS NOT NULL AND ROWNUM = 1
         ) AS photo_url
     FROM route r, member m
-    WHERE r.seq_member = #{seqMember}
+    WHERE r.seq_member=m.seq_member and r.seq_member = #{seqMember}
     ORDER BY r.created_at DESC
 </select>
 
@@ -180,15 +180,14 @@ WHERE p.seq_place = #{seqPlace}
          WHERE rp.seq_route = r.seq_route AND ph.photo_url IS NOT NULL AND ROWNUM = 1
         ) AS photo_url
     FROM route r
-    JOIN Fork f ON r.seq_route = f.seq_route
     WHERE r.seq_member = #{seqMember}
     ORDER BY r.updated_at DESC
     </select>
 
     <!-- 특정 동선 삭제 -->
     <delete id="deleteRoute" parameterType="int">
-        DELETE FROM Route
-        WHERE seq_Route = #{seqRoute}
+        DELETE FROM route
+        WHERE seq_route = #{seqRoute}
     </delete>
 
 
