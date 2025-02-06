@@ -34,6 +34,13 @@ public class RouteListController {
             @RequestParam(value = "searchGubun", required = false) String searchGubun,
             @RequestParam(value = "searchStr", required = false) String searchStr,
             Model model) {
+    	
+    	if (searchStr == null || searchStr.isEmpty()) {
+            model.addAttribute("MY_KEY_PAGING_HTML", "");
+            model.addAttribute("content", "/jsp/route/route_list.jsp");
+    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+    	    return "index";
+    	}
 
         // Route와 Place 검색
     	RouteVO routeVO  = new RouteVO();
@@ -56,12 +63,22 @@ public class RouteListController {
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             Model model) {
 
+
     		int blockCount = 3; 
     		int blockPage = 10;
     		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
     		PagingUtil pg = new PagingUtil("/searchList2?seqPlace="+ seqPlace, currentPage, size, blockCount, blockPage);
     		List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
-            model.addAttribute("seqPlace", seqPlace);
+            
+	    	if (searchRoutes.isEmpty()) {
+	            model.addAttribute("searchRoutes", Collections.emptyList());
+	            model.addAttribute("MY_KEY_PAGING_HTML", "");
+	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+	            return "index";
+	        }
+    		
+    		model.addAttribute("seqPlace", seqPlace);
     		model.addAttribute("searchRoutes", searchRoutes);    	
     		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 		    model.addAttribute("content", "/jsp/route/route_list2.jsp");
@@ -72,11 +89,20 @@ public class RouteListController {
 
     @GetMapping("/searchRouteList")
     public String searchAll(
+    		@RequestParam(value = "searchGubun", required = false) String searchGubun,
             @RequestParam(value = "searchStr", required = false) String searchStr,
-            @RequestParam(value = "searchGubun", required = false) String searchGubun,
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             @RequestParam(value = "seqPlace", required = false, defaultValue = "1") int seqPlace,
             Model model) {
+    	
+    	if (searchStr.isEmpty()) {
+            model.addAttribute("searchRoutes", Collections.emptyList());
+            model.addAttribute("MY_KEY_PAGING_HTML", "");
+            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+            return "index";
+        }
+    	
     	List<PlaceVO> searchPlaces;
     	List<RouteVO> searchRoutes;
 		int blockCount = 3; 
@@ -86,6 +112,13 @@ public class RouteListController {
 		//동선 주소로 검색
     	if(searchGubun.equals("formatted_address") || searchGubun.isEmpty()) {
         	searchPlaces = placeService.svcSearchPlacesByAddress(searchStr);
+	    	if (searchPlaces.isEmpty()) {
+	            model.addAttribute("searchRoutes", Collections.emptyList());
+	            model.addAttribute("MY_KEY_PAGING_HTML", "");
+	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+	            return "index";
+	        }
         	List<Integer> seqPlaceList = new ArrayList<Integer>();
         	for(int i = 0; i < searchPlaces.size(); i++) {
         		seqPlaceList.add(searchPlaces.get(i).getSeq_place());
@@ -101,6 +134,13 @@ public class RouteListController {
     	//동선 장소로 검색
     	else {
     		searchPlaces = placeService.svcSearchPlacesByName(searchStr);
+	    	if (searchPlaces.isEmpty()) {
+	            model.addAttribute("searchRoutes", Collections.emptyList());
+	            model.addAttribute("MY_KEY_PAGING_HTML", "");
+	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+	            return "index";
+	        }
     		seqPlace = searchPlaces.get(0).getSeq_place();
     		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
     		pg = new PagingUtil("/searchRouteList?seqPlace=" + seqPlace  
