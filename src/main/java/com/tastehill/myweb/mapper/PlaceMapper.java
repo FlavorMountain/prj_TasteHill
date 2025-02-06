@@ -24,9 +24,9 @@ public interface PlaceMapper {
     int insertGeometry(Map<String, Object> gmap);
     int insertLocation(Map<String, Object> lmap);
     
+    String selectPhotoUrlBySeqPlace(@Param("seqPlace") int seqPlace);
     //네이게이션바 검색
     List<PlaceVO> searchBar(RouteVO routeVO);
-    
     // 장소VO 조회
     PlaceVO selectPlaceByPlaceId(@Param("placeId") String placeId);
     // 장소상세 조회

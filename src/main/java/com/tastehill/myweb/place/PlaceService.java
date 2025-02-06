@@ -2,6 +2,8 @@ package com.tastehill.myweb.place;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tastehill.myweb.route.RouteVO;
 
 public interface PlaceService {
@@ -14,4 +16,7 @@ public interface PlaceService {
     PlaceDetailVO svcSelectPlaceDetailOne(String placeId);
     
     List<PlaceVO> svcSearchPlacesByName(String query);
+    
+    String selectPhotoUrlBySeqPlace(int seqPlace);
+
 }

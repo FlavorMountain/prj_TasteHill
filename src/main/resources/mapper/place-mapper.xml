@@ -148,6 +148,12 @@ SELECT
     	WHERE place_id = #{placeId}
     </select>
 
+    <select id="selectPhotoUrlBySeqPlace" resultType="string">
+        SELECT photo_url 
+    	FROM photo
+    	WHERE seq_place= #{seqPlace} and rownum = 1
+    </select>
+
 
 
 <!-- 인서트 -->
