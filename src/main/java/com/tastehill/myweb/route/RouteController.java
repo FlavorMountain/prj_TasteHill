@@ -51,7 +51,7 @@ public class RouteController {
 
 	 
 	@PostMapping("/insertRoute")
-	public String ctlInsertRoute(@RequestBody Map<String, Object> requestData) {
+	public String ctlInsertRoute(HttpServletRequest request, @RequestBody Map<String, Object> requestData) {
 	    try {
 	        List<Map<String, String>> placesData = (List<Map<String, String>>) requestData.get("places");
 	        String title = (String) requestData.get("title");
@@ -68,8 +68,12 @@ public class RouteController {
 //	            plist.add(pvo);
 	        }
 	        
+	        
+	        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! "+request.getSession().getAttribute("SESS_MEMBER_ID"));
+	        
+	        
 	        RouteVO rvo = new RouteVO();
-	        rvo.setSeqMember(1);
+	        rvo.setSeqMember((Integer) request.getSession().getAttribute("SESS_MEMBER_ID"));
 	        rvo.setTitle(title);
 	        rvo.setContents(contents);
 	        

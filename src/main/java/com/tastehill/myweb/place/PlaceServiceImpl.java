@@ -179,4 +179,11 @@ public class PlaceServiceImpl implements PlaceService{
 	public List<PlaceVO> svcSearchPlacesByName(String query) {
 		return placeMapper.searchPlacesByName(query);
 	}
+
+
+
+	@Override
+	public String selectPhotoUrlBySeqPlace(int seqPlace) {
+		return placeMapper.selectPhotoUrlBySeqPlace(seqPlace);
+	}
 }
