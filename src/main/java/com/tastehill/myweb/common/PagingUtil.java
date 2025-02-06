@@ -49,7 +49,7 @@ public class PagingUtil {
 		// [이전] HTML
 		pagingHtml = new StringBuffer();
 		if (currentPage > blockPage) {
-			pagingHtml.append("<a href='" + "http://localhost:8089" + url +"?&currentPage="  + (startPage - 1) + "'>");
+			pagingHtml.append("<a href='" + "http://localhost:8089" + url +"&currentPage="  + (startPage - 1) + "'>");
 			pagingHtml.append("이전");
 			pagingHtml.append("</a>");
 		}
@@ -65,7 +65,7 @@ public class PagingUtil {
 				pagingHtml.append(i);
 				pagingHtml.append("</font></b>");
 			} else {
-				pagingHtml.append(" <a href='" + url +"?&currentPage=");
+				pagingHtml.append(" <a href='" + url +"&currentPage=");
 				pagingHtml.append(i);
 				pagingHtml.append("'>");
 				pagingHtml.append(i);
@@ -78,7 +78,7 @@ public class PagingUtil {
 
 		// [다음] HTML
 		if (maxPage - startPage >= blockPage) {
-			pagingHtml.append("<a href='" + url +"?&currentPage="  + (endPage + 1) + "'>");
+			pagingHtml.append("<a href='" + url +"&currentPage="  + (endPage + 1) + "'>");
 			pagingHtml.append("다음");
 			pagingHtml.append("</a>");
 		}

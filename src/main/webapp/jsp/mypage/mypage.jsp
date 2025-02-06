@@ -100,12 +100,11 @@ function openFileInput() {
 		    <div class="search-container">
 			    <div class="search-bar">
 			        <form action="/searchList" method="get">
-					    <select name="location">
-		            	    <option value="">위치</option>
-					        <option value="서울">서울</option>
-					        <option value="부산">부산</option>
+					    <select name="searchGubun">
+					        <option value="formatted_address">주소</option>
+					        <option value="name">장소</option>
 					    </select>
-					    <input type="text" name="query" placeholder="search place...">
+					    <input type="text" name="searchStr" placeholder="search place...">
 					    <button type="submit">🔍</button>
 					</form>
 			        

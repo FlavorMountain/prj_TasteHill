@@ -66,7 +66,7 @@
 			    <div class="search-bar">
 			        <form action="/searchList" method="get">
 					    <select name="searchGubun">
-					        <option value="formatted_address">경로</option>
+					        <option value="formatted_address">주소</option>
 					        <option value="name">장소</option>
 					    </select>
 					    <input type="text" name="searchStr" placeholder="search place...">
