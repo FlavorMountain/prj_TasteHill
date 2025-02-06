@@ -14,6 +14,7 @@ import com.tastehill.myweb.route.RouteService;
 import com.tastehill.myweb.route.RouteVO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -28,24 +29,24 @@ public class RouteListController {
     private PlaceService placeService;
     
     // 장소 리스트 검색창
-    @GetMapping("/searchList")
+    @GetMapping("/searchPlaceList")
     public String searchPlaces(
             @RequestParam(value = "searchGubun", required = false) String searchGubun,
             @RequestParam(value = "searchStr", required = false) String searchStr,
             Model model) {
+    	
+    	if (searchStr == null || searchStr.isEmpty()) {
+            model.addAttribute("MY_KEY_PAGING_HTML", "");
+            model.addAttribute("content", "/jsp/route/route_list.jsp");
+    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+    	    return "index";
+    	}
 
         // Route와 Place 검색
     	RouteVO routeVO  = new RouteVO();
     	routeVO.setSearchGubun(searchGubun);
     	routeVO.setSearchStr(searchStr);
     	List<PlaceVO> searchRes = placeService.searchBar(routeVO);
-       
-        // 검색 결과를 모델에 추가
-    	if (searchGubun.equals("formatted_address")) {
-    		model.addAttribute("searchGubunKor", "주소");  
-    	} else if (searchGubun.equals("formatted_address")) {
-    		model.addAttribute("searchGubunKor", "이름");  
-    	}
 		 model.addAttribute("searchBarRes", searchRes);  
 		 model.addAttribute("pageType", "searchStr");
         
@@ -54,95 +55,158 @@ public class RouteListController {
 	   model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
       return "index";
     }
-
-    // 장소sqe -> 동선 검색 컨트롤러
+    
+    // 장소 -> 동선 검색 컨트롤러
     @GetMapping("/searchList2")
     public String searchRoutesByPlaceSeq(
             @RequestParam(value = "seqPlace", required = false) int seqPlace,
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             Model model) {
 
-    		int blockCount = 3; 
+
+    		int blockCount = 4; 
     		int blockPage = 10;
     		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
     		PagingUtil pg = new PagingUtil("/searchList2?seqPlace="+ seqPlace, currentPage, size, blockCount, blockPage);
     		List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
-            model.addAttribute("seqPlace", seqPlace);
+            
+	    	if (searchRoutes.isEmpty()) {
+	            model.addAttribute("searchRoutes", Collections.emptyList());
+	            model.addAttribute("MY_KEY_PAGING_HTML", "");
+	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+	            return "index";
+	        }
+    		
+    		model.addAttribute("seqPlace", seqPlace);
     		model.addAttribute("searchRoutes", searchRoutes);    	
     		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 		    model.addAttribute("content", "/jsp/route/route_list2.jsp");
 		    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
 		    return "index";
-	    }
+    }
 
-    // 한방에 동선 검색 컨트롤러
-    @GetMapping("/searchListByPlaceQuery")
-    public String searchRouteByPlaceList(
-    		@RequestParam(value = "searchGubun2", required = false) String searchGubun2,
-            @RequestParam(value = "searchStr2", required = false) String searchStr2,
+
+    @GetMapping("/searchRouteList")
+    public String searchAll(
+    		@RequestParam(value = "searchGubun", required = false) String searchGubun,
+            @RequestParam(value = "searchStr", required = false) String searchStr,
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             @RequestParam(value = "seqPlace", required = false, defaultValue = "1") int seqPlace,
             Model model) {
     	
-    	RouteVO routeVO  = new RouteVO();
-    	routeVO.setSearchGubun(searchGubun2);
-    	routeVO.setSearchStr(searchStr2);
-    	List<PlaceVO> searchPlaces = placeService.searchBar(routeVO);
-  
+    	if (searchStr.isEmpty()) {
+            model.addAttribute("searchRoutes", Collections.emptyList());
+            model.addAttribute("MY_KEY_PAGING_HTML", "");
+            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+            return "index";
+        }
     	
-        model.addAttribute("searchGubun2", searchGubun2);
-		model.addAttribute("searchStr2", searchStr2);    
-		
-    	if(searchPlaces != null) {
-	    	int blockCount = 3; 
-			int blockPage = 10;
-			seqPlace = searchPlaces.get(0).getSeq_place();
-			int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
-			
-			PagingUtil pg = new PagingUtil(
-					"/searchListByPlaceQuery?seqPlace=" + seqPlace 
-				    + "&searchGubun2=" + searchGubun2
-				    + "&searchStr2=" + searchStr2
-					, currentPage, size, blockCount, blockPage);
-			List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
-			
-			model.addAttribute("seqPlace", seqPlace);
-			model.addAttribute("searchRoutes", searchRoutes);    	
-			model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
+    	List<PlaceVO> searchPlaces;
+    	List<RouteVO> searchRoutes;
+		int blockCount = 4; 
+		int blockPage = 10;
+		PagingUtil pg;
+    	
+		//동선 주소로 검색
+    	if(searchGubun.equals("formatted_address") || searchGubun.isEmpty()) {
+        	searchPlaces = placeService.svcSearchPlacesByAddress(searchStr);
+	    	if (searchPlaces.isEmpty()) {
+	            model.addAttribute("searchRoutes", Collections.emptyList());
+	            model.addAttribute("MY_KEY_PAGING_HTML", "");
+	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+	            return "index";
+	        }
+        	List<Integer> seqPlaceList = new ArrayList<Integer>();
+        	for(int i = 0; i < searchPlaces.size(); i++) {
+        		seqPlaceList.add(searchPlaces.get(i).getSeq_place());
+        	}
+        	
+    		int size = searchPlaces.size();
+    		pg = new PagingUtil("/searchRouteList?" + "&searchGubun=" + searchGubun + "&searchStr=" + searchStr,
+    				currentPage, size, blockCount, blockPage);
+    		searchRoutes = routeService.svcSelectAllRoutesAndPlaceByAddressPlacePaging(seqPlaceList, pg.getStartSeq(), pg.getEndSeq());
+    		System.out.println("제발...." + searchRoutes);
+    	}
+    	
+    	//동선 장소로 검색
+    	else {
+    		searchPlaces = placeService.svcSearchPlacesByName(searchStr);
+	    	if (searchPlaces.isEmpty()) {
+	            model.addAttribute("searchRoutes", Collections.emptyList());
+	            model.addAttribute("MY_KEY_PAGING_HTML", "");
+	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+	            return "index";
+	        }
+    		seqPlace = searchPlaces.get(0).getSeq_place();
+    		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
+    		pg = new PagingUtil("/searchRouteList?seqPlace=" + seqPlace  
+    				+ "&searchGubun=" + searchGubun + "&searchStr=" + searchStr,
+    				currentPage, size, blockCount, blockPage);
+    		searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
+    		
+    	}
+    	
+        // Route와 Place 검색
+    	if (searchPlaces != null && !searchPlaces.isEmpty()) {
+    		model.addAttribute("seqPlace", seqPlace);
+    		model.addAttribute("searchRoutes", searchRoutes);    	
+    		model.addAttribute("searchPlaces", searchPlaces);
+    		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
     	}
 	    model.addAttribute("content", "/jsp/route/route_list2.jsp");
-	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
 	    return "index";
     }
     
     // 핫 동선 리스트
     @GetMapping("/hotList")
-    public String hotRoutesPage(Model model) {
-        List<RouteVO> hotRoutes = routeService.svcSelectHotRoute();
+    public String hotRoutesPage(Model model,
+    		 @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+             @RequestParam(value = "seqPlace", required = false, defaultValue = "1") int seqPlace
+    		) {
+		int blockCount = 4; 
+		int blockPage = 10;
+    	
+		//바꿔야됨
+    	int size = routeService.svcSelectHotRoutesSize();
+		PagingUtil pg = new PagingUtil("/hotList?seqPlace", currentPage, size, blockCount, blockPage);
+    	
+        List<RouteVO> hotRoutes = routeService.svcSelectHotRoute(pg.getStartSeq(), pg.getEndSeq());
         model.addAttribute("pageType", "hotList");
 	    model.addAttribute("hotRoutes", hotRoutes);
-	     
-        // hotList.jsp 페이지로 이동
         model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
-
+		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 	    return "index";
     }
     
     // 마이페이지 동선 리스트
     @RequestMapping(value = "/myRoutes")
-    public String getMyRoutes(Model model, HttpSession session) {
+    public String getMyRoutes(Model model, HttpSession session,
+    		@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+            @RequestParam(value = "seqPlace", required = false, defaultValue = "1") int seqPlace
+    		) {
         Integer seqMember = (Integer) session.getAttribute("SESS_MEMBER_ID");
         if (seqMember == null) {
             return "redirect:/myroutes"; //"redirect:/loginPage"
         }
 
-        List<RouteVO> myRoutes = routeService.svcSelectRouteAllMy(seqMember);
+        
+		int blockCount = 4; 
+		int blockPage = 10;
+    	int size = routeService.svcSearchRoutesByMemberSize(seqMember);
+		PagingUtil pg = new PagingUtil("/myRoutes?", currentPage, size, blockCount, blockPage);
+        
+        List<RouteVO> myRoutes = routeService.svsSearchRoutesByMember(seqMember, pg.getStartSeq(), pg.getEndSeq());
         
         model.addAttribute("pageType", "myRoutes");        
         model.addAttribute("myRoutes", myRoutes);
         model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 
         return "index";
     }
@@ -165,4 +229,6 @@ public class RouteListController {
         return "index";
     }
   
+    
+
 }

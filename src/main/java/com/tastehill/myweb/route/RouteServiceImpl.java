@@ -21,10 +21,6 @@ public class RouteServiceImpl implements RouteService {
     @Autowired
     private RouteMapper routeMapper;
 
-    @Override
-    public List<RouteVO> svcSelectRouteAllMy(int seqMember) {
-        return routeMapper.searchRoutesByMember(seqMember);
-    }
 
     @Override
     public void svcDeleteRoute(int seqRoute) {
@@ -37,8 +33,8 @@ public class RouteServiceImpl implements RouteService {
     }
     
     @Override
-    public List<RouteVO> svcSelectHotRoute(){
-    	return routeMapper.selectHotRoutes();
+    public List<RouteVO> svcSelectHotRoute(int start, int end){
+    	return routeMapper.selectHotRoutes(start, end);
     }
     
     @Override
@@ -104,6 +100,29 @@ public class RouteServiceImpl implements RouteService {
 	@Override
 	public void svcDecreaseFork(int seqRoute) {
 		routeMapper.decreaseFork(seqRoute);
+	}
+
+	@Override
+	public List<RouteVO> svcSelectAllRoutesAndPlaceByAddressPlacePaging(
+			List<Integer> seqPlaceList, 
+			int start,
+			int end) {
+		return routeMapper.selectAllRoutesAndPlaceByAddressPlacePaging(seqPlaceList, start, end);
+	}
+
+	@Override
+	public int svcSelectHotRoutesSize() {
+		return routeMapper.selectHotRoutesSize();
+	}
+	
+    @Override
+    public List<RouteVO> svsSearchRoutesByMember (int seqMember, int start, int end) {
+        return routeMapper.searchRoutesByMember(seqMember, start, end);
+    }
+	
+
+	public int svcSearchRoutesByMemberSize(int seqMember) {
+		return routeMapper.searchRoutesByMemberSize(seqMember);
 	}
 
     

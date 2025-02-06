@@ -23,7 +23,10 @@ public interface RouteMapper {
     void deleteRoute(int seqRoute);
     List<RouteVO> selectFavoriteRoutes(@Param("seqMember") int seqMember);
     
-    List<RouteVO> selectHotRoutes();
+    List<RouteVO> selectHotRoutes(
+    		@Param("start") int start,
+    		@Param("end") int end
+    		);
     RouteVO getPinnedRouteBySeqMember(int seqMember);
 
     List<RouteVO> searchRoutes(@Param("query") String query);
@@ -39,10 +42,23 @@ public interface RouteMapper {
     		@Param("start") int start,
     		@Param("end") int end);
     
-	List<RouteVO> searchRoutesByMember(int seqMember);
+    List<RouteVO> selectAllRoutesAndPlaceByAddressPlacePaging(
+    		@Param("seqPlaceList") List<Integer> seqPlaceList,
+    		@Param("start") int start,
+    		@Param("end") int end);
+    
+	List<RouteVO> searchRoutesByMember(
+			@Param("seqMember") int seqMember, 
+			@Param("start") int start,
+    		@Param("end") int end);
+	
+	int searchRoutesByMemberSize(@Param("seqMember") int seqMember);
+
 	
 	void increaseFork(@Param("seq_route") int seq_route);
 	void decreaseFork(@Param("seq_route") int seq_route);
+	
 	int selectCountAllRoutesAndPlaceBySearchPlacePaging(@Param("seqPlace") int seqPlace);
-    
-    }
+	int selectHotRoutesSize();
+
+}

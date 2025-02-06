@@ -179,6 +179,11 @@ public class PlaceServiceImpl implements PlaceService{
 	public List<PlaceVO> svcSearchPlacesByName(String query) {
 		return placeMapper.searchPlacesByName(query);
 	}
+	
+	@Override
+	public List<PlaceVO> svcSearchPlacesByAddress(String query) {
+		return placeMapper.searchPlacesByAddress(query);
+	}
 
 
 

@@ -47,8 +47,8 @@ public class MainController {
 		         model.addAttribute("pinnedRoute", null);
 		     }
 	
-		     // Hot 동선은 로그인 여부와 상관없이 항상 표시
-		     List<RouteVO> hotRoutes = routeService.svcSelectHotRoute();
+		     // Hot 동선은 로그인 여부와 상관없이 항상 표시, 4개 보여줄거고 페이징 안들어간 상태
+		     List<RouteVO> hotRoutes = routeService.svcSelectHotRoute(1, 4);
 		     model.addAttribute("hotRoutes", hotRoutes);
 	
 		     // main.jsp 페이지로 이동
