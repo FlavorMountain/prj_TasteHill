@@ -26,9 +26,12 @@ public interface RouteService {
 
 	void svcIncreaseFork(int seqRoute);
 	void svcDecreaseFork(int seqRoute);
-	List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlacePaging(int seq_place, int start, int end);
 	
-	int svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(@Param("seqPlace") int seqPlace);
-
-   }
-
+	List<RouteVO> svcSelectAllRoutesAndPlaceBySearchPlacePaging(
+			int seq_place, int start, int end);
+	
+	int svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(int seqPlace);
+	
+	List<RouteVO> svcSelectAllRoutesAndPlaceByAddressPlacePaging(
+			List<Integer> seqPlaceList,int start, int end);
+}

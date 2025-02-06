@@ -106,5 +106,13 @@ public class RouteServiceImpl implements RouteService {
 		routeMapper.decreaseFork(seqRoute);
 	}
 
+	@Override
+	public List<RouteVO> svcSelectAllRoutesAndPlaceByAddressPlacePaging(
+			List<Integer> seqPlaceList, 
+			int start,
+			int end) {
+		return routeMapper.selectAllRoutesAndPlaceByAddressPlacePaging(seqPlaceList, start, end);
+	}
+
     
 }
