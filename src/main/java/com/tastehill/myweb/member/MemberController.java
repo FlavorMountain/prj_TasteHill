@@ -34,6 +34,9 @@ public class MemberController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String ctlMemberRegister(@ModelAttribute MemberVO mvo) {
 		if (oauthService.svcCheckExistUser(mvo.getEmail()) == null) {
+			if(mvo.getProfile() == null) {
+				mvo.setProfile("/resources/images/tastehill.png");
+			}
 			svc.svcInsertMember(mvo);
 			return "redirect:/loginPage";
 		} else {

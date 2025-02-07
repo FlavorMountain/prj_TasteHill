@@ -21,6 +21,7 @@
     flex-direction: row; /* 좌우 정렬 */
     align-items: center; /* 프로필 이미지와 텍스트를 같은 높이 정렬 */
     margin-bottom: 15px;
+    font-size: 18px;
     color: #124838;
     max-width: 80%;
 }
@@ -34,8 +35,8 @@
 
 /* 프로필 이미지 스타일 */
 .profile-image {
-    width: 40px;
-    height: 40px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     overflow: hidden;
     margin-right: 10px; /* 상대방 메시지: 프로필과 메시지 사이 여백 */
@@ -91,7 +92,7 @@
 
 #message {
     flex: 1;
-    padding: 8px 12px;
+    padding: 12px 12px;
     border: 1px solid #ababab; /* 테두리 색상 변경 */
     border-radius: 4px;
     font-size: 14px;
