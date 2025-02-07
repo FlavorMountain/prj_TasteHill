@@ -33,6 +33,7 @@ public class RouteListController {
     public String searchPlaces(
             @RequestParam(value = "searchGubun", required = false) String searchGubun,
             @RequestParam(value = "searchStr", required = false) String searchStr,
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             Model model) {
     	
     	if (searchStr == null || searchStr.isEmpty()) {
@@ -41,14 +42,31 @@ public class RouteListController {
     	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
     	    return "index";
     	}
-
-        // Route와 Place 검색
     	RouteVO routeVO  = new RouteVO();
     	routeVO.setSearchGubun(searchGubun);
     	routeVO.setSearchStr(searchStr);
-    	List<PlaceVO> searchRes = placeService.searchBar(routeVO);
+    	int blockCount = 4; 
+		int blockPage = 100;
+    	
+		//바꿔야됨
+    	int size = placeService.searchBarCount(searchGubun, searchStr);
+    	System.out.println("size : " + size);
+		PagingUtil pg = new PagingUtil("/searchPlaceList?searchGubun=" + searchGubun + "&searchStr=" + searchStr, 
+				currentPage, size, blockCount, blockPage);
+
+        // Route와 Place 검색
+
+    	List<PlaceVO> searchRes = placeService.searchBar(searchGubun, searchStr, pg.getStartSeq(), pg.getEndSeq());
+    	 System.out.println("결과 리스트 사이즈 : " + searchRes.size());
 		 model.addAttribute("searchBarRes", searchRes);  
 		 model.addAttribute("pageType", "searchStr");
+		 
+		 
+		 model.addAttribute("searchGubun", searchGubun);  
+		 model.addAttribute("searchStr", searchStr);
+		 
+		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
+
         
 	    // 검색 결과 페이지로 이동
        model.addAttribute("content", "/jsp/route/route_list.jsp");
