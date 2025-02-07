@@ -38,10 +38,14 @@ public class PlaceServiceImpl implements PlaceService{
 	CommonService commonService;
 	
   @Override
-    public List<PlaceVO> searchBar(RouteVO routeVO) {  
-      return placeMapper.searchBar(routeVO);
+    public List<PlaceVO> searchBar(String searchGubun, String searchStr, int start, int end) {  
+      return placeMapper.searchBar(searchGubun, searchStr, start, end);
     }
   
+	@Override
+	public int searchBarCount(String searchGubun, String searchStr) {
+		return placeMapper.searchBarCount(searchGubun, searchStr);
+	}
 
 
 	//placeVO에 연관 VO 5개가 박혀서 6개 한방에 묶었습니다
@@ -191,4 +195,5 @@ public class PlaceServiceImpl implements PlaceService{
 	public String selectPhotoUrlBySeqPlace(int seqPlace) {
 		return placeMapper.selectPhotoUrlBySeqPlace(seqPlace);
 	}
+
 }

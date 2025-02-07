@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     height: 81vh;
-    width: 60%;
 }
 
 .chat-messages {
