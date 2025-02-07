@@ -21,7 +21,6 @@
 		${MY_KEY_PAGING_HTML}
 		<jsp:include page="${searchBar}" />
 		
-		
 		 <div class="route-creat">
 		  	<button onclick="location.href='/route'">새 동선 만들기</button>
 		 </div> 
