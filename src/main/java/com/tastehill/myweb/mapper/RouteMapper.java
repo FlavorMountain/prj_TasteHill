@@ -21,7 +21,6 @@ public interface RouteMapper {
     
     
     void deleteRoute(int seqRoute);
-    List<RouteVO> selectFavoriteRoutes(@Param("seqMember") int seqMember);
     
     List<RouteVO> selectHotRoutes(
     		@Param("start") int start,
@@ -60,5 +59,11 @@ public interface RouteMapper {
 	
 	int selectCountAllRoutesAndPlaceBySearchPlacePaging(@Param("seqPlace") int seqPlace);
 	int selectHotRoutesSize();
+	
+    List<RouteVO> selectFavoriteRoutes(@Param("seqMember") int seqMember,
+    		@Param("start") int start,
+    		@Param("end") int end);
+    
+    int selectFavoriteRoutesCount(@Param("seqMember") int seqMember);
 
 }
