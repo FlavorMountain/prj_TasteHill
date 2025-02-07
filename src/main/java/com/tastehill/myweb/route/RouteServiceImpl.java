@@ -28,8 +28,8 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<RouteVO> svcSelectFavoriteRoutes(int seqMember, int start, int end) {
-        return routeMapper.selectFavoriteRoutes(seqMember, start, end);
+    public List<RouteVO> svcSelectRouteAllByFork(int seqMember) {
+        return routeMapper.selectFavoriteRoutes(seqMember);
     }
     
     @Override
@@ -123,11 +123,6 @@ public class RouteServiceImpl implements RouteService {
 
 	public int svcSearchRoutesByMemberSize(int seqMember) {
 		return routeMapper.searchRoutesByMemberSize(seqMember);
-	}
-
-	@Override
-	public int svcSelectFavoriteRoutesCount(int seqMember) {
-		return routeMapper.selectFavoriteRoutesCount(seqMember);
 	}
 
     

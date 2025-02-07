@@ -9,6 +9,7 @@ import com.tastehill.myweb.place.PlaceVO;
 public interface RouteService {
     List<RouteVO> svsSearchRoutesByMember(int seqMember, int start, int end);
     void svcDeleteRoute(int seqRoute);
+    List<RouteVO> svcSelectRouteAllByFork(int seqMember);
     
     List<RouteVO> svcSelectHotRoute(int start, int end);
     RouteVO svcSelectPinnedRoute(int seqMember);
@@ -41,9 +42,6 @@ public interface RouteService {
 
 	
 	int svcSelectHotRoutesSize();
-	
-    public List<RouteVO> svcSelectFavoriteRoutes(int seqMember, int start, int end);
-    int svcSelectFavoriteRoutesCount(int seqMember);
 
 	
 }

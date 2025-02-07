@@ -22,7 +22,6 @@
 </style>
 </head>
 <body>
-
 	<!-- 검색 바 -->
 	<div class="container-fluid py-5 mb-5 hero-header"></div>
 

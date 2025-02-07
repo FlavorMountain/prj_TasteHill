@@ -7,7 +7,8 @@
     text-align: center;
     align-items: center;
     background-color: #ffffff;
-   margin-top: 20px
+   margin-top: 10%;
+   margin-bottom: 5%;
     
 }
 form {
@@ -15,6 +16,7 @@ form {
 	flex-direction: column;
 	align-items: center;
 	gap: 10px;
+    justify-content: center;
 }
 
 .logo img {

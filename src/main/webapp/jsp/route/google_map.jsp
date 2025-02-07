@@ -32,11 +32,13 @@
         <div id="map"></div>
         
         <!-- 순서 변경된 부분 -->
+        
         <div id="selected-list-container">
             <div class="post-title-section">
                 <div class="form-group">
                     <input type="text" id="post-title" class="form-control" maxlength="100" 
                      placeholder="제목을 입력해주세요">
+                    
                     <span class="error-message" id="title-error"></span>
                 </div>
             </div>
@@ -70,9 +72,9 @@
         let markers = [];
         let currentPolyline = null;
 
-         /* function getPlaceDetail(){
+/*         function getPlaceDetail(){
        	 $.ajax({
-       	        url: "/route/getRoute/" + ${RVO.seq_route},
+       	        url: "/detail/getRoute/" + ${RVO.seq_route},
        	        method: "GET",
        	        dataType: "json",
        	        success: function(response) {
@@ -84,7 +86,7 @@
        	            console.error("에러 발생:", error);
        	        }
        	    });
-        }  */
+        } */
         
         initMap();
         
@@ -117,7 +119,20 @@
             service = new google.maps.places.PlacesService(map);
         }
         
-       
+        function requestRoute(){
+        	$.ajax({
+                url: "/detail/getRoute/" + seqRoute,
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    console.log("경로 데이터:", response);
+                    $(".post-title").text(response.routeName);  // 예제: 제목 변경
+                },
+                error: function(error) {
+                    console.error("에러 발생:", error);
+                }
+            });
+        }
 
         function searchPlaces() {
 /*             if (currentPolyline) {
@@ -136,7 +151,7 @@
         }
 
         function placesCallback(results, status) {
-        	/* console.log(results); */
+        	console.log(results);
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 results.forEach(place => displayPlace(place));
             } else {
@@ -152,7 +167,7 @@
             
             marker.set('placeData', place);
             markers.push(marker);
-            /* console.log(markers); */
+            console.log(markers);
             
             marker.addListener("click", ({ domEvent, latLng }) => {
                 const { target } = domEvent;
@@ -222,7 +237,6 @@
         }
 
         function addPlaceToList(Id) {
-        	console.log('addPlace 호출!');
             if (!Id) {
                 console.error('placeId가 없습니다');
                 return;
@@ -238,34 +252,40 @@
                 fields: ['name', 'place_id', 'geometry', 'rating']
             };
 
-            
-            $.ajax({
-    	        url: "/place/" + Id,
-    	        method: "GET",
-    	        dataType: "json",
-    	        success: function(response) {
-    	            res = JSON.parse(JSON.stringify(response));
-/*     	            console.log(res); */
-    	            selectedPlaces.push(res);
-    	            updateSelectedListUI(res); 
-    	        },
-    	        error: function(error) {
-    	            console.error("에러 발생:", error);
-    	        }
-    	    });
-            
-         
+            var service = new google.maps.places.PlacesService(map);
+
+            service.getDetails(request, function(place, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    selectedPlaces.push(place);
+                    updateSelectedListUI(place);
+                } else {
+                    alert("선택한 장소 정보를 불러오는데 실패했습니다.");
+                    console.error('Places API Error:', status);
+                }
+            });
         }
-        
-        function updateSelectedListUI(place) {
-        	
+
+/*         function updateSelectedListUI(place) {
             const list = document.getElementById("selected-list");
             list.innerHTML = "";
 
             selectedPlaces.forEach((place, index) => {
-            	console.log(place);
                 const item = document.createElement("li");
-                item.setAttribute("data-place-id", place.result.place_id);
+                item.setAttribute("data-place-id", place.place_id); // hidden 속성 추가
+                item.innerHTML = index + 1 + ": " + (place.name || "이름 없음") + 
+                             " <button onclick=\"removePlace(" + index + ")\">제거</button>";
+                list.appendChild(item);
+            });
+        } */
+        
+        function updateSelectedListUI(place) {
+        	console.log(place);
+            const list = document.getElementById("selected-list");
+            list.innerHTML = "";
+
+            selectedPlaces.forEach((place, index) => {
+                const item = document.createElement("li");
+                item.setAttribute("data-place-id", place.place_id);
                 
                 // 장소 정보를 포함하는 div 생성
                 const placeInfo = document.createElement("div");
@@ -274,31 +294,20 @@
                 // 장소 번호와 이름
                 const nameElement = document.createElement("div");
                 nameElement.className = "place-name";
-                nameElement.textContent = (index + 1) + ". " + (place.result.name || "이름 없음");
+                nameElement.textContent = (index + 1) + ". " + (place.name || "이름 없음");
                 // 장소 상세 정보
                 const detailsElement = document.createElement("div");
                 detailsElement.className = "place-details";
                 detailsElement.innerHTML = 
-                    (place.result.rating ? '<div>평점: ' + place.result.rating + '</div>' : '') +
+                    (place.rating ? '<div>평점: ' + place.rating + '</div>' : '') +
                     '<button onclick="removePlace(' + index + ')" class="remove-btn">제거</button>';
-                
-                    const photoElement = document.createElement("div");
-                    photoElement.className = "place-photo";  
-
-                    if (place.result.photos && place.result.photos.length > 0) {
-                        const photoUrl = place.result.photos[0].photo_url; 
-                        photoElement.innerHTML = '<img src="' + photoUrl + '" alt="장소 이미지" height = "300" width="400">';
-                    } else {
-                        photoElement.innerHTML = "<div>이미지 없음</div>"; 
-                    }
-
 
                 
                 // 요소들을 조립
                 placeInfo.appendChild(nameElement);
                 placeInfo.appendChild(detailsElement);
-                placeInfo.appendChild(photoElement);
                 item.appendChild(placeInfo);
+                
                 list.appendChild(item);
             });
         }
@@ -318,7 +327,7 @@
                 });
             });
 
-            /* console.log(selectedData); */
+            console.log(selectedData);
 
             // 로딩 상태 표시
             const submitBtn = document.querySelector('.submit-btn');

@@ -30,6 +30,13 @@
 		<mvc:resources mapping="/js/**" 	location="/js/" />
 		<mvc:resources mapping="/images/**" 	location="/images/" />
 		<mvc:resources mapping="/font/**" 	location="/font/" />
+		<mvc:resources mapping="/fruitables-1.0.0/**" 	location="/fruitables-1.0.0/" />
+		<mvc:resources mapping="/lib/**" 	location="/lib/" />
+		<mvc:resources mapping="/img/**" 	location="/img/" />
+		<mvc:resources mapping="/waypoints/**" 	location="/waypoints/" />
+		<mvc:resources mapping="/easing/**" 	location="/easing/" />
+		<mvc:resources mapping="/owlcarousel/**" 	location="/owlcarousel/" />
+		<mvc:resources mapping="/lightbox/**" 	location="/lightbox/" />
 	
 
 	
