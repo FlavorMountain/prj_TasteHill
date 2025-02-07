@@ -34,10 +34,26 @@
             <h3 class="section-title">검색 결과</h3>
             <div>
             
+            <c:if test="${not empty searchRoutes}">
+				<c:forEach var="route" items="${searchRoutes}">
+		 			<div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
+    		                <!-- 왼쪽 영역 -->
+		                <div class="left">
+		                    <h4>${route.title}</h4>
+		                    <p>좋아요 수: ${route.forkCount}</p>
+		                    <p>업데이트 날짜: ${route.updatedAt}</p>
+		                </div>
+		
+		                <!-- 오른쪽 영역 (이미지) -->
+		                <div class="right">
+		                    <img src="${route.photo_url}" alt="${route.title} 사진">
+		                </div>
+		            </div>
+		        </c:forEach>
+            </c:if>
+            
                 
-                <c:if test="${empty searchBarRes}">
-                    <p>${searchGubunKor} 검색 결과가 없습니다.</p>
-                </c:if>
+			<c:if test="${not empty searchBarRes}">
                 <c:forEach var="place" items="${searchBarRes}">
                     <div class="result-list-container" onclick="location.href='/searchList2?seqPlace=${place.seq_place}'" style="cursor: pointer;">
                         <div class="left">
@@ -49,7 +65,8 @@
                             <img src="${place.photos.photo_url}" alt="${place.name} 사진">
                         </div>
                     </div>
-                </c:forEach>
+             </c:forEach>
+            </c:if>
             </div>
 	        
 	
