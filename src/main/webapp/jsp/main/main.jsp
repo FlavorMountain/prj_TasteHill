@@ -1,23 +1,68 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-<meta charset="utf-8">
-<title>Fruitables - Vegetable Website Template</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<meta content="" name="keywords">
-<meta content="" name="description">
+    <meta charset="UTF-8">
+    <title>TasteHILL</title>
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/header.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/index.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/searchBar.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card_list.css">
 
+    <style>
+       
+
+        /* Pinned Route 카드 */
+        .pinned-route {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            justify-content: space-between; /* 양쪽 균등 정렬 */
+		    margin: 0 5%; /* 왼쪽, 오른쪽 7% 여백 */
+        }
+
+        .pinned-route img {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .pinned-route-content {
+            flex: 1;
+        }
+
+        .pinned-route-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #004d00;
+        }
+
+        .pinned-route-desc {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .see-more {
+        	float: right;
+        	color: #004d00;
+        	padding-right: 3%;
+        }
+    </style>
 </head>
-
 <body>
 
 
 
-<<<<<<< HEAD
 
 
 	<!-- Hero Start -->
@@ -37,53 +82,6 @@
 						style="top: 0; right: 0; margin-top: 2px;" >Search</button>
 				</div>
 			</div>
-=======
-	<!-- Navbar start -->
-	
-	<!-- Navbar End -->
-
-
-	<!-- Modal Search Start -->
-	<div class="modal fade" id="searchModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-fullscreen">
-			<div class="modal-content rounded-0">
-				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body d-flex align-items-center">
-					<div class="input-group w-75 mx-auto d-flex">
-						<input type="search" class="form-control p-3"
-							placeholder="keywords" aria-describedby="search-icon-1">
-						<span id="search-icon-1" class="input-group-text p-3"><i
-							class="fa fa-search"></i></span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modal Search End -->
-
-
-	<!-- Hero Start -->
-	<div class="container-fluid py-5 mb-5 hero-header"></div>
-	<!-- Hero End -->
-
-
-	<div class="container">
-		<div class="row justify-content-between">
-			<div class="col-lg-2"></div>
-			<div class="col-lg-6">
-				<div class="position-relative mx-auto">
-					<input class="form-control border-1 w-100 py-3 px-4 rounded-pill"
-						type="number" placeholder="Search Text">
-					<button type="submit"
-						class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white"
-						style="top: 0; right: 0; margin-top: 2px;" >Search</button>
-				</div>
-			</div>
->>>>>>> parent of 95ff74a (Revert "Merge pull request #84 from FlavorMountain/design")
 			<div class="col-lg-2">
 				<div class="position-relative mx-auto">
 					<a href="/route"
@@ -95,24 +93,17 @@
 	</div>
 
 	<!-- Featurs Section Start -->
-<<<<<<< HEAD
 	<div class="container-fluid fruite py-5 mt-4">
-=======
-	<div class="container-fluid fruite py-5">
->>>>>>> parent of 95ff74a (Revert "Merge pull request #84 from FlavorMountain/design")
 		<div class="container py-5">
 			<div class="tab-class text-center">
 				<div class="row g-4">
 					<div class="col-lg-4 text-start">
 						<h1>Hot 동선</h1>
 					</div>
-<<<<<<< HEAD
 					<div class="col-lg-4"></div>
 					<div class="col-lg-4 text-end pt-3">
 						<a href="/hotList">더보기 ></a>
 					</div>
-=======
->>>>>>> parent of 95ff74a (Revert "Merge pull request #84 from FlavorMountain/design")
 
 				</div>
 				<div class="tab-content">
@@ -152,10 +143,6 @@
 	</div>
 	<!-- Featurs Section End -->
 
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 95ff74a (Revert "Merge pull request #84 from FlavorMountain/design")
 	<!-- Fruits Shop Start-->
 	<div class="container-fluid fruite py-5">
 		<div class="container py-5">
@@ -209,20 +196,5 @@
 	</div>
 	<!-- Fruits Shop End-->
 
-<<<<<<< HEAD
-=======
-
-	
-
-
-
-	<!-- Back to Top -->
-	<a href="#"
-		class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
-		class="fa fa-arrow-up"></i></a>
-
-
->>>>>>> parent of 95ff74a (Revert "Merge pull request #84 from FlavorMountain/design")
 </body>
-
 </html>
