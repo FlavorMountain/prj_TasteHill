@@ -23,7 +23,13 @@
             <a href="/chat/${room.seqChattingRoom}" class="chat-room-item">
 	            <div class = "chat-room-user">
 	                <div class="profile-image">
-	                    <img src="/resources/images/tastehill.png" alt="${room.nickname}">
+	                <c:if test="${not empty room.profile}">
+	                	<img src="${room.profile}" alt="${room.nickname}">
+	                </c:if>
+	                <c:if test="${empty room.profile}">
+	                	<img src="/resources/images/tastehill.png" alt="${room.nickname}">
+	                </c:if>
+	                    
 	                </div>
 	                <div class="chat-room-info">
 	                    <div class="chat-room-name">${room.nickname}</div>

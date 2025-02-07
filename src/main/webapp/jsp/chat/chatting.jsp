@@ -17,7 +17,12 @@
             <c:forEach items="${CLIST}" var="cvo">
                 <div class="message ${cvo.seqMember == sessionScope.SESS_MEMBER_ID ? 'mine' : ''}">
                     <div class="profile-image">
-                        <img src="/resources/images/tastehill.png">
+                    	<c:if test="${not empty cvo.memberVO.profile}">
+                        	<img src="${cvo.memberVO.profile}">
+                        </c:if>
+                    	<c:if test="${empty cvo.memberVO.profile}">
+                        	<img src="/resources/images/tastehill.png">
+                        </c:if>
                     </div>
                     <div class="message-content">
                         <div class="sender">${cvo.memberVO.nickname}</div>
@@ -29,7 +34,11 @@
         <div class="chat-input">
         	<input type="hidden" id="sess-num" value="${sessionScope.SESS_MEMBER_ID}"/>
         	<input type="hidden" id="sess-nick" value="${sessionScope.SESS_NICKNAME}"/>
+        	<input type="hidden" id="sess-profile" value="${sessionScope.SESS_PROFILE}"/>
         	<input type="hidden" id="room-num" value="${seqChattingRoom}"/>
+        	
+        	
+        	
             <input type="text" id="message" placeholder="메시지를 입력하세요..." />
             <button id="sendBtn" class="send-button">전송</button>
         </div>
@@ -47,6 +56,7 @@
 	
 	    $("#sendBtn").click(function () {
 			sessionMember = $("#sess-num").val();
+			profile = $("#sess-profile").val();
 	        sendMessage();
 	    });
 
@@ -56,7 +66,8 @@
 	            contents: message,
 	            seqChattingRoom: roomId,
 	            seqMember: sessionMember,
-	            nickname: nickname
+	            nickname: nickname,
+	            profile: profile
 	        };
 	        socket.send(JSON.stringify(jsonObj));
 	    }
@@ -68,11 +79,12 @@
 		
 		function updateChat(cvo) {
 		    jsonStr = JSON.stringify(cvo);
+
 			sessionMember = $("#sess-num").val();
 			
 			var newComment = "<div class='message " + (cvo.seqMember == sessionMember ? "mine" : "") + "'>";
 	    	newComment +=     "<div class='profile-image'>";
-	    	newComment +=     "<img src='/resources/images/tastehill.png'>";
+	    	newComment +=     "<img src='" + (cvo.profile != null ? profile : "/resources/images/tastehill.png") + "'>";
 	    	newComment +=     "</div>";
 	    	newComment +=       "<div class='message-content'>";
 	    	newComment +=           "<div class='sender'>" + cvo.nickname+"</div>";

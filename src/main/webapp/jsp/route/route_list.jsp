@@ -1,118 +1,247 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>TasteHILL</title>
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/header.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/index.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/searchBar.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card_list.css">
+<meta charset="UTF-8">
+<title>TasteHILL</title>
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/css/header.css">
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/css/index.css">
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/css/searchBar.css">
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/css/route_card.css">
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/resources/css/route_card_list.css">
 
-    <style>
-		
-    </style>
+<style>
+</style>
 </head>
 <body>
-		<!-- 검색 바 -->
-		${MY_KEY_PAGING_HTML}
-		<jsp:include page="${searchBar}" />
-		
-		
-		 <div class="route-creat">
-		  	<button onclick="location.href='/route'">새 동선 만들기</button>
-		 </div> 
-		<br>
-		<br>
-		
-		
-		<body>
-	    <!-- 네비게이션바 검색 결과 화면 -->
-            <h3 class="section-title">검색 결과</h3>
-            <div>
-            
-                
-                <c:if test="${empty searchBarRes}">
-                    <p>${searchGubunKor} 검색 결과가 없습니다.</p>
-                </c:if>
-                <c:forEach var="place" items="${searchBarRes}">
-                    <div class="result-list-container" onclick="location.href='/searchList2?seqPlace=${place.seq_place}'" style="cursor: pointer;">
-                        <div class="left">
-                            <p><strong>${place.name}</strong></p>
-                            <p class="card-title">주소: ${place.formatted_address}</p>
-                            <p class="card-date">평점: ${place.rating}</p>
-                        </div>
-                        <div class="right">
-                            <img src="${place.photos.photo_url}" alt="${place.name} 사진">
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-	        
-	
-	        <!-- Hot 동선 화면 -->
-	        <c:if test="${pageType == 'hotList'}">
-	            <h3 class="section-title">❤️ Hot 동선</h3>
-	            <c:forEach var="route" items="${hotRoutes}">
-	                <div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
-	                    <div class="left">
-	                        <h4>${route.title}</h4>
-	                        <p>좋아요 수: ${route.forkCount}</p>
-	                        <br><br><br><br>
-	                        <p>업데이트 날짜: ${route.updatedAt}</p>
-	                    </div>
-	                    <div class="right">
-	                        <img src="${route.photo_url}" alt="${route.title} 사진">
-	                    </div>
-	                </div>
-	            </c:forEach>
-	        </c:if>
-	        
-	        <!-- 마이페이지 동선 -->
-	        <c:if test="${pageType == 'myRoutes'}">
-	            <h3 class="section-title">나의 동선</h3>
-	            <c:forEach var="route" items="${myRoutes}">
-	                <div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
-	                    <div class="left">
-	                        <h4>${route.title}</h4>
-	                        <p>좋아요 수: ${route.forkCount}</p>
-	                        <br><br><br><br>
-	                        <p>업데이트 날짜: ${route.updatedAt}</p>
-	                    </div>
-	                    <div class="right">
-	                        <img src="${route.photo_url}" alt="${route.title} 사진">
-                <input type="button" value="삭제" class="deleteRouteBtn" data-seq="${route.seq_route}">
-	                </div>
-	                </div>
-	            </c:forEach>
-	        </c:if>
-	        
+	<!-- 검색 바 -->
+	<div class="container-fluid py-5 mb-5 hero-header"></div>
 
-	        
-	        <!-- 즐겨찾기 동선 -->
-	        <c:if test="${pageType == 'forkList'}">
-	            <h3 class="section-title">즐겨찾기</h3>
-	            <c:forEach var="route" items="${forkList}">
-	                <div class="result-list-container" onclick="location.href='/detail?seq_route=${route.seq_route}'" style="cursor: pointer;">
-	                    <div class="left">
-	                        <h4>${route.title}</h4>
-	                        <p>좋아요 수: ${route.forkCount}</p>
-	                        <br><br><br><br>
-	                        <p>업데이트 날짜: ${route.updatedAt}</p>
-	                    </div>
-	                    <div class="right">
-	                        <img src="${route.photo_url}" alt="${route.title} 사진">
-	                    </div>
-	                </div>
-	            </c:forEach>
-	        </c:if>
-			     
-		
-			
-		<script>
+	<div class="container mt-5">
+		<div class="row justify-content-between">
+			<div class="col-lg-2"></div>
+			<div class="col-lg-6">
+				<div class="position-relative mx-auto">
+					<input class="form-control border-1 w-100 py-3 px-4 rounded-pill"
+						type="number" placeholder="Search Text">
+					<button type="submit"
+						class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white"
+						style="top: 0; right: 0; margin-top: 2px;">Search</button>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="position-relative mx-auto">
+					<a href="/route"
+						class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-3 text-white"
+						style="top: 0; right: 0; margin-top: 2px;">동선 작성</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 삭제 예정 -->
+	<jsp:include page="${searchBar}" />
+<body>
+	<!-- 네비게이션바 검색 결과 화면 -->
+	<div>
+
+<c:if test="${not empty searchRoutes}">
+		<c:forEach var="route" items="${searchRoutes}">
+			<div class="container mt-5"
+				style="padding: 30px; background: color-mix(in srgb, #1a1f24, transparent 96%); border-radius: 15px;">
+
+				<div class="row g-4">
+
+					<div
+						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
+						<h3>${route.title}</h3>
+						<p>
+							<i class="fa-solid fa-heart" style="color: red;"></i>
+							${route.forkCount}
+						</p>
+						<c:forEach var="routePlace" items="${route.places}"
+							varStatus="status">
+							<c:if test="${routePlace.place != null}">
+								<h4>${routePlace.place.name}</h4>
+								<c:if test="${!status.last}"> → </c:if>
+							</c:if>
+						</c:forEach>
+						<p>${route.updatedAt}</p>
+						<p>${route.contents}</p>
+
+					</div>
+
+					<div
+						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
+						<div class="img">
+							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</c:if>
+
+	<c:if test="${not empty searchBarRes}">
+			<c:forEach var="place" items="${searchBarRes}">
+			<div class="container mt-5"
+				style="padding: 30px; background: color-mix(in srgb, #1a1f24, transparent 96%); border-radius: 15px;">
+
+				<div class="row g-4">
+
+					<div
+						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
+						<h3>${place.name}</h3>
+						<p>Address: ${place.formatted_address}</p>
+						<p>Rating: ${place.rating}</p>
+
+					</div>
+
+					<div
+						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
+						<div class="img">
+							<img src="${place.photos.photo_url}" alt="" class="img-thumbnail"> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</c:if>
+	</div>
+
+
+	<!-- Hot 동선 화면 -->
+	<c:if test="${pageType == 'hotList'}">
+		<c:forEach var="route" items="${hotRoutes}">
+			<div class="container mt-5"
+				style="padding: 30px; background: color-mix(in srgb, #1a1f24, transparent 96%); border-radius: 15px;">
+
+				<div class="row g-4">
+
+					<div
+						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
+						<h3>${route.title}</h3>
+						<p>
+							<i class="fa-solid fa-heart" style="color: red;"></i>
+							${route.forkCount}
+						</p>
+						<c:forEach var="routePlace" items="${route.places}"
+							varStatus="status">
+							<c:if test="${routePlace.place != null}">
+								<h4>${routePlace.place.name}</h4>
+								<c:if test="${!status.last}"> → </c:if>
+							</c:if>
+						</c:forEach>
+						<p>${route.updatedAt}</p>
+						<p>${route.contents}</p>
+
+					</div>
+
+					<div
+						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
+						<div class="img">
+							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</c:if>
+
+
+	<!-- 마이페이지 동선 -->
+	<c:if test="${pageType == 'myRoutes'}">
+		<c:forEach var="route" items="${myRoutes}">
+			<div class="container mt-5"
+				style="padding: 30px; background: color-mix(in srgb, #1a1f24, transparent 96%); border-radius: 15px;">
+
+				<div class="row g-4">
+
+					<div
+						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
+						<h3>${route.title}</h3>
+						<p>
+							<i class="fa-solid fa-heart" style="color: red;"></i>
+							${route.forkCount}
+						</p>
+						<c:forEach var="routePlace" items="${route.places}"
+							varStatus="status">
+							<c:if test="${routePlace.place != null}">
+								<h4>${routePlace.place.name}</h4>
+								<c:if test="${!status.last}"> → </c:if>
+							</c:if>
+						</c:forEach>
+						<p>${route.updatedAt}</p>
+						<p>${route.contents}</p>
+						<input type="button" value="삭제" class="deleteRouteBtn btn border border-secondary rounded-pill px-3 text-primary" data-seq="${route.seq_route}" style="width: 10%">
+
+					</div>
+
+					<div
+						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
+						<div class="img">
+							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</c:if>
+
+
+
+	<!-- 즐겨찾기 동선 -->
+	<c:if test="${pageType == 'forkList'}">
+		<c:forEach var="route" items="${forkList}">
+			<div class="container mt-5"
+				style="padding: 30px; background: color-mix(in srgb, #1a1f24, transparent 96%); border-radius: 15px;">
+
+				<div class="row g-4">
+
+					<div
+						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
+						<h3>${route.title}</h3>
+						<p>
+							<i class="fa-solid fa-heart" style="color: red;"></i>
+							${route.forkCount}
+						</p>
+						<c:forEach var="routePlace" items="${route.places}"
+							varStatus="status">
+							<c:if test="${routePlace.place != null}">
+								<h4>${routePlace.place.name}</h4>
+								<c:if test="${!status.last}"> → </c:if>
+							</c:if>
+						</c:forEach>
+						<p>${route.updatedAt}</p>
+						<p>${route.contents}</p>
+
+					</div>
+
+					<div
+						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
+						<div class="img">
+							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</c:if>
+
+
+
+<div class="container mt-5 d-md-flex justify-content-center">
+	${MY_KEY_PAGING_HTML}
+</div>
+	<script>
 		    function toggleSearchResults() {
 		        const pageType = '<c:out value="${pageType}" />'; // 서버에서 전달된 pageType 값
 		
@@ -149,8 +278,8 @@
 		        toggleSearchResults();
 		    };
 		</script>
-		
-		<script>
+
+	<script>
     // 모든 삭제 버튼에 클릭 이벤트 추가
     document.addEventListener("DOMContentLoaded", function() {
         const deleteButtons = document.querySelectorAll(".deleteRouteBtn");

@@ -14,5 +14,4 @@
 			<a href="/logout" class="header-mypage">LogOut</a>
 		</div>
 	</c:if>
-	
 </div>
