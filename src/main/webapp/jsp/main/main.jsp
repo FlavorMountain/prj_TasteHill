@@ -60,69 +60,141 @@
     </style>
 </head>
 <body>
-		<!-- 검색 바 -->
-		<jsp:include page="${searchBar}" />
-		 
-		 <div class="route-creat">
-		  	<button onclick="location.href='/route'">새 동선 만들기</button>
-		 </div> 
-		
-		<br>
-		<br>
-		
-			<!-- Hot 동선 섹션 -->
-			<div>
-			    <h2 class="section-title">❤️ Hot 동선</h2>
-			    <div class="card-list">
-			     	<c:forEach var="route" items="${hotRoutes}" varStatus="status">
-				        <c:if test="${status.index < 4}">
-			                <button class="card" onclick="location.href='/detail?seq_route=${route.seq_route}'">
-			                    <p class="card-title">${route.title}</p>                               
-			                    <img src="${route.photo_url}" alt="${route.title}" width="100px" height="50px">
-			                    <p class="card-title">${route.nickname}</p>                               
-                                <p class="card-date">등록일:${route.createdAt}</p>
-			                </button>
-			            </c:if>
-			        </c:forEach>
-			    </div>
-			    <br>
-			    <a href="/hotList" class="see-more">더보기 ></a>
+
+
+
+
+
+	<!-- Hero Start -->
+	<div class="container-fluid py-5 mb-5 hero-header"></div>
+	<!-- Hero End -->
+
+
+	<div class="container">
+		<div class="row justify-content-between">
+			<div class="col-lg-2"></div>
+			<div class="col-lg-6">
+				<div class="position-relative mx-auto">
+					<input class="form-control border-1 w-100 py-3 px-4 rounded-pill"
+						type="number" placeholder="Search Text">
+					<button type="submit"
+						class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white"
+						style="top: 0; right: 0; margin-top: 2px;" >Search</button>
+				</div>
 			</div>
-			
-			<!-- My Pinned Route 섹션 -->
-			<c:if test="${isLoggedIn}">
-				<c:choose>			
-					<c:when test="${not empty pinnedRoute}">
-					    <div>
-					        <h2 class="section-title">📌 My Pinned Route</h2>
-					        <div class="pinned-route">
-					            <button class="result-list-container" onclick="location.href='/detail?seq_route=${pinnedRoute.seq_route}'">
-									<div class="left">
-										<p class="card-title">${pinnedRoute.title}</p>
-										 <c:forEach var="routePlace" items="${pinnedRoute.places}" varStatus="status">
-										    <c:if test="${routePlace.place != null}">
-										        ${routePlace.place.name}
-										        <c:if test="${!status.last}"> → </c:if>
-										    </c:if>
-										</c:forEach>
-										<p class="card-title">${pinnedRoute.nickname}</p>  
-										<p>${pinnedRoute.contents}</p>
+			<div class="col-lg-2">
+				<div class="position-relative mx-auto">
+					<a href="/route"
+						class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-3 text-white"
+						style="top: 0; right: 0; margin-top: 2px;" >동선 작성</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Featurs Section Start -->
+	<div class="container-fluid fruite py-5 mt-4">
+		<div class="container py-5">
+			<div class="tab-class text-center">
+				<div class="row g-4">
+					<div class="col-lg-4 text-start">
+						<h1>Hot 동선</h1>
+					</div>
+					<div class="col-lg-4"></div>
+					<div class="col-lg-4 text-end pt-3">
+						<a href="/hotList">더보기 ></a>
+					</div>
+
+				</div>
+				<div class="tab-content">
+					<div id="tab-1" class="tab-pane fade show p-0 active">
+						<div class="row g-4">
+							<div class="col-lg-12">
+								<div class="row g-4">
+									<c:forEach var="route" items="${hotRoutes}" varStatus="status">
+										<c:if test="${status.index < 4}">
+											<div class="col-md-6 col-lg-4 col-xl-3">
+												<div class="rounded position-relative fruite-item">
+													<div class="fruite-img">
+														<img src="${route.photo_url}"
+															class="img-fluid w-100 rounded-top" alt="">
+													</div>
+													<div
+														class="p-4 border border-secondary border-top-0 rounded-bottom">
+														<h5>${route.title}</h5>
+														<p>${route.nickname}</p>
+														<div class="d-flex justify-content-center flex-lg-wrap">
+															<p class="text-dark fs-5 fw-bold mb-1">등록일:${route.createdAt}</p>
+															<a href="/detail?seq_route=${route.seq_route}" class="btn border border-secondary rounded-pill px-3 text-primary">
+																보러가기 </a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</c:if>
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Featurs Section End -->
+
+	<!-- Fruits Shop Start-->
+	<div class="container-fluid fruite py-5">
+		<div class="container py-5">
+			<div class="tab-class text-center">
+				<div class="row g-4">
+					<div class="col-lg-4 text-start">
+						<h1>나의 즐겨찾기 동선</h1>
+					</div>
+				</div>
+				<div class="tab-content">
+					<div id="tab-1" class="tab-pane fade show p-0 active">
+						<div class="row g-4">
+							<div class="col-lg-12">
+								<div class="row g-4">
+									<div class="col-lg-6 col-xl-12">
+										<div class="p-4 rounded bg-light">
+											<div class="row align-items-start">
+												<div class="col-6 w-50">
+													<img src="${pinnedRoute.photo_url}"
+														class="img-thumbnail rounded-circle w-50" alt="">
+												</div>
+												<div class="col-6">
+													<a href="/detail?seq_route=${pinnedRoute.seq_route}"
+														class="h3">${pinnedRoute.title}</a>
+													<div class="d-flex my-3">
+														<c:forEach var="routePlace" items="${pinnedRoute.places}"
+															varStatus="status">
+															<c:if test="${routePlace.place != null}">
+																<h4>${routePlace.place.name}</h4>
+																<c:if test="${!status.last}"> → </c:if>
+															</c:if>
+														</c:forEach>
+
+													</div>
+													<h5 class="d-flex">${pinnedRoute.nickname}</h5>
+													<div class="d-flex my-3 h5">${pinnedRoute.contents}</div>
+												</div>
+												<c:if test="${empty pinnedRoute}">
+													<h3 style="margin-bottom: 50px; color: #B20000;">즐겨찾기한 동선이 없습니다.</h3>
+												</c:if>
+											</div>
+										</div>
 									</div>
-									<div class="right">
-									    <img src="${pinnedRoute.photo_url}">
-									</div>
-								</button>
-					        </div>
-					    </div>
-					</c:when>
-							
-					<c:otherwise>
-						<h2 class="section-title">📌 My Pinned Route</h2>
-						<div class="pinned-route">
-				        	<p>등록된 Pinned Route가 없습니다.</p>
-				        </div>
-				    </c:otherwise>
-			    </c:choose>
-			  </c:if>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fruits Shop End-->
+
 </body>
 </html>

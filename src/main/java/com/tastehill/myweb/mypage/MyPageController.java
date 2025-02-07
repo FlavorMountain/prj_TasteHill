@@ -88,6 +88,7 @@ public class MyPageController {
             // DB 저장 (상대 경로 사용)
             String dbFilePath = "/uploads/profile/" + fileName;
             memberService.svcUpdateMemberProfile(seqMember, dbFilePath);
+            session.setAttribute("SESS_PROFILE", dbFilePath);
 
             System.out.println("파일 업로드 성공: " + dbFilePath);
 
