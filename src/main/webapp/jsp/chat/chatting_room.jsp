@@ -8,12 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/chatRoomList.css">
 </head>
 <body>
-<div class="chat-room-container">
-	<div class="chatting-room-logo">
-		<h5>CHATTING Room</h5>
-	</div>
     <div class="chat-room-list">
-    
+    CHATTING Room
     <c:if test="${empty RLIST}">
     <div class="no-chatting-room">
     	채팅방이 없습니다!
@@ -35,7 +31,6 @@
                 </div>
             </a>
         </c:forEach>
-    </div>
     </div>
 </body>
 </html>

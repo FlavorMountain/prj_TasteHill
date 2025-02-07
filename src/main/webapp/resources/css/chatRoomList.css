@@ -1,16 +1,6 @@
 .chat-room-list {
-    display: flex;
-	flex-direction: column;
-	align-items: center;
-	width : 100%;
-}
-
-.chat-room-container {
-	margin-top: 150px;
-}
-
-.chatting-room-logo {
-	margin-left: 20%;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .chat-room-item {
@@ -20,9 +10,10 @@
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
+    text-decoration: none;
     color: #124838;
+    transition: background-color 0.3s ease;
     margin-top: 1rem;
-    min-width: 60%;
 }
 
 
