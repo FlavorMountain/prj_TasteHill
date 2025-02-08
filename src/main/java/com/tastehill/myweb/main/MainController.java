@@ -49,6 +49,10 @@ public class MainController {
 	
 		     // Hot 동선은 로그인 여부와 상관없이 항상 표시, 4개 보여줄거고 페이징 안들어간 상태
 		     List<RouteVO> hotRoutes = routeService.svcSelectHotRoute(1, 4);
+		     System.out.println("핫핫핫" + hotRoutes.toString());
+//		     for(int i = 0; i < hotRoutes.size(); i++) {
+//		    	 
+//		     }
 		     model.addAttribute("hotRoutes", hotRoutes);
 	
 		     // main.jsp 페이지로 이동

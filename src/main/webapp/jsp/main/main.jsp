@@ -73,15 +73,7 @@
 	<div class="container">
 		<div class="row justify-content-between">
 			<div class="col-lg-2"></div>
-			<div class="col-lg-6">
-				<div class="position-relative mx-auto">
-					<input class="form-control border-1 w-100 py-3 px-4 rounded-pill"
-						type="number" placeholder="Search Text">
-					<button type="submit"
-						class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white"
-						style="top: 0; right: 0; margin-top: 2px;" >Search</button>
-				</div>
-			</div>
+			<jsp:include page="../common/searchBar.jsp" />
 			<div class="col-lg-2">
 				<div class="position-relative mx-auto">
 					<a href="/route"

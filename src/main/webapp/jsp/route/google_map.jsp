@@ -25,7 +25,8 @@
     </div>
     
     <div id="map-container">
-        <div class="controls">
+        <div class="controls" style="margin-top: 100px;" >
+        
             <button class="control-btn" onclick="searchPlaces()">주변 음식점 검색</button>
             <button class="control-btn" onclick="drawRoute()">경로 그리기</button>
         </div>
@@ -258,7 +259,6 @@
         }
         
         function updateSelectedListUI(place) {
-        	
             const list = document.getElementById("selected-list");
             list.innerHTML = "";
 

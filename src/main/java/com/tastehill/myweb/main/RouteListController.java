@@ -27,6 +27,7 @@ public class RouteListController {
 
 	@Autowired
     private PlaceService placeService;
+	
     
     // 장소 리스트 검색창
     @GetMapping("/searchPlaceList")
@@ -193,6 +194,7 @@ public class RouteListController {
 		PagingUtil pg = new PagingUtil("/hotList?seqPlace", currentPage, size, blockCount, blockPage);
     	
         List<RouteVO> hotRoutes = routeService.svcSelectHotRoute(pg.getStartSeq(), pg.getEndSeq());
+        List<PlaceVO> plist = new ArrayList<PlaceVO>();
         model.addAttribute("pageType", "hotList");
 	    model.addAttribute("hotRoutes", hotRoutes);
         model.addAttribute("content", "/jsp/route/route_list.jsp");
