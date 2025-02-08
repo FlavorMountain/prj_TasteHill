@@ -11,8 +11,6 @@
 <head>
 <meta charset="UTF-8">
 <title>음식점 검색 및 경로 표시</title>
-<script
-	src="https://maps.googleapis.com/maps/api/js?key=${sessionScope.API_KEY}&libraries=places"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Custom CSS -->
@@ -347,19 +345,21 @@
             console.log(selectedPlaces);
             selectedPlaces.forEach(item => {
                 selectedData.places.push({
-                    place_id: item.place_id,
-                    name: item.name
+                    place_id: item.result.place_id,
+                    name: item.result.name
                 });
             });
 
             /* console.log(selectedData); */
 
             // 로딩 상태 표시
-            const submitBtn = document.querySelector('.submit-btn');
+/*             const submitBtn = document.querySelector('.submit-btn');
             submitBtn.textContent = '저장 중...';
-            submitBtn.disabled = true;
+            submitBtn.disabled = true; */
+            
+            console.log('루트 생성시에 보낼 데이터' + JSON.stringify(selectedData));
 
-            fetch("/route/insertRoute", {
+             fetch("/route/insertRoute", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -378,7 +378,7 @@
                 alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
                 submitBtn.textContent = '리스트 전송';
                 submitBtn.disabled = false;
-            });
+            }); 
         }
 
 
@@ -420,7 +420,8 @@
      // 유효성 검사 후 전송하는 함수
         function validateAndSend() {
     	 	console.log(selectedPlaces);
-                sendSelectedList();        }
+                sendSelectedList();        
+        }
     </script>
 </body>
 </html>
