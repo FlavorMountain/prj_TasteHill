@@ -99,37 +99,32 @@
 					</div>
 				</div>
 				<div class="tab-content">
-					<div id="tab-1" class="tab-pane fade show p-0 active">
+					<div id="tab-1" class="tab-pane fade show active p-0">
 						<div class="row g-4">
 							<div class="col-lg-12">
-								<div class="row g-4">
-									<div class="col-lg-6 col-xl-12">
-										<div class="p-4 rounded bg-light">
-											<div class="row align-items-start">
-												<div class="col-6 w-50">
-													<img src="${pinnedRoute.photo_url}"
-														class="img-thumbnail rounded-circle w-50" alt="">
-												</div>
-												<div class="col-6">
-													<a href="/detail?seq_route=${pinnedRoute.seq_route}"
-														class="h3">${pinnedRoute.title}</a>
-													<div class="d-flex my-3">
-														<c:forEach var="routePlace" items="${pinnedRoute.places}"
-															varStatus="status">
-															<c:if test="${routePlace.place != null}">
-																<h4>${routePlace.place.name}</h4>
-																<c:if test="${!status.last}"> → </c:if>
-															</c:if>
-														</c:forEach>
-
-													</div>
-													<h5 class="d-flex">${pinnedRoute.nickname}</h5>
-													<div class="d-flex my-3 h5">${pinnedRoute.contents}</div>
-												</div>
-												<c:if test="${empty pinnedRoute}">
-													<h3 style="margin-bottom: 50px; color: #B20000;">즐겨찾기한 동선이 없습니다.</h3>
-												</c:if>
-											</div>
+								<div class="card shadow-sm">
+									<div class="row g-0 align-items-center">
+										<!-- 이미지 영역 -->
+										<div class="col-md-4 text-center p-3">
+											<img src="${pinnedRoute.photo_url}" alt="" class="img-fluid rounded">
+										</div>
+										
+										<!-- 내용 영역 -->
+										<div class="col-md-8 p-3">
+											<a href="/detail?seq_route=${pinnedRoute.seq_route}" class="h4 text-decoration-none">${pinnedRoute.title}</a>
+											<p class="mb-2 text-muted">
+												<i class="fa-solid fa-heart text-danger"></i>
+												${pinnedRoute.forkCount}
+											</p>
+											
+											<c:if test="${pinnedRoute.plist == null}">
+												<c:forEach var="routePlace" items="${pinnedRoute.places}" varStatus="status">
+													<c:if test="${routePlace.place != null}">
+														<span class="fw-bold">${routePlace.place.name}</span>
+														<c:if test="${!status.last}"> → </c:if>
+													</c:if>
+												</c:forEach>
+											</c:if>
 										</div>
 									</div>
 								</div>
@@ -137,6 +132,7 @@
 						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>
