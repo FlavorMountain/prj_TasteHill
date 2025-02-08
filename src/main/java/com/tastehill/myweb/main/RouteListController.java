@@ -220,6 +220,12 @@ public class RouteListController {
 		PagingUtil pg = new PagingUtil("/myRoutes?", currentPage, size, blockCount, blockPage);
         
         List<RouteVO> myRoutes = routeService.svsSearchRoutesByMember(seqMember, pg.getStartSeq(), pg.getEndSeq());
+    	for(int i = 0; i < myRoutes.size(); i++) {
+    		myRoutes.get(i)
+    		.setPlist(placeService.svcSelectPlaceListBySeqRoute(myRoutes
+    				.get(i).getSeq_route()));
+    	}
+        
         
         model.addAttribute("pageType", "myRoutes");        
         model.addAttribute("myRoutes", myRoutes);
@@ -232,18 +238,33 @@ public class RouteListController {
     
     // 즐겨찾기 리스트
     @RequestMapping(value = "/forkList")
-    public String getFavorites(Model model, HttpSession session) {
+    public String getFavorites(Model model, HttpSession session,
+    		@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+            @RequestParam(value = "seqPlace", required = false, defaultValue = "1") int seqPlace
+    		) {
         Integer seqMember = (Integer) session.getAttribute("SESS_MEMBER_ID");
         if (seqMember == null) {
             return "/jsp/fork/forkList";  //"redirect:/loginPage"
         }
+        
+		int blockCount = 4; 
+		int blockPage = 10;
+    	int size = routeService.svcSelectFavoriteRoutesCount(seqMember);
+		PagingUtil pg = new PagingUtil("/forkList?", currentPage, size, blockCount, blockPage);
 
-        List<RouteVO> forkList = routeService.svcSelectRouteAllByFork(seqMember);
+        List<RouteVO> forkList = routeService.svcSelectRouteAllByFork(seqMember, pg.getStartSeq(), pg.getEndSeq());
+    	for(int i = 0; i < forkList.size(); i++) {
+    		forkList.get(i)
+    		.setPlist(placeService.svcSelectPlaceListBySeqRoute(forkList
+    				.get(i).getSeq_route()));
+    	}
         
         model.addAttribute("pageType", "forkList");        
         model.addAttribute("forkList", forkList);
         model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
+
 
         return "index";
     }
