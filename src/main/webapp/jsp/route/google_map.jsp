@@ -249,7 +249,7 @@
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching place details:', status, error);
-                        alert('장소 정보를 가져오는데 실패했습니다.');
+                        /* alert('장소 정보를 가져오는데 실패했습니다.'); */
                     }
                 });
             });

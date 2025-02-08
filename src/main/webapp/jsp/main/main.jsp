@@ -61,8 +61,8 @@
 											<div class="col-md-6 col-lg-4 col-xl-3">
 												<div class="rounded position-relative fruite-item">
 													<div class="fruite-img">
-														<img src="${route.photo_url}"
-															class="img-fluid w-100 rounded-top" alt="">
+														<img src="${route.photo_url != null ? route.photo_url : '/resources/images/default-img.jpg'}" 
+    							 						alt="${place.place.name}" >
 													</div>
 													<div
 														class="p-4 border border-secondary border-top-0 rounded-bottom">

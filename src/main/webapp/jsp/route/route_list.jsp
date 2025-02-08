@@ -87,7 +87,9 @@
 					<div
 						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
 						<div class="img">
-							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
+							<img src="${route.photo_url != null ? route.photo_url : '/resources/images/default-img.jpg'}" 
+    							 alt="${place.place.name}" 
+     							 class="img-thumbnail">
 						</div>
 					</div>
 				</div>
@@ -114,7 +116,9 @@
 					<div
 						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
 						<div class="img">
-							<img src="${place.photos.photo_url}" alt="" class="img-thumbnail"> 
+							<img src="${place.photos.photo_url != null ? place.photos.photo_url : '/resources/images/default-img.jpg'}" 
+    							 alt="${place.name}" 
+     							 class="img-thumbnail">
 						</div>
 					</div>
 				</div>
@@ -166,7 +170,11 @@
 					<div
 						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
 						<div class="img">
-							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
+							<%-- <img src="${route.photo_url}" alt="" class="img-thumbnail">  --%>
+							<img src="${route.photo_url != null ? route.photo_url : '/resources/images/default-img.jpg'}" 
+    							 alt="${place.place.name}" 
+     							 class="img-thumbnail">
+							
 						</div>
 					</div>
 				</div>
@@ -217,6 +225,9 @@
 						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
 						<div class="img">
 							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
+							<img src="${route.photo_url != null ? route.photo_url : '/resources/images/default-img.jpg'}" 
+    							 alt="${place.place.name}" 
+     							 class="img-thumbnail">
 						</div>
 					</div>
 				</div>
@@ -265,7 +276,11 @@
 					<div
 						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
 						<div class="img">
-							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
+							<%-- <img src="${route.photo_url}" alt="" class="img-thumbnail">  --%>
+							<img src="${route.photo_url != null ? route.photo_url : '/resources/images/default-img.jpg'}" 
+    							 alt="${place.place.name}" 
+     							 class="img-thumbnail">
+							
 						</div>
 					</div>
 				</div>
