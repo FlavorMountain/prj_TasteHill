@@ -70,7 +70,7 @@ public class RouteListController {
     		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
     		PagingUtil pg = new PagingUtil("/searchList2?seqPlace="+ seqPlace, currentPage, size, blockCount, blockPage);
     		List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
-            
+//            List<PlaceVO> searchPlaces = placeService.svcSelectPlaceListBySeqRoute(size);
 	    	if (searchRoutes.isEmpty()) {
 	            model.addAttribute("searchRoutes", Collections.emptyList());
 	            model.addAttribute("MY_KEY_PAGING_HTML", "");
@@ -79,6 +79,10 @@ public class RouteListController {
 	            return "index";
 	        }
     		
+	    	for(int i = 0; i < searchRoutes.size(); i++) {
+	    		searchRoutes.get(i).setPlist(placeService.svcSelectPlaceListBySeqRoute(searchRoutes.get(i).getSeq_route()));
+	    	}
+	    	
     		model.addAttribute("seqPlace", seqPlace);
     		model.addAttribute("searchRoutes", searchRoutes);    	
     		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
@@ -129,6 +133,9 @@ public class RouteListController {
     		pg = new PagingUtil("/searchRouteList?" + "&searchGubun=" + searchGubun + "&searchStr=" + searchStr,
     				currentPage, size, blockCount, blockPage);
     		searchRoutes = routeService.svcSelectAllRoutesAndPlaceByAddressPlacePaging(seqPlaceList, pg.getStartSeq(), pg.getEndSeq());
+	    	for(int i = 0; i < searchRoutes.size(); i++) {
+	    		searchRoutes.get(i).setPlist(placeService.svcSelectPlaceListBySeqRoute(searchRoutes.get(i).getSeq_route()));
+	    	}
     		System.out.println("제발...." + searchRoutes);
     	}
     	
@@ -148,7 +155,9 @@ public class RouteListController {
     				+ "&searchGubun=" + searchGubun + "&searchStr=" + searchStr,
     				currentPage, size, blockCount, blockPage);
     		searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
-    		
+	    	for(int i = 0; i < searchRoutes.size(); i++) {
+	    		searchRoutes.get(i).setPlist(placeService.svcSelectPlaceListBySeqRoute(searchRoutes.get(i).getSeq_route()));
+	    	}
     	}
     	
         // Route와 Place 검색
