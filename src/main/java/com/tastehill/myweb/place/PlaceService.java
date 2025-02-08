@@ -12,9 +12,7 @@ public interface PlaceService {
 	public PlaceDetailVO svcInsertPlaceDetail(String placeId,String API_KEY);
 	PlaceVO svcSelectPlaceByPlaceId(String placeId);
 	//네이게이션바 검색기능
-    List<PlaceVO> searchBar(String searchGubun, String searchStr, int start, int end);
-    int searchBarCount(String searchGubun, String  searchStr);
-
+    List<PlaceVO> searchBar(RouteVO routeVO);
     PlaceDetailVO svcSelectPlaceDetailOne(String placeId);
     
     List<PlaceVO> svcSearchPlacesByName(String query);

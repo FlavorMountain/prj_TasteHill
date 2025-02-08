@@ -1,66 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>TasteHILL</title>
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/header.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/index.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/searchBar.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/route_card_list.css">
+<meta charset="utf-8">
+<title>Fruitables - Vegetable Website Template</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="" name="keywords">
+<meta content="" name="description">
 
-    <style>
-       
-
-        /* Pinned Route 카드 */
-        .pinned-route {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            justify-content: space-between; /* 양쪽 균등 정렬 */
-		    margin: 0 5%; /* 왼쪽, 오른쪽 7% 여백 */
-        }
-
-        .pinned-route img {
-            width: 120px;
-            height: 120px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
-        .pinned-route-content {
-            flex: 1;
-        }
-
-        .pinned-route-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #004d00;
-        }
-
-        .pinned-route-desc {
-            font-size: 14px;
-            color: #555;
-        }
-        
-        .see-more {
-        	float: right;
-        	color: #004d00;
-        	padding-right: 3%;
-        }
-    </style>
 </head>
-<body>
 
+<body>
 
 
 
@@ -135,6 +88,7 @@
 	</div>
 	<!-- Featurs Section End -->
 
+
 	<!-- Fruits Shop Start-->
 	<div class="container-fluid fruite py-5">
 		<div class="container py-5">
@@ -189,4 +143,5 @@
 	<!-- Fruits Shop End-->
 
 </body>
+
 </html>

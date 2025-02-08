@@ -28,8 +28,8 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<RouteVO> svcSelectFavoriteRoutes(int seqMember, int start, int end) {
-        return routeMapper.selectFavoriteRoutes(seqMember, start, end);
+    public List<RouteVO> svcSelectRouteAllByFork(int seqMember) {
+        return routeMapper.selectFavoriteRoutes(seqMember);
     }
     
     @Override
@@ -48,6 +48,7 @@ public class RouteServiceImpl implements RouteService {
 	@Override
 	@Transactional
 	public int svcInsertRouteWithPlaces(RouteVO route, List<PlaceVO> places) {
+		System.out.println("루트 삽입 !" + route.toString());
         routeMapper.insertRoute(route);
         int seqRoute = route.getSeq_route(); 
 
@@ -62,6 +63,7 @@ public class RouteServiceImpl implements RouteService {
              routePlaces.add(routePlace);
         }
 
+        System.out.println("ㅅㅄㅄ 제발" + routePlaces.toString());
         // RoutePlace 리스트 저장
         routeMapper.insertRoutePlaces(routePlaces);
         return 1;
@@ -123,11 +125,6 @@ public class RouteServiceImpl implements RouteService {
 
 	public int svcSearchRoutesByMemberSize(int seqMember) {
 		return routeMapper.searchRoutesByMemberSize(seqMember);
-	}
-
-	@Override
-	public int svcSelectFavoriteRoutesCount(int seqMember) {
-		return routeMapper.selectFavoriteRoutesCount(seqMember);
 	}
 
     

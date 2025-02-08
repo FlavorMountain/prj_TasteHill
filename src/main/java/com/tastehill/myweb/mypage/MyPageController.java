@@ -38,8 +38,7 @@ public class MyPageController {
         }
         MemberVO member = memberService.svcSelectMember(seqMember);
         List<RouteVO> myRoutes = routeService.svcSelectRoutesAndPlaceByMember(seqMember);
-        List<RouteVO> forkRoutes = routeService.svcSelectFavoriteRoutes(
-        		seqMember, 1, routeService.svcSelectFavoriteRoutesCount(seqMember));
+        List<RouteVO> forkRoutes = routeService.svcSelectRouteAllByFork(seqMember);
         model.addAttribute("member", member);
         model.addAttribute("myRoutes", myRoutes); // 추가
         model.addAttribute("forkRoutes", forkRoutes); // 추가
