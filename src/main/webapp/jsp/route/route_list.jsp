@@ -224,7 +224,6 @@
 					<div
 						class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
 						<div class="img">
-							<img src="${route.photo_url}" alt="" class="img-thumbnail"> 
 							<img src="${route.photo_url != null ? route.photo_url : '/resources/images/default-img.jpg'}" 
     							 alt="${place.place.name}" 
      							 class="img-thumbnail">
