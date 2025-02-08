@@ -28,15 +28,8 @@
 	<div class="container mt-5">
 		<div class="row justify-content-between">
 			<div class="col-lg-2"></div>
-			<div class="col-lg-6">
-				<div class="position-relative mx-auto">
-					<input class="form-control border-1 w-100 py-3 px-4 rounded-pill"
-						type="number" placeholder="Search Text">
-					<button type="submit"
-						class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white"
-						style="top: 0; right: 0; margin-top: 2px;">Search</button>
-				</div>
-			</div>
+			<jsp:include page="../common/searchBar.jsp" />
+			
 			<div class="col-lg-2">
 				<div class="position-relative mx-auto">
 					<a href="/route"
@@ -46,9 +39,7 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- 삭제 예정 -->
-	<jsp:include page="${searchBar}" />
+
 <body>
 	<!-- 네비게이션바 검색 결과 화면 -->
 	<div>
@@ -62,7 +53,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${route.title}</h3>
+						<a href="/detail?seq_route=${route.seq_route}"
+						class="h3">${route.title}</a>
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}
@@ -99,7 +91,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${place.name}</h3>
+						<a href="/searchList2?seqPlace=${place.seq_place}"
+						class="h3">${place.name}</a>
 						<p>Address: ${place.formatted_address}</p>
 						<p>Rating: ${place.rating}</p>
 
@@ -128,7 +121,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${route.title}</h3>
+						<a href="/detail?seq_route=${route.seq_route}"
+						class="h3">${route.title}</a>
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}
@@ -167,7 +161,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${route.title}</h3>
+						<a href="/detail?seq_route=${route.seq_route}"
+						class="h3">${route.title}</a>
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}
@@ -208,7 +203,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${route.title}</h3>
+						<a href="/detail?seq_route=${route.seq_route}"
+						class="h3">${route.title}</a>
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}

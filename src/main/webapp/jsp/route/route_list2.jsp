@@ -28,6 +28,14 @@
 		<br>
 		<br>
 		
+			/**
+	 * @param url 			: 페이징 적용 대상 주소  (서블릿주소) /myboard
+	 * @param currentPage 	: 현재 페이지
+	 * @param totRecord 	: 젠체 게시물수
+	 * @param blockCount 	: 한 블럭의 게시물 수
+	 * @param blockPage  	: 한화면에 보여질 블럭 수
+	 **/
+		
 		
 		<!-- 결과 리스트 -->
 		<div>

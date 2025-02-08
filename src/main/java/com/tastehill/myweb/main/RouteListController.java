@@ -74,7 +74,7 @@ public class RouteListController {
 	    	if (searchRoutes.isEmpty()) {
 	            model.addAttribute("searchRoutes", Collections.emptyList());
 	            model.addAttribute("MY_KEY_PAGING_HTML", "");
-	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	            model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
 	            return "index";
 	        }
@@ -82,7 +82,7 @@ public class RouteListController {
     		model.addAttribute("seqPlace", seqPlace);
     		model.addAttribute("searchRoutes", searchRoutes);    	
     		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
-		    model.addAttribute("content", "/jsp/route/route_list2.jsp");
+		    model.addAttribute("content", "/jsp/route/route_list.jsp");
 		    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
 		    return "index";
     }
@@ -99,7 +99,7 @@ public class RouteListController {
     	if (searchStr.isEmpty()) {
             model.addAttribute("searchRoutes", Collections.emptyList());
             model.addAttribute("MY_KEY_PAGING_HTML", "");
-            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+            model.addAttribute("content", "/jsp/route/route_list.jsp");
     	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
             return "index";
         }
@@ -116,7 +116,7 @@ public class RouteListController {
 	    	if (searchPlaces.isEmpty()) {
 	            model.addAttribute("searchRoutes", Collections.emptyList());
 	            model.addAttribute("MY_KEY_PAGING_HTML", "");
-	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	            model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
 	            return "index";
 	        }
@@ -138,7 +138,7 @@ public class RouteListController {
 	    	if (searchPlaces.isEmpty()) {
 	            model.addAttribute("searchRoutes", Collections.emptyList());
 	            model.addAttribute("MY_KEY_PAGING_HTML", "");
-	            model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	            model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
 	            return "index";
 	        }
@@ -158,7 +158,7 @@ public class RouteListController {
     		model.addAttribute("searchPlaces", searchPlaces);
     		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
     	}
-	    model.addAttribute("content", "/jsp/route/route_list2.jsp");
+	    model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    return "index";
     }
     
