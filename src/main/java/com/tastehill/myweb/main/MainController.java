@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tastehill.myweb.place.PlaceService;
 import com.tastehill.myweb.route.RouteService;
 import com.tastehill.myweb.route.RouteVO;
 
@@ -18,6 +19,9 @@ public class MainController {
 
 	 @Autowired
 	    private RouteService routeService;
+	 
+	 @Autowired
+	 	private PlaceService placeService;
 	
 		// MainPage
 	    @RequestMapping(value="/main")
@@ -49,10 +53,10 @@ public class MainController {
 	
 		     // Hot 동선은 로그인 여부와 상관없이 항상 표시, 4개 보여줄거고 페이징 안들어간 상태
 		     List<RouteVO> hotRoutes = routeService.svcSelectHotRoute(1, 4);
-		     System.out.println("핫핫핫" + hotRoutes.toString());
-//		     for(int i = 0; i < hotRoutes.size(); i++) {
-//		    	 
-//		     }
+		    	for(int i = 0; i < hotRoutes.size(); i++) {
+		    		hotRoutes.get(i).setPlist(placeService.svcSelectPlaceListBySeqRoute(hotRoutes.get(i).getSeq_route()));
+		    	}
+
 		     model.addAttribute("hotRoutes", hotRoutes);
 	
 		     // main.jsp 페이지로 이동

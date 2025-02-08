@@ -185,7 +185,11 @@ public class RouteListController {
 		PagingUtil pg = new PagingUtil("/hotList?seqPlace", currentPage, size, blockCount, blockPage);
     	
         List<RouteVO> hotRoutes = routeService.svcSelectHotRoute(pg.getStartSeq(), pg.getEndSeq());
-        List<PlaceVO> plist = new ArrayList<PlaceVO>();
+    	for(int i = 0; i < hotRoutes.size(); i++) {
+    		hotRoutes.get(i)
+    		.setPlist(placeService.svcSelectPlaceListBySeqRoute(hotRoutes
+    				.get(i).getSeq_route()));
+    	}
         model.addAttribute("pageType", "hotList");
 	    model.addAttribute("hotRoutes", hotRoutes);
         model.addAttribute("content", "/jsp/route/route_list.jsp");
@@ -193,6 +197,10 @@ public class RouteListController {
 		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 	    return "index";
     }
+    
+    
+    
+    
     
     // 마이페이지 동선 리스트
     @RequestMapping(value = "/myRoutes")

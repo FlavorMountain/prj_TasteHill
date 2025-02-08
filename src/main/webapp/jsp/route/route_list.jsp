@@ -139,14 +139,25 @@
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}
-						</p>
-						<c:forEach var="routePlace" items="${route.places}"
-							varStatus="status">
-							<c:if test="${routePlace.place != null}">
-								<h4>${routePlace.place.name}</h4>
+						</p>				
+						
+						<c:if test="${route.plist == null}">
+							<c:forEach var="routePlace" items="${route.places}"
+								varStatus="status">
+								<c:if test="${routePlace.place != null}">
+									<h4>${routePlace.place.name}</h4>
+									<c:if test="${!status.last}"> → </c:if>
+								</c:if>
+							</c:forEach>
+						</c:if>
+						
+						<c:if test="${route.plist != null}">
+							<c:forEach var="place" items="${route.plist}"
+								varStatus="status">
+								<h4>${place.name}</h4>
 								<c:if test="${!status.last}"> → </c:if>
-							</c:if>
-						</c:forEach>
+							</c:forEach>
+						</c:if>
 						<p>${route.updatedAt}</p>
 						<p>${route.contents}</p>
 
