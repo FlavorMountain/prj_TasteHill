@@ -12,7 +12,7 @@
 </head>
 <body>
 <body>
-    <div class="chat-container">
+    <div class="chat-container"  style="margin-top: 100px;">
         <div class="chat-messages">
             <c:forEach items="${CLIST}" var="cvo">
                 <div class="message ${cvo.seqMember == sessionScope.SESS_MEMBER_ID ? 'mine' : ''}">
