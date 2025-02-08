@@ -1,100 +1,133 @@
 ﻿package com.tastehill.myweb.common;
 
 public class PagingUtil {
+    private int startSeq;                
+    private int endSeq;                    
+    private int maxPage;                
+    private int startPage;              
+    private int endPage;                
+    private StringBuffer pagingHtml;     
 
-	private int startSeq;				// 현재 페이지 처음 글번호
-	private int endSeq;					// 현재 페이지 끝 글번호
-	private int maxPage;				// 최대 페이지 수
-	private int startPage;  			// 페이지 시작번호
-	private int endPage;				// 페이지 끝번호
-	private StringBuffer pagingHtml; 	// 페이징 관련 HTML
+    public PagingUtil(String url, int currentPage, int totRecord, int blockCount, int blockPage) {
+        // 기존 페이징 계산 로직은 동일하게 유지
+        maxPage = (int) Math.ceil((double) totRecord / blockCount);
+        if (maxPage == 0) {
+            maxPage = 1;
+        }
+        if (currentPage > maxPage) {
+            currentPage = maxPage;
+        }
+        startSeq = (currentPage - 1) * blockCount + 1;
+        endSeq = currentPage * blockCount;
+        
+        if (currentPage % blockPage == 0) {
+            startPage = currentPage - (blockPage - 1);
+        } else {
+            startPage = (int) (currentPage / blockPage) * blockPage + 1;
+        }
+        endPage = startPage + blockPage - 1;
+        
+        if (endPage > maxPage) {
+            endPage = maxPage;
+        }
 
-	/**
-	 * @param url 			: 페이징 적용 대상 주소  (서블릿주소) /myboard
-	 * @param currentPage 	: 현재 페이지
-	 * @param totRecord 	: 젠체 게시물수
-	 * @param blockCount 	: 한 블럭의 게시물 수
-	 * @param blockPage  	: 한화면에 보여질 블럭 수
-	 **/
-	public PagingUtil(String url, int currentPage, int totRecord, int blockCount, int blockPage) {
-		// (1) 최대 페이지 수 구하기 (Math.ceil 올림)
-		maxPage = (int) Math.ceil((double) totRecord / blockCount);
-		if (maxPage == 0) {
-			maxPage = 1;
-		}
+        // HTML과 CSS를 함께 생성
+        pagingHtml = new StringBuffer();
+        
+        // CSS 스타일 추가
+        pagingHtml.append("<style>");
+        pagingHtml.append(".pagination-container {");
+        pagingHtml.append("    display: flex;");
+        pagingHtml.append("    justify-content: center;");
+        pagingHtml.append("    margin: 20px 0;");
+        pagingHtml.append("}");
+        
+        pagingHtml.append(".pagination {");
+        pagingHtml.append("    display: flex;");
+        pagingHtml.append("    list-style: none;");
+        pagingHtml.append("    padding: 0;");
+        pagingHtml.append("    margin: 0;");
+        pagingHtml.append("}");
+        
+        pagingHtml.append(".page-item {");
+        pagingHtml.append("    margin: 0 2px;");
+        pagingHtml.append("}");
+        
+        pagingHtml.append(".page-link {");
+        pagingHtml.append("    display: block;");
+        pagingHtml.append("    padding: 8px 12px;");
+        pagingHtml.append("    color: #007bff;");
+        pagingHtml.append("    text-decoration: none;");
+        pagingHtml.append("    background-color: #fff;");
+        pagingHtml.append("    border: 1px solid #dee2e6;");
+        pagingHtml.append("    border-radius: 4px;");
+        pagingHtml.append("    transition: all 0.2s ease-in-out;");
+        pagingHtml.append("}");
+        
+        pagingHtml.append(".page-link:hover {");
+        pagingHtml.append("    color: #0056b3;");
+        pagingHtml.append("    background-color: #e9ecef;");
+        pagingHtml.append("    border-color: #dee2e6;");
+        pagingHtml.append("}");
+        
+//        pagingHtml.append(".page-item.active .page-link {");
+//        pagingHtml.append("    color: #fff;");
+//        pagingHtml.append("    background-color: #007bff;");
+//        pagingHtml.append("    border-color: #007bff;");
+//        pagingHtml.append("    padding: 8px 12px;"); // 기본 page-link와 동일한 패딩 적용
+//        pagingHtml.append("}");
+        pagingHtml.append("</style>");
 
-		// 예외처리 : 현재 페이지가 전체 페이지 수보다 크면 전체 페이지 수로 설정
-		if (currentPage > maxPage) {
-			currentPage = maxPage;
-		}
+        // 페이징 HTML 생성
+        pagingHtml.append("<div class='pagination-container'>");
+        pagingHtml.append("<ul class='pagination'>");
 
-		// (2) 현재 페이지의 처음과  끝 글번호 가져오기
-		startSeq = (currentPage - 1) * blockCount + 1;
-		endSeq = currentPage * blockCount;
+        // 이전 버튼
+        if (currentPage > blockPage) {
+            pagingHtml.append("<li class='page-item'>");
+            pagingHtml.append("<a class='page-link' href='" + "http://localhost:8089" + url + "&currentPage=" + (startPage - 1) + "'>");
+            pagingHtml.append("이전");
+            pagingHtml.append("</a></li>");
+        }
 
-		// (3) 시작페이지와 끝페이지 값 구하기  
-		if ( currentPage % blockPage == 0 ) {
-			startPage = currentPage - ( blockPage - 1 );
-		} else {
-			startPage = (int)(currentPage / blockPage) * blockPage +1;
-		}
-		endPage = startPage + blockPage - 1;
+        // 페이지 번호
+        for (int i = startPage; i <= endPage; i++) {
+            if (i > maxPage) {
+                break;
+            }
+            if (i == currentPage) {
+                pagingHtml.append("<li class='page-item active'>");
+                pagingHtml.append("<span class='page-link'>" + i + "</span>");
+                pagingHtml.append("</li>");
+            } else {
+                pagingHtml.append("<li class='page-item'>");
+                pagingHtml.append("<a class='page-link' href='" + url + "&currentPage=" + i + "'>");
+                pagingHtml.append(i);
+                pagingHtml.append("</a></li>");
+            }
+        }
 
-		// 예외처리 : 마지막페이지가 전체페이지수보다 크면 전체페이지 수로 설정하기
-		if (endPage > maxPage) {
-			endPage = maxPage;
-		}
+        // 다음 버튼
+        if (maxPage - startPage >= blockPage) {
+            pagingHtml.append("<li class='page-item'>");
+            pagingHtml.append("<a class='page-link' href='" + url + "&currentPage=" + (endPage + 1) + "'>");
+            pagingHtml.append("다음");
+            pagingHtml.append("</a></li>");
+        }
 
-		//################## HTML 만들기 ###################
-		// [이전] HTML
-		pagingHtml = new StringBuffer();
-		if (currentPage > blockPage) {
-			pagingHtml.append("<a href='" + "http://localhost:8089" + url +"&currentPage="  + (startPage - 1) + "'>");
-			pagingHtml.append("이전");
-			pagingHtml.append("</a>");
-		}
+        pagingHtml.append("</ul>");
+        pagingHtml.append("</div>");
+    }
 
-		pagingHtml.append(" | ");
-		// |1|2|3|4|5|  HTML (현재 페이지는 빨간색으로 강조하고 링크 제거)
-		for (int i = startPage; i <= endPage; i++) {
-			if (i > maxPage) {
-				break;
-			}
-			if (i == currentPage) {
-				pagingHtml.append(" <b><font color='red'>");
-				pagingHtml.append(i);
-				pagingHtml.append("</font></b>");
-			} else {
-				pagingHtml.append(" <a href='" + url +"&currentPage=");
-				pagingHtml.append(i);
-				pagingHtml.append("'>");
-				pagingHtml.append(i);
-				pagingHtml.append("</a>");
-			}
+    public StringBuffer getPagingHtml() {
+        return pagingHtml;
+    }
 
-			pagingHtml.append(" ");
-		}
-		pagingHtml.append("  |  ");
+    public int getStartSeq() {
+        return this.startSeq;
+    }
 
-		// [다음] HTML
-		if (maxPage - startPage >= blockPage) {
-			pagingHtml.append("<a href='" + url +"&currentPage="  + (endPage + 1) + "'>");
-			pagingHtml.append("다음");
-			pagingHtml.append("</a>");
-		}
-	}
-
-	
-	
-	public StringBuffer getPagingHtml() {
-		return pagingHtml;
-	}
-
-	public int getStartSeq() {
-		return this.startSeq;
-	}
-
-	public int getEndSeq() {
-		return this.endSeq;
-	}
+    public int getEndSeq() {
+        return this.endSeq;
+    }
 }
