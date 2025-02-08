@@ -59,23 +59,25 @@
 									<c:forEach var="route" items="${hotRoutes}" varStatus="status">
 										<c:if test="${status.index < 4}">
 											<div class="col-md-6 col-lg-4 col-xl-3">
-												<div class="rounded position-relative fruite-item">
-													<div class="fruite-img">
-														<img src="${route.photo_url != null ? route.photo_url : '/resources/images/default-img.jpg'}" 
-    							 						alt="${place.place.name}" >
-													</div>
-													<div
-														class="p-4 border border-secondary border-top-0 rounded-bottom">
-														<h5>${route.title}</h5>
-														<p>${route.nickname}</p>
-														<div class="d-flex justify-content-center flex-lg-wrap">
-															<p class="text-dark fs-5 fw-bold mb-1">등록일:${route.createdAt}</p>
-															<a href="/detail?seq_route=${route.seq_route}" class="btn border border-secondary rounded-pill px-3 text-primary">
-																보러가기 </a>
-														</div>
-													</div>
-												</div>
-											</div>
+    <div class="rounded position-relative fruite-item">
+        <div class="fruite-img rounded-top overflow-hidden">
+            <img src="${route.photo_url != null ? route.photo_url : '/resources/images/default-img.jpg'}" 
+                alt="${place.place.name}"
+                class="w-100">
+        </div>
+        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+            <h5>${route.title}</h5>
+            <p>${route.nickname}</p>
+            <div class="d-flex justify-content-center flex-lg-wrap">
+                <p class="text-dark fs-5 fw-bold mb-1">등록일:${route.createdAt}</p>
+                <a href="/detail?seq_route=${route.seq_route}" 
+                   class="btn border border-secondary rounded-pill px-3 text-primary">
+                    보러가기
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 										</c:if>
 									</c:forEach>
 								</div>
