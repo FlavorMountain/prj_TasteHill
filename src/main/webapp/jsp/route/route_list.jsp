@@ -91,7 +91,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${place.name}</h3>
+						<a href="/searchList2?seqPlace=${place.seq_place}"
+						class="h3">${place.name}</a>
 						<p>Address: ${place.formatted_address}</p>
 						<p>Rating: ${place.rating}</p>
 
