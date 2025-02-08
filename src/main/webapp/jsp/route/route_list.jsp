@@ -53,7 +53,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${route.title}</h3>
+						<a href="/detail?seq_route=${route.seq_route}"
+						class="h3">${route.title}</a>
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}
@@ -119,7 +120,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${route.title}</h3>
+						<a href="/detail?seq_route=${route.seq_route}"
+						class="h3">${route.title}</a>
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}
@@ -158,7 +160,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${route.title}</h3>
+						<a href="/detail?seq_route=${route.seq_route}"
+						class="h3">${route.title}</a>
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}
@@ -199,7 +202,8 @@
 
 					<div
 						class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
-						<h3>${route.title}</h3>
+						<a href="/detail?seq_route=${route.seq_route}"
+						class="h3">${route.title}</a>
 						<p>
 							<i class="fa-solid fa-heart" style="color: red;"></i>
 							${route.forkCount}
