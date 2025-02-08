@@ -37,10 +37,15 @@ public class PlaceServiceImpl implements PlaceService{
 	@Autowired
 	CommonService commonService;
 	
-  @Override
-    public List<PlaceVO> searchBar(RouteVO routeVO) {  
-      return placeMapper.searchBar(routeVO);
-    }
+	@Override
+    public List<PlaceVO> searchBar(String searchGubun, String searchStr, int start, int end) {  
+        return placeMapper.searchBar(searchGubun, searchStr, start, end);
+      }
+    
+  	@Override
+  	public int searchBarCount(String searchGubun, String searchStr) {
+  		return placeMapper.searchBarCount(searchGubun, searchStr);
+  	}
   
 
 
