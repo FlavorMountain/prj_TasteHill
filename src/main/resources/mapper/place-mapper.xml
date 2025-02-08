@@ -177,6 +177,18 @@ SELECT
     	WHERE seq_place= #{seqPlace} and rownum = 1
     </select>
 
+<!-- 장소리스트 routeSeq를 이용해서 가져오기 -->
+	<select id="selectPlaceListBySeqRoute" resultType="com.tastehill.myweb.place.PlaceVO">
+		select 
+			seq_place, place_id, name, rating, formatted_address
+		from place 
+		where seq_place in 
+			(
+			    select seq_place 
+			    from route_place 
+			    where seq_route = #{seqRoute}
+			)
+	</select>
 
 
 <!-- 인서트 -->

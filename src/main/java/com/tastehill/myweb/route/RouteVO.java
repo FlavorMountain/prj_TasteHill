@@ -38,10 +38,10 @@ public class RouteVO {
     
     //다대다 해결을 위한
     private List<RoutePlaceVO> places;
+    // 장소-> 장소 -> 장소 형태로 보여주기 위해서 만든 placeVO 리스트
+    private List<PlaceVO> plist;
     
     // 대표 사진 추가
     private String photo_url;
-    
-
     private String nickname;
 }

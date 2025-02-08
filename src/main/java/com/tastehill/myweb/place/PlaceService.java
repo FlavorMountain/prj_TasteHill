@@ -17,6 +17,8 @@ public interface PlaceService {
     
     List<PlaceVO> svcSearchPlacesByName(String query);
     List<PlaceVO> svcSearchPlacesByAddress(String query);
+    
+    List<PlaceVO> svcSelectPlaceListBySeqRoute(int seqRoute);
 
     
     String selectPhotoUrlBySeqPlace(int seqPlace);

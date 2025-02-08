@@ -206,7 +206,9 @@ WHERE p.seq_place = #{seqPlace}
 
     <!-- 좋아요/스크랩한 동선 리스트 -->
      <select id="selectFavoriteRoutes" resultMap="RouteWithPlacesMap">
-    SELECT 
+	SELECT * FROM(
+		SELECT 
+        ROW_NUMBER() OVER (ORDER BY r.fork_count DESC) as ranking,
         m.nickname, r.seq_route, r.title, r.contents, r.seq_member, 
         r.created_at, r.updated_at, r.fork_count,
        (SELECT ph.photo_url 
@@ -217,8 +219,17 @@ WHERE p.seq_place = #{seqPlace}
     FROM route r
     JOIN Fork f ON r.seq_route = f.seq_route
     JOIN member m ON r.seq_member = m.seq_member
+    WHERE f.seq_member = #{seqMember}) rr
+        WHERE ranking BETWEEN #{start} AND #{end}
+        order by ranking
+    </select>
+    
+   <select id="selectFavoriteRoutesCount" resultType="int">
+	SELECT nvl(count(*),0)
+    FROM route r
+    JOIN Fork f ON r.seq_route = f.seq_route
+    JOIN member m ON r.seq_member = m.seq_member
     WHERE f.seq_member = #{seqMember}
-    ORDER BY r.updated_at DESC
     </select>
     
     <!-- Hot 동선 리스트 -->

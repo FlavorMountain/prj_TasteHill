@@ -191,4 +191,11 @@ public class PlaceServiceImpl implements PlaceService{
 	public String selectPhotoUrlBySeqPlace(int seqPlace) {
 		return placeMapper.selectPhotoUrlBySeqPlace(seqPlace);
 	}
+
+
+
+	@Override
+	public List<PlaceVO> svcSelectPlaceListBySeqRoute(int seqRoute) {
+		return placeMapper.selectPlaceListBySeqRoute(seqRoute);
+	}
 }

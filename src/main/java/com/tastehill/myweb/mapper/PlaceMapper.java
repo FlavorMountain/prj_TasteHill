@@ -35,4 +35,6 @@ public interface PlaceMapper {
     List<PlaceVO> searchPlacesByName(@Param("query") String query);
     // 장소 주소로 조회
     List<PlaceVO> searchPlacesByAddress(@Param("query") String query);
+    
+    List<PlaceVO> selectPlaceListBySeqRoute(@Param("seqRoute") int seqRoute);
 }

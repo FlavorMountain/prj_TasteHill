@@ -27,6 +27,7 @@ public class RouteListController {
 
 	@Autowired
     private PlaceService placeService;
+	
     
     // 장소 리스트 검색창
     @GetMapping("/searchPlaceList")
@@ -69,7 +70,7 @@ public class RouteListController {
     		int size = routeService.svcSelectCountAllRoutesAndPlaceBySearchPlacePaging(seqPlace);
     		PagingUtil pg = new PagingUtil("/searchList2?seqPlace="+ seqPlace, currentPage, size, blockCount, blockPage);
     		List<RouteVO> searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
-            
+//            List<PlaceVO> searchPlaces = placeService.svcSelectPlaceListBySeqRoute(size);
 	    	if (searchRoutes.isEmpty()) {
 	            model.addAttribute("searchRoutes", Collections.emptyList());
 	            model.addAttribute("MY_KEY_PAGING_HTML", "");
@@ -78,6 +79,10 @@ public class RouteListController {
 	            return "index";
 	        }
     		
+	    	for(int i = 0; i < searchRoutes.size(); i++) {
+	    		searchRoutes.get(i).setPlist(placeService.svcSelectPlaceListBySeqRoute(searchRoutes.get(i).getSeq_route()));
+	    	}
+	    	
     		model.addAttribute("seqPlace", seqPlace);
     		model.addAttribute("searchRoutes", searchRoutes);    	
     		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
@@ -128,6 +133,9 @@ public class RouteListController {
     		pg = new PagingUtil("/searchRouteList?" + "&searchGubun=" + searchGubun + "&searchStr=" + searchStr,
     				currentPage, size, blockCount, blockPage);
     		searchRoutes = routeService.svcSelectAllRoutesAndPlaceByAddressPlacePaging(seqPlaceList, pg.getStartSeq(), pg.getEndSeq());
+	    	for(int i = 0; i < searchRoutes.size(); i++) {
+	    		searchRoutes.get(i).setPlist(placeService.svcSelectPlaceListBySeqRoute(searchRoutes.get(i).getSeq_route()));
+	    	}
     		System.out.println("제발...." + searchRoutes);
     	}
     	
@@ -147,7 +155,9 @@ public class RouteListController {
     				+ "&searchGubun=" + searchGubun + "&searchStr=" + searchStr,
     				currentPage, size, blockCount, blockPage);
     		searchRoutes = routeService.svcSelectAllRoutesAndPlaceBySearchPlacePaging(seqPlace, pg.getStartSeq(), pg.getEndSeq());
-    		
+	    	for(int i = 0; i < searchRoutes.size(); i++) {
+	    		searchRoutes.get(i).setPlist(placeService.svcSelectPlaceListBySeqRoute(searchRoutes.get(i).getSeq_route()));
+	    	}
     	}
     	
         // Route와 Place 검색
@@ -175,6 +185,11 @@ public class RouteListController {
 		PagingUtil pg = new PagingUtil("/hotList?seqPlace", currentPage, size, blockCount, blockPage);
     	
         List<RouteVO> hotRoutes = routeService.svcSelectHotRoute(pg.getStartSeq(), pg.getEndSeq());
+    	for(int i = 0; i < hotRoutes.size(); i++) {
+    		hotRoutes.get(i)
+    		.setPlist(placeService.svcSelectPlaceListBySeqRoute(hotRoutes
+    				.get(i).getSeq_route()));
+    	}
         model.addAttribute("pageType", "hotList");
 	    model.addAttribute("hotRoutes", hotRoutes);
         model.addAttribute("content", "/jsp/route/route_list.jsp");
@@ -182,6 +197,10 @@ public class RouteListController {
 		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
 	    return "index";
     }
+    
+    
+    
+    
     
     // 마이페이지 동선 리스트
     @RequestMapping(value = "/myRoutes")
@@ -201,6 +220,12 @@ public class RouteListController {
 		PagingUtil pg = new PagingUtil("/myRoutes?", currentPage, size, blockCount, blockPage);
         
         List<RouteVO> myRoutes = routeService.svsSearchRoutesByMember(seqMember, pg.getStartSeq(), pg.getEndSeq());
+    	for(int i = 0; i < myRoutes.size(); i++) {
+    		myRoutes.get(i)
+    		.setPlist(placeService.svcSelectPlaceListBySeqRoute(myRoutes
+    				.get(i).getSeq_route()));
+    	}
+        
         
         model.addAttribute("pageType", "myRoutes");        
         model.addAttribute("myRoutes", myRoutes);
@@ -213,18 +238,33 @@ public class RouteListController {
     
     // 즐겨찾기 리스트
     @RequestMapping(value = "/forkList")
-    public String getFavorites(Model model, HttpSession session) {
+    public String getFavorites(Model model, HttpSession session,
+    		@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+            @RequestParam(value = "seqPlace", required = false, defaultValue = "1") int seqPlace
+    		) {
         Integer seqMember = (Integer) session.getAttribute("SESS_MEMBER_ID");
         if (seqMember == null) {
             return "/jsp/fork/forkList";  //"redirect:/loginPage"
         }
+        
+		int blockCount = 4; 
+		int blockPage = 10;
+    	int size = routeService.svcSelectFavoriteRoutesCount(seqMember);
+		PagingUtil pg = new PagingUtil("/forkList?", currentPage, size, blockCount, blockPage);
 
-        List<RouteVO> forkList = routeService.svcSelectRouteAllByFork(seqMember);
+        List<RouteVO> forkList = routeService.svcSelectRouteAllByFork(seqMember, pg.getStartSeq(), pg.getEndSeq());
+    	for(int i = 0; i < forkList.size(); i++) {
+    		forkList.get(i)
+    		.setPlist(placeService.svcSelectPlaceListBySeqRoute(forkList
+    				.get(i).getSeq_route()));
+    	}
         
         model.addAttribute("pageType", "forkList");        
         model.addAttribute("forkList", forkList);
         model.addAttribute("content", "/jsp/route/route_list.jsp");
 	    model.addAttribute("searchBar" , "/jsp/common/searchBar.jsp");
+		model.addAttribute("MY_KEY_PAGING_HTML", pg.getPagingHtml().toString());
+
 
         return "index";
     }
