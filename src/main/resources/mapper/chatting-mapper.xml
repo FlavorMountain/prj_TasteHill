@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
+<mapper namespace="com.tastehill.myweb.mapper.ChattingMapper">
+
+	<!-- 회원목록 -->
+	<resultMap id="chattingRoomMap" type="com.tastehill.myweb.chat.ChattingRoomVO">
+		<id     property="seqChattingRoom" 	column="seq_chatting_room" />
+		<result property="sender" 	column="sender"/>
+		<result property="receiver" column="receiver"/>
+		<result property="updatedAt" column="updated_at"/>
+		<result property="lastChatting" column="last_chatting"/>
+	</resultMap>
+	
+	
+	<resultMap id="chatMap" type="com.tastehill.myweb.chat.ChatVO">
+		<id     property="seqChat" 	column="seq_chat" />
+		<result property="contents" 	column="contents"/>
+		<result property="createdAt" 	column="created_at"/>
+		<result property="seqMember" 	column="seq_member"/>
+		<result property="seqChattingRoom" 	column="seq_chatting_room"/>
+        <association property="memberVO" javaType="com.tastehill.myweb.member.MemberVO" resultMap="memberMap2"/>
+	</resultMap>
+	
+	<resultMap id="memberMap2" type="com.tastehill.myweb.member.MemberVO">
+		<id     property="seqMember" 	column="seq_member2" />
+		<result property="nickname" column="nickname"/>
+		<result property="profile" 	column="profile"/>
+	</resultMap>
+	
+	
+	<select id="selectChattingRoomList" resultMap="chattingRoomMap">
+		select *
+		from chatting_room
+		where sender = #{seqMember} or receiver = #{seqMember}
+		order by updated_at desc
+	</select>
+	
+	<select id="selectChattingRoom" resultMap="chattingRoomMap">
+		select *
+		from chatting_room
+		where (sender = #{sender} and receiver = #{receiver}) or (sender = #{receiver} and receiver = #{sender})
+	</select>
+		
+	
+	<select id="selectChattingList" resultMap="chatMap">
+		select c.seq_chat, c.contents, c.created_at, c.seq_member as seq_member, c.seq_chatting_room, m.seq_member as seq_member2, m.nickname, m.profile
+		from chat c, member m
+		where seq_chatting_room = #{seqChattingRoom} and m.seq_member = c.seq_member
+		order by created_at 
+	</select>
+	
+
+	<insert id="insertChattingRoom">
+		insert into chatting_room(seq_chatting_room, sender, receiver, updated_at)
+		values(seq_chatting_room.nextval, #{RVO.sender}, #{RVO.receiver}, sysdate) 
+	</insert>
+	
+	
+	<insert id="insertChatting">
+		insert into chat(seq_chat, contents, created_at, seq_member, seq_chatting_room)
+		values(seq_chat.nextval, #{CVO.contents}, sysdate, #{CVO.seqMember}, #{CVO.seqChattingRoom}) 
+	</insert>
+
+	<update id="updateLastChatting">
+        UPDATE chatting_room
+        SET last_chatting = #{contents}
+        WHERE seq_chatting_room = #{seqChattingRoom}
+	</update>
+</mapper>

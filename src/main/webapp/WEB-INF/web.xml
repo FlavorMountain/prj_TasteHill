@@ -23,6 +23,7 @@
 			<param-value>/WEB-INF/servlet-context-tasteHill.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
 	</servlet>
 		
 	<servlet-mapping>
@@ -30,6 +31,12 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	<servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/uploads/*</url-pattern>
+	</servlet-mapping>
+	
+
 	
 	<!--  한글 필터 설정 -->	
 	 <filter>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- 매퍼(1) : 인터페이스(1)  매핑 -->
+<mapper namespace="com.tastehill.myweb.mapper.CommentsMapper">
+
+	<!-- 회원목록 -->
+	<resultMap id="commentsMap" type="com.tastehill.myweb.comments.CommentsVO">
+		<id     property="seqComments" 	column="seq_comments" />
+		<result property="contents" 	column="contents"/>
+		<result property="nickname" column="nickname"/>
+		<result property="createdAt" column="created_at"/>
+		<result property="updatedAt" 	column="updated_at"/>
+		<result property="seqRoute" 	column="seq_route"/>
+		<result property="seqMember" 	column="seq_member"/>
+		<result property="profile" 	column="profile"/>
+	</resultMap>
+	
+	
+	<!-- 회원상세 -->
+	<select id="selectCommentsAll" resultMap="commentsMap">
+		select c.seq_comments, c.contents, c.nickname, c.created_at, c.updated_at, c.seq_route, c.seq_member, m.profile
+		from comments c, member m
+		where seq_route = #{seqRoute} and c.seq_member = m.seq_member
+		order by c.created_at desc
+	</select>
+	
+	<!-- 댓글 작성  -->
+	<insert id="insertComments">
+		insert into comments(seq_comments, contents, created_at, updated_at, seq_route, nickname, seq_member)
+		values(seq_comments.nextval, #{CVO.contents},sysdate, sysdate, #{CVO.seqRoute}, #{CVO.nickname}, #{CVO.seqMember}) 
+	</insert>
+	
+     <!-- 회원 프로필 이미지 업데이트 -->
+    <update id="updateComments">
+        UPDATE comments
+        SET contents = #{contents}
+        WHERE seq_comments = #{seqComments}
+    </update>
+
+    <!-- 회원 삭제 -->
+    <delete id="deleteComments">
+		DELETE comments where seq_comments = #{seqComments};
+    </delete>
+	
+	
+</mapper>
