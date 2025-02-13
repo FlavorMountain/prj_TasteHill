@@ -22,11 +22,18 @@
 
  ## 프로젝트 팀원
 <div align="center">
-
-  <img src="https://github.com/user-attachments/assets/e97b542c-88fa-4143-901b-30fce46d8010" width="20%" height="20%"/>
-  <img src="https://github.com/user-attachments/assets/fd2d451a-178c-4b7c-8e65-3564e87215aa" width="20%" height="20%"/>
-  <img src="https://github.com/user-attachments/assets/200ec3b5-0a6a-4148-be5a-b557fc95409e" width="20%" height="20%"/>
-  <img src="https://github.com/user-attachments/assets/e31a7be3-7875-43b0-9b8b-15bc2f05c246" width="20%" height="20%"/>
+  <a href="https://github.com/Hoshi03">
+    <img src="https://github.com/user-attachments/assets/e97b542c-88fa-4143-901b-30fce46d8010" width="20%" height="20%"/>
+  </a>
+  <a href="https://github.com/sir-Crab">
+    <img src="https://github.com/user-attachments/assets/fd2d451a-178c-4b7c-8e65-3564e87215aa" width="20%" height="20%"/>
+  </a>
+  <a href="https://github.com/ysj8284">
+    <img src="https://github.com/user-attachments/assets/200ec3b5-0a6a-4148-be5a-b557fc95409e" width="20%" height="20%"/>
+  </a>
+  <a href="https://github.com/nahmeee">
+    <img src="https://github.com/user-attachments/assets/e31a7be3-7875-43b0-9b8b-15bc2f05c246" width="20%" height="20%"/>
+  </a>
 </div>
 
 
