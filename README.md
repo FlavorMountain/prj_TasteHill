@@ -65,6 +65,12 @@
 ![슬라이드28](https://github.com/user-attachments/assets/770b11f4-b8ae-42a0-b965-55621c40a98c)
 
 
+<aside>
+📁
+
+(맛동산 PROJECT PPT)[맛동산_project.pptx](https://github.com/user-attachments/files/18775582/_project.pptx)
+
+</aside>
 
 
 
