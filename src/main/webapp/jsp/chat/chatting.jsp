@@ -84,7 +84,7 @@
 			
 			var newComment = "<div class='message " + (cvo.seqMember == sessionMember ? "mine" : "") + "'>";
 	    	newComment +=     "<div class='profile-image'>";
-	    	newComment +=     "<img src='" + (cvo.profile != null ? profile : "/resources/images/tastehill.png") + "'>";
+	    	newComment +=     "<img src='" + (cvo.profile != null ? cvo.profile : "/resources/images/tastehill.png") + "'>";
 	    	newComment +=     "</div>";
 	    	newComment +=       "<div class='message-content'>";
 	    	newComment +=           "<div class='sender'>" + cvo.nickname+"</div>";
