@@ -256,7 +256,7 @@ $( document ).ready(function() {
 	    	    obj.clist.forEach(function(cvo) {
 	    	    	var newComment = '<div class="comment">';
 	    	    	newComment += '<div class="comment-user">';
-	    	    	newComment += '<img src="/resources/images/tastehill.png" alt="프로필" class="profile-image">';
+	    	    	newComment += "<img src='" + (cvo.profile != null ? cvo.profile : "/resources/images/tastehill.png") + "' class='profile-image'>";
 	    	    	newComment += '<span class="comment-nickname">' + cvo.nickname + '</span>';
 	    	    	newComment += '</div>';
 	    	    	newComment += '<div class="comment-content">' + cvo.contents + '</div>';
